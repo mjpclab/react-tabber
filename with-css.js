@@ -1,0 +1,1 @@
+module.exports = require('./src/js/react-tabber-with-css.js');

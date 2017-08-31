@@ -1,0 +1,36 @@
+{
+  "name": "react-tabber",
+  "nameWithCss": "react-tabber-with-css",
+  "version": "0.0.2",
+  "description": "A React tab sheet component",
+  "main": "index.js",
+  "mainWithCss": "with-css.js",
+  "types": "src/ts/index.d.ts",
+  "scripts": {
+    "ts": "tsc -p src/ts/",
+    "build": "sh -c 'rm -rf dist/* src/js/*; tsc -p src/ts/; webpack;'"
+  },
+  "keywords": [
+    "react",
+    "tab",
+    "sheet"
+  ],
+  "author": "MJ PC Lab",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mjpclab/react-tabber.git"
+  },
+  "dependencies": {
+    "@types/react": "^16.0.5",
+    "@types/react-dom": "^15.5.4",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1"
+  },
+  "devDependencies": {
+    "css-loader": "^0.28.7",
+    "style-loader": "^0.18.2",
+    "typescript": "^2.4.2",
+    "webpack": "^3.5.5"
+  }
+}
