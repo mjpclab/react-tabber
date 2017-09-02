@@ -1,1 +1,1 @@
-module.exports = require('./src/js/react-tabber.js');
+module.exports = require('./src/js/react-tabber');
