@@ -47,7 +47,7 @@ You need to collect all components that want to put into tabs array.
 Each array item has property `label` and `page`, which can be a string, a number, a native DOM element, or another React component.
 for example:
 ```jsx
-let tabs=[
+let tabs = [
   {label: 'label1', page: <div>content1</div>},
   {label: <span>label2</span>, page: <div>content2</div>},
 ];
@@ -59,6 +59,14 @@ ReactDOM.render(<ReactTabber tabs={tabs}/>, document.getElementById('container')
 ```
 While `tabs` is a mandatory property for the ReactTab component, there are also other optional properties you maybe interested in.
 See the "Properties" part below.
+
+# Including CSS
+By default, "react-tabber" module do not have any CSS style applied, which means all tab pages are always visible on the page.
+To hide non-active tab pages, just applying CSS by "inactive" class(controlled by property `pageItemInactiveClassName`) to hide them.
+
+ReactTabber provides default CSS styles if you don't want to make it yourself. It also provides default skin.
+To use that, importing module `react-tabber/with-css` instead of `react-tabber`.
+For global variable mode, referencing the '-with-css' bundle file.
 
 # Properties
 `tabs`  
