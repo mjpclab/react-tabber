@@ -129,7 +129,7 @@ var ReactTabber = /** @class */ (function (_super) {
                     clearTimeout(localDelayTimeout);
                 }
             };
-            return React.createElement("label", { key: index, className: className, onClick: props.clickSwitch ? doSwitch : undefined, onMouseEnter: props.hoverSwitch ? delayDoSwitch : undefined, onMouseLeave: props.leaveCancelSwitch ? cancelDelayDoSwitch : undefined }, tab.label);
+            return React.createElement("label", { key: tab.key ? 'key-' + tab.key : 'index-' + index, className: className, onClick: props.clickSwitch ? doSwitch : undefined, onMouseEnter: props.hoverSwitch ? delayDoSwitch : undefined, onMouseLeave: props.leaveCancelSwitch ? cancelDelayDoSwitch : undefined }, tab.label);
         }));
     };
     ReactTabber.prototype.getPageContainer = function () {
@@ -137,7 +137,7 @@ var ReactTabber = /** @class */ (function (_super) {
         var state = this.state;
         return React.createElement("div", { className: props.pageContainerClassName }, this.props.tabs.map(function (tab, index) {
             var className = props.pageItemClassName + ' ' + (index === state.activeIndex ? props.pageItemActiveClassName : props.pageItemInactiveClassName);
-            return React.createElement("div", { key: index, className: className }, tab.page);
+            return React.createElement("div", { key: tab.key ? 'key-' + tab.key : 'index-' + index, className: className }, tab.page);
         }));
     };
     ReactTabber.prototype.getTabContainer = function () {

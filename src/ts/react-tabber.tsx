@@ -68,7 +68,7 @@ class ReactTabber extends React.Component<ReactTabProps, ReactTabState> {
 				};
 
 				return <label
-					key={index}
+					key={tab.key ? 'key-' + tab.key : 'index-' + index}
 					className={className}
 					onClick={props.clickSwitch ? doSwitch : undefined}
 					onMouseEnter={props.hoverSwitch ? delayDoSwitch : undefined}
@@ -85,7 +85,10 @@ class ReactTabber extends React.Component<ReactTabProps, ReactTabState> {
 		return <div className={props.pageContainerClassName}>
 			{this.props.tabs.map((tab, index) => {
 				const className = props.pageItemClassName + ' ' + (index === state.activeIndex ? props.pageItemActiveClassName : props.pageItemInactiveClassName);
-				return <div key={index} className={className}>{tab.page}</div>
+				return <div
+					key={tab.key ? 'key-' + tab.key : 'index-' + index}
+					className={className}
+				>{tab.page}</div>
 			})}
 		</div>;
 	}
