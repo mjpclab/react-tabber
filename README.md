@@ -23,8 +23,6 @@ A React Tab sheet component.
 *Import in ES6 module environment*  
 ```javascript
 import ReactTabber from 'react-tabber';
-//or
-import {ReactTabber} from 'react-tabber';
 ```
 
 *Import in commonjs environment*  
@@ -50,7 +48,7 @@ Here is the example of tabs array:
 ```jsx
 let tabs = [
   {label: 'label1', page: <div>content1</div>, key: 'tab1'},
-  {label: <span>label2</span>, page: <div>content2</div>, key: 'tab2'},
+  {label: <span>label2</span>, page: <div>content2</div>, key: 'tab2'}
 ];
 ```
 
@@ -58,7 +56,7 @@ let tabs = [
 ```jsx
 ReactDOM.render(<ReactTabber tabs={tabs}/>, document.getElementById('container'));
 ```
-While `tabs` is a mandatory property for the ReactTab component, there are also other optional properties you maybe interested in.
+While `tabs` is a mandatory property for the ReactTabber component, there are also other optional properties you maybe interested in.
 See the "Properties" part below.
 
 # Including CSS
