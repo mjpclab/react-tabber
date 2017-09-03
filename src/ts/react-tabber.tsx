@@ -103,27 +103,9 @@ class ReactTabber extends React.Component<ReactTabProps, ReactTabState> {
 		</div>;
 	}
 
-	render() {
-		return this.props.tabs ? this.getTabContainer() : null;
-	}
-
-	switchTo(index: number) {
-		const props = this.props;
-
-		//make sure index is valid
-		const tabs = props.tabs;
-		if (!tabs) {
-			return;
-		}
-		if (index < 0) {
-			index = 0;
-		}
-		else if (index > tabs.length) {
-			index = tabs.length - 1;
-		}
-
+	private switchTo(index: number) {
 		//event
-		const onSwitch = props.onSwitch;
+		const onSwitch = this.props.onSwitch;
 		if (onSwitch) {
 			onSwitch(this.state.activeIndex, index);
 		}
@@ -132,6 +114,10 @@ class ReactTabber extends React.Component<ReactTabProps, ReactTabState> {
 		this.setState({
 			activeIndex: index
 		});
+	}
+
+	render() {
+		return this.props.tabs ? this.getTabContainer() : null;
 	}
 }
 

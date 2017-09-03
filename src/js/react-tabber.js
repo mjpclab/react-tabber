@@ -67,24 +67,9 @@ var ReactTabber = /** @class */ (function (_super) {
             this.getPageContainer(),
             props.showBottomLabel ? this.getLabelContainer('bottom') : null);
     };
-    ReactTabber.prototype.render = function () {
-        return this.props.tabs ? this.getTabContainer() : null;
-    };
     ReactTabber.prototype.switchTo = function (index) {
-        var props = this.props;
-        //make sure index is valid
-        var tabs = props.tabs;
-        if (!tabs) {
-            return;
-        }
-        if (index < 0) {
-            index = 0;
-        }
-        else if (index > tabs.length) {
-            index = tabs.length - 1;
-        }
         //event
-        var onSwitch = props.onSwitch;
+        var onSwitch = this.props.onSwitch;
         if (onSwitch) {
             onSwitch(this.state.activeIndex, index);
         }
@@ -92,6 +77,9 @@ var ReactTabber = /** @class */ (function (_super) {
         this.setState({
             activeIndex: index
         });
+    };
+    ReactTabber.prototype.render = function () {
+        return this.props.tabs ? this.getTabContainer() : null;
     };
     ReactTabber.defaultProps = {
         tabContainerClassName: 'tab-container',
