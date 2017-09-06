@@ -1,11 +1,12 @@
 interface ReactTab {
-
 }
 
+type ReactTabberNode = string | number | JSX.Element | React.Component;
+
 interface ReactTabItem {
-	label: JSX.Element;
-	page: JSX.Element;
-	key?: string;
+	label: ReactTabberNode | ReactTabberNode[];
+	page: ReactTabberNode | ReactTabberNode[];
+	key?: string | number;
 }
 
 interface ReactTabProps extends Partial<ReactTabOptionalProps> {

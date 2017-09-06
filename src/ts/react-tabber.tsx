@@ -1,6 +1,38 @@
 import React = require('react');
+import PropTypes = require('prop-types');
 
 class ReactTabber extends React.Component<ReactTabProps, ReactTabState> {
+	static propTypes = {
+		tabs: PropTypes.arrayOf(PropTypes.shape({
+			label: PropTypes.node.isRequired,
+			page: PropTypes.node.isRequired,
+			key: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+		})).isRequired,
+
+		tabContainerClassName: PropTypes.string,
+
+		labelContainerClassName: PropTypes.string,
+		labelItemClassName: PropTypes.string,
+		labelItemActiveClassName: PropTypes.string,
+		labelItemInactiveClassName: PropTypes.string,
+
+		pageContainerClassName: PropTypes.string,
+		pageItemClassName: PropTypes.string,
+		pageItemActiveClassName: PropTypes.string,
+		pageItemInactiveClassName: PropTypes.string,
+
+		activeIndex: PropTypes.number,
+		showTopLabel: PropTypes.bool,
+		showBottomLabel: PropTypes.bool,
+
+		clickSwitch: PropTypes.bool,
+		hoverSwitch: PropTypes.bool,
+		hoverSwitchDelay: PropTypes.number,
+		leaveCancelSwitch: PropTypes.bool,
+
+		onSwitch: PropTypes.func
+	};
+
 	static defaultProps: ReactTabOptionalProps = {
 		tabContainerClassName: 'tab-container',
 

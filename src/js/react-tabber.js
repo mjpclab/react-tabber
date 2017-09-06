@@ -10,6 +10,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 var React = require("react");
+var PropTypes = require("prop-types");
 var ReactTabber = /** @class */ (function (_super) {
     __extends(ReactTabber, _super);
     function ReactTabber(props) {
@@ -80,6 +81,30 @@ var ReactTabber = /** @class */ (function (_super) {
     };
     ReactTabber.prototype.render = function () {
         return this.props.tabs ? this.getTabContainer() : null;
+    };
+    ReactTabber.propTypes = {
+        tabs: PropTypes.arrayOf(PropTypes.shape({
+            label: PropTypes.node.isRequired,
+            page: PropTypes.node.isRequired,
+            key: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+        })).isRequired,
+        tabContainerClassName: PropTypes.string,
+        labelContainerClassName: PropTypes.string,
+        labelItemClassName: PropTypes.string,
+        labelItemActiveClassName: PropTypes.string,
+        labelItemInactiveClassName: PropTypes.string,
+        pageContainerClassName: PropTypes.string,
+        pageItemClassName: PropTypes.string,
+        pageItemActiveClassName: PropTypes.string,
+        pageItemInactiveClassName: PropTypes.string,
+        activeIndex: PropTypes.number,
+        showTopLabel: PropTypes.bool,
+        showBottomLabel: PropTypes.bool,
+        clickSwitch: PropTypes.bool,
+        hoverSwitch: PropTypes.bool,
+        hoverSwitchDelay: PropTypes.number,
+        leaveCancelSwitch: PropTypes.bool,
+        onSwitch: PropTypes.func
     };
     ReactTabber.defaultProps = {
         tabContainerClassName: 'tab-container',

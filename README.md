@@ -42,7 +42,7 @@ if you are using React and ReactTab in global variable mode, which means there i
 
 ## Prepare tabs array
 You need to collect all components that want to put into tabs array.
-Each array item has property `label` and `page`, which can be a string, a number, a native DOM element, or another React component.
+Each array item has property `label` and `page`, which can be a string, a number, a native DOM element, another React component, or array of these types of item.
 It also has an optional property `key` for the item which can improve performance if tabs array are changed dynamically and trigger render by it's parent component.
 Here is the example of tabs array:
 ```jsx
