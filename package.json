@@ -1,7 +1,7 @@
 {
   "name": "react-tabber",
   "nameWithCss": "react-tabber-with-css",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "A React tab sheet component",
   "main": "index.js",
   "mainWithCss": "with-css.js",

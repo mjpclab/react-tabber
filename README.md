@@ -116,16 +116,16 @@ If show label container on top of tab page. Default value is true.
 If show label container under bottom of tab page. Default value is false.
 
 `clickSwitch`  
-Specify if user can click a label item to switch to that tab page.
+A boolean value to specify if user can click a label item to switch to that tab page.
 
 `hoverSwitch`  
-Specify if user can hover on a label item to switch to that tab page.
+A boolean value to specify if user can hover on a label item to switch to that tab page.
 
 `hoverSwitchDelay`  
 Specify how long in milliseconds delay before switching, which is triggered by hover. Only available if `hoverSwitch` is true. Default value is 0.
 
 `leaveCancelSwitch`  
-Specify if the delayed switch should be canceled when user stop hovering a label item within `hoverSwitchDelay` period of time.
+A boolean value to specify if the delayed switch should be canceled when user stop hovering a label item within `hoverSwitchDelay` period of time.
 
 `onSwitch(oldIndex, newIndex)`  
 A callback will be invoked when switching tab, current active index is `oldIndex`, and target index is `newIndex`.
