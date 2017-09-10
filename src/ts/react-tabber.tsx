@@ -12,6 +12,8 @@ class ReactTabber extends React.Component<ReactTabProps, ReactTabState> {
 		tabContainerClassName: PropTypes.string,
 
 		labelContainerClassName: PropTypes.string,
+		topLabelContainerClassName: PropTypes.string,
+		bottomLabelContainerClassName: PropTypes.string,
 		labelItemClassName: PropTypes.string,
 		labelItemActiveClassName: PropTypes.string,
 		labelItemInactiveClassName: PropTypes.string,
@@ -22,8 +24,8 @@ class ReactTabber extends React.Component<ReactTabProps, ReactTabState> {
 		pageItemInactiveClassName: PropTypes.string,
 
 		activeIndex: PropTypes.number,
-		showTopLabel: PropTypes.bool,
-		showBottomLabel: PropTypes.bool,
+		showTopLabelContainer: PropTypes.bool,
+		showBottomLabelContainer: PropTypes.bool,
 
 		clickSwitch: PropTypes.bool,
 		hoverSwitch: PropTypes.bool,
@@ -37,6 +39,8 @@ class ReactTabber extends React.Component<ReactTabProps, ReactTabState> {
 		tabContainerClassName: 'tab-container',
 
 		labelContainerClassName: 'label-container',
+		topLabelContainerClassName: 'top',
+		bottomLabelContainerClassName: 'bottom',
 		labelItemClassName: 'label-item',
 		labelItemActiveClassName: 'label-active',
 		labelItemInactiveClassName: 'label-inactive',
@@ -47,8 +51,8 @@ class ReactTabber extends React.Component<ReactTabProps, ReactTabState> {
 		pageItemInactiveClassName: 'page-inactive',
 
 		activeIndex: 0,
-		showTopLabel: true,
-		showBottomLabel: false,
+		showTopLabelContainer: true,
+		showBottomLabelContainer: false,
 
 		clickSwitch: true,
 		hoverSwitch: false,
@@ -70,11 +74,11 @@ class ReactTabber extends React.Component<ReactTabProps, ReactTabState> {
 		clearTimeout(this.delayTimeout);
 	}
 
-	private getLabelContainer(position: string) {
+	private getLabelContainer(positionClassName: string) {
 		const props = this.props;
 		const state = this.state;
 
-		return <div className={props.labelContainerClassName + ' ' + position}>
+		return <div className={props.labelContainerClassName + ' ' + positionClassName}>
 			{this.props.tabs.map((tab, index) => {
 				const className = props.labelItemClassName + ' ' + (index === state.activeIndex ? props.labelItemActiveClassName : props.labelItemInactiveClassName);
 				const doSwitch = () => {
@@ -129,9 +133,9 @@ class ReactTabber extends React.Component<ReactTabProps, ReactTabState> {
 		const props = this.props;
 
 		return <div className={props.tabContainerClassName}>
-			{props.showTopLabel ? this.getLabelContainer('top') : null}
+			{props.showTopLabelContainer ? this.getLabelContainer(props.topLabelContainerClassName!) : null}
 			{this.getPageContainer()}
-			{props.showBottomLabel ? this.getLabelContainer('bottom') : null}
+			{props.showBottomLabelContainer ? this.getLabelContainer(props.bottomLabelContainerClassName!) : null}
 		</div>;
 	}
 

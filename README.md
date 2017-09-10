@@ -79,6 +79,12 @@ Tab container element's class name. Default value is 'tab-container';
 `labelContainerClassName`  
 Label container element's class name. Default value is 'label-container';
 
+`topLabelContainerClassName`  
+Top Label container element's class name. Default value is 'top';
+
+`bottomLabelContainerClassName`  
+Bottom Label container element's class name. Default value is 'bottom';
+
 `labelItemClassName`  
 Label item element's class name. Default value is 'label-item';
 
@@ -103,11 +109,11 @@ Non-active page item element's class name. Default value is 'page-inactive';
 `activeIndex`  
 Specify the initial active(switched) tab index. Starting from 0.
 
-`showTopLabel`  
-If show label container on top of tab page. Default is true.
+`showTopLabelContainer`  
+If show label container on top of tab page. Default value is true.
 
-`showBottomLabel`  
-If show label container under bottom of tab page. Default is false.
+`showBottomLabelContainer`  
+If show label container under bottom of tab page. Default value is false.
 
 `clickSwitch`  
 Specify if user can click a label item to switch to that tab page.

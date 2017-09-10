@@ -491,11 +491,11 @@ var ReactTabber = /** @class */ (function (_super) {
     ReactTabber.prototype.componentWillUnmount = function () {
         clearTimeout(this.delayTimeout);
     };
-    ReactTabber.prototype.getLabelContainer = function (position) {
+    ReactTabber.prototype.getLabelContainer = function (positionClassName) {
         var _this = this;
         var props = this.props;
         var state = this.state;
-        return React.createElement("div", { className: props.labelContainerClassName + ' ' + position }, this.props.tabs.map(function (tab, index) {
+        return React.createElement("div", { className: props.labelContainerClassName + ' ' + positionClassName }, this.props.tabs.map(function (tab, index) {
             var className = props.labelItemClassName + ' ' + (index === state.activeIndex ? props.labelItemActiveClassName : props.labelItemInactiveClassName);
             var doSwitch = function () {
                 if (index === state.activeIndex) {
@@ -532,9 +532,9 @@ var ReactTabber = /** @class */ (function (_super) {
     ReactTabber.prototype.getTabContainer = function () {
         var props = this.props;
         return React.createElement("div", { className: props.tabContainerClassName },
-            props.showTopLabel ? this.getLabelContainer('top') : null,
+            props.showTopLabelContainer ? this.getLabelContainer(props.topLabelContainerClassName) : null,
             this.getPageContainer(),
-            props.showBottomLabel ? this.getLabelContainer('bottom') : null);
+            props.showBottomLabelContainer ? this.getLabelContainer(props.bottomLabelContainerClassName) : null);
     };
     ReactTabber.prototype.switchTo = function (index) {
         //event
@@ -558,6 +558,8 @@ var ReactTabber = /** @class */ (function (_super) {
         })).isRequired,
         tabContainerClassName: PropTypes.string,
         labelContainerClassName: PropTypes.string,
+        topLabelContainerClassName: PropTypes.string,
+        bottomLabelContainerClassName: PropTypes.string,
         labelItemClassName: PropTypes.string,
         labelItemActiveClassName: PropTypes.string,
         labelItemInactiveClassName: PropTypes.string,
@@ -566,8 +568,8 @@ var ReactTabber = /** @class */ (function (_super) {
         pageItemActiveClassName: PropTypes.string,
         pageItemInactiveClassName: PropTypes.string,
         activeIndex: PropTypes.number,
-        showTopLabel: PropTypes.bool,
-        showBottomLabel: PropTypes.bool,
+        showTopLabelContainer: PropTypes.bool,
+        showBottomLabelContainer: PropTypes.bool,
         clickSwitch: PropTypes.bool,
         hoverSwitch: PropTypes.bool,
         hoverSwitchDelay: PropTypes.number,
@@ -577,6 +579,8 @@ var ReactTabber = /** @class */ (function (_super) {
     ReactTabber.defaultProps = {
         tabContainerClassName: 'tab-container',
         labelContainerClassName: 'label-container',
+        topLabelContainerClassName: 'top',
+        bottomLabelContainerClassName: 'bottom',
         labelItemClassName: 'label-item',
         labelItemActiveClassName: 'label-active',
         labelItemInactiveClassName: 'label-inactive',
@@ -585,8 +589,8 @@ var ReactTabber = /** @class */ (function (_super) {
         pageItemActiveClassName: 'page-active',
         pageItemInactiveClassName: 'page-inactive',
         activeIndex: 0,
-        showTopLabel: true,
-        showBottomLabel: false,
+        showTopLabelContainer: true,
+        showBottomLabelContainer: false,
         clickSwitch: true,
         hoverSwitch: false,
         hoverSwitchDelay: 0,
@@ -1795,7 +1799,7 @@ exports = module.exports = __webpack_require__(11)(undefined);
 
 
 // module
-exports.push([module.i, ".tab-container {\n\tmargin-bottom: 2em;\n}\n\n.tab-container .label-container {\n\tposition: relative;\n}\n\n.tab-container .label-container.top {\n\tbottom: -1px;\n}\n\n.tab-container .label-container.bottom {\n\ttop: -1px;\n}\n\n.tab-container .label-container .label-item {\n\tdisplay: inline-block;\n\tmargin-right: 1em;\n\tborder: 1px solid;\n\n\tpadding: 0.5em 1em;\n\tcursor: pointer;\n}\n\n.tab-container .page-container {\n\tborder: 1px solid;\n}\n\n.tab-container .page-inactive {\n\tdisplay: none;\n}", ""]);
+exports.push([module.i, ".tab-container {\n\tmargin-bottom: 2em;\n}\n\n.tab-container .label-container {\n\tposition: relative;\n}\n\n.tab-container .label-container.top {\n\tbottom: -1px;\n}\n\n.tab-container .label-container.bottom {\n\ttop: -1px;\n}\n\n.tab-container .label-container .label-item {\n\tdisplay: inline-block;\n\tmargin-right: 1em;\n\tborder: 1px solid;\n\n\tpadding: 0.5em 1em;\n\tcursor: pointer;\n}\n\n.tab-container .label-container.top .label-item {\n\tvertical-align: bottom;\n}\n\n.tab-container .label-container.bottom .label-item {\n\tvertical-align: top;\n}\n\n.tab-container .page-container {\n\tborder: 1px solid;\n}\n\n.tab-container .page-inactive {\n\tdisplay: none;\n}", ""]);
 
 // exports
 

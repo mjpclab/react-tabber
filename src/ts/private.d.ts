@@ -4,6 +4,8 @@ interface ReactTabOptionalProps {
 	tabContainerClassName: string;
 
 	labelContainerClassName: string;
+	topLabelContainerClassName: string;
+	bottomLabelContainerClassName: string;
 	labelItemClassName: string;
 	labelItemActiveClassName: string;
 	labelItemInactiveClassName: string;
@@ -14,8 +16,8 @@ interface ReactTabOptionalProps {
 	pageItemInactiveClassName: string;
 
 	activeIndex: number;
-	showTopLabel: boolean;
-	showBottomLabel: boolean;
+	showTopLabelContainer: boolean;
+	showBottomLabelContainer: boolean;
 
 	clickSwitch: boolean;
 	hoverSwitch: boolean;
