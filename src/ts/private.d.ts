@@ -1,5 +1,3 @@
-declare function clearTimeout(handle?: number): void;
-
 interface ReactTabOptionalProps {
 	activeIndex: number;
 	clickSwitch: boolean;
@@ -28,3 +26,7 @@ interface ReactTabOptionalProps {
 interface ReactTabState {
 	activeIndex: number;
 }
+
+declare function clearTimeout(handle?: number): void;
+
+declare function parseInt(value: string | number): number;

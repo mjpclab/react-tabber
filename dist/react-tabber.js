@@ -484,10 +484,13 @@ var ReactTabber = /** @class */ (function (_super) {
     function ReactTabber(props) {
         var _this = _super.call(this, props) || this;
         _this.state = {
-            activeIndex: _this.props.activeIndex
+            activeIndex: -1
         };
         return _this;
     }
+    ReactTabber.prototype.componentWillMount = function () {
+        this.switchTo(this.props.activeIndex);
+    };
     ReactTabber.prototype.componentWillUnmount = function () {
         clearTimeout(this.delayTimeout);
     };
@@ -533,9 +536,22 @@ var ReactTabber = /** @class */ (function (_super) {
             props.showBottomLabelContainer ? this.getLabelContainer(props.bottomLabelContainerClassName) : null);
     };
     ReactTabber.prototype.switchTo = function (index) {
-        var onSwitch = this.props.onSwitch;
+        if (!isFinite(index) || isNaN(index)) {
+            return;
+        }
+        var props = this.props;
+        var onSwitch = props.onSwitch;
         var oldIndex;
-        var newIndex = index;
+        var newIndex;
+        if (index < 0) {
+            newIndex = 0;
+        }
+        else if (index >= props.tabs.length) {
+            newIndex = props.tabs.length - 1;
+        }
+        else {
+            newIndex = parseInt(index);
+        }
         //update
         this.setState(function (prevState) {
             oldIndex = prevState.activeIndex;

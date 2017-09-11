@@ -62,8 +62,12 @@ class ReactTabber extends React.Component<ReactTabProps, ReactTabState> {
 		super(props);
 
 		this.state = {
-			activeIndex: this.props.activeIndex!
+			activeIndex: -1
 		};
+	}
+
+	componentWillMount() {
+		this.switchTo(this.props.activeIndex!);
 	}
 
 	componentWillUnmount() {
@@ -128,9 +132,24 @@ class ReactTabber extends React.Component<ReactTabProps, ReactTabState> {
 	}
 
 	private switchTo(index: number) {
-		const onSwitch = this.props.onSwitch;
+		if (!isFinite(index) || isNaN(index)) {
+			return;
+		}
+
+		const props = this.props;
+		const onSwitch = props.onSwitch;
 		let oldIndex: number;
-		const newIndex = index;
+		let newIndex: number;
+
+		if (index < 0) {
+			newIndex = 0;
+		}
+		else if (index >= props.tabs.length) {
+			newIndex = props.tabs.length - 1;
+		}
+		else {
+			newIndex = parseInt(index);
+		}
 
 		//update
 		this.setState(function (prevState) {
