@@ -30,18 +30,12 @@ var ReactTabber = /** @class */ (function (_super) {
         return React.createElement("div", { className: props.labelContainerClassName + ' ' + positionClassName }, this.props.tabs.map(function (tab, index) {
             var className = props.labelItemClassName + ' ' + (index === state.activeIndex ? props.labelItemActiveClassName : props.labelItemInactiveClassName);
             var doSwitch = function () {
-                if (index === state.activeIndex) {
-                    return;
-                }
                 _this.switchTo(index);
             };
             var localDelayTimeout;
             var delayDoSwitch = (props.hoverSwitchDelay) <= 0 ?
                 doSwitch :
                 function () {
-                    if (index === state.activeIndex) {
-                        return;
-                    }
                     clearTimeout(_this.delayTimeout);
                     localDelayTimeout = _this.delayTimeout = setTimeout(doSwitch, props.hoverSwitchDelay);
                 };
@@ -71,14 +65,21 @@ var ReactTabber = /** @class */ (function (_super) {
             props.showBottomLabelContainer ? this.getLabelContainer(props.bottomLabelContainerClassName) : null);
     };
     ReactTabber.prototype.switchTo = function (index) {
-        //event
         var onSwitch = this.props.onSwitch;
-        if (onSwitch) {
-            onSwitch(this.state.activeIndex, index);
-        }
+        var oldIndex;
+        var newIndex = index;
         //update
-        this.setState({
-            activeIndex: index
+        this.setState(function (prevState) {
+            oldIndex = prevState.activeIndex;
+            if (oldIndex !== newIndex) {
+                return {
+                    activeIndex: newIndex
+                };
+            }
+        }, onSwitch && function () {
+            if (oldIndex !== newIndex) {
+                onSwitch(oldIndex, newIndex);
+            }
         });
     };
     ReactTabber.prototype.render = function () {

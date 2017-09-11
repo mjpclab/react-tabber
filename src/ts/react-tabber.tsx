@@ -78,18 +78,12 @@ class ReactTabber extends React.Component<ReactTabProps, ReactTabState> {
 			{this.props.tabs.map((tab, index) => {
 				const className = props.labelItemClassName + ' ' + (index === state.activeIndex ? props.labelItemActiveClassName : props.labelItemInactiveClassName);
 				const doSwitch = () => {
-					if (index === state.activeIndex) {
-						return;
-					}
 					this.switchTo(index);
 				};
 				let localDelayTimeout: number;
 				const delayDoSwitch = (props.hoverSwitchDelay!) <= 0 ?
 					doSwitch :
 					() => {
-						if (index === state.activeIndex) {
-							return;
-						}
 						clearTimeout(this.delayTimeout);
 						localDelayTimeout = this.delayTimeout = setTimeout(doSwitch, props.hoverSwitchDelay);
 					};
@@ -134,15 +128,22 @@ class ReactTabber extends React.Component<ReactTabProps, ReactTabState> {
 	}
 
 	private switchTo(index: number) {
-		//event
 		const onSwitch = this.props.onSwitch;
-		if (onSwitch) {
-			onSwitch(this.state.activeIndex, index);
-		}
+		let oldIndex: number;
+		const newIndex = index;
 
 		//update
-		this.setState({
-			activeIndex: index
+		this.setState(function (prevState) {
+			oldIndex = prevState.activeIndex;
+			if (oldIndex !== newIndex) {
+				return {
+					activeIndex: newIndex
+				};
+			}
+		}, onSwitch && function () {
+			if (oldIndex !== newIndex) {
+				onSwitch(oldIndex, newIndex);
+			}
 		});
 	}
 
