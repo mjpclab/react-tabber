@@ -533,7 +533,9 @@ var ReactTabber = /** @class */ (function (_super) {
         var props = this.props;
         return React.createElement("div", { className: props.tabContainerClassName },
             props.showTopLabelContainer ? this.getLabelContainer(props.topLabelContainerClassName) : null,
+            " ",
             this.getPageContainer(),
+            " ",
             props.showBottomLabelContainer ? this.getLabelContainer(props.bottomLabelContainerClassName) : null);
     };
     ReactTabber.prototype.switchTo = function (index) {
@@ -556,8 +558,16 @@ var ReactTabber = /** @class */ (function (_super) {
             page: PropTypes.node.isRequired,
             key: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
         })).isRequired,
+        activeIndex: PropTypes.number,
+        clickSwitch: PropTypes.bool,
+        hoverSwitch: PropTypes.bool,
+        hoverSwitchDelay: PropTypes.number,
+        leaveCancelSwitch: PropTypes.bool,
+        onSwitch: PropTypes.func,
         tabContainerClassName: PropTypes.string,
         labelContainerClassName: PropTypes.string,
+        showTopLabelContainer: PropTypes.bool,
+        showBottomLabelContainer: PropTypes.bool,
         topLabelContainerClassName: PropTypes.string,
         bottomLabelContainerClassName: PropTypes.string,
         labelItemClassName: PropTypes.string,
@@ -566,19 +576,18 @@ var ReactTabber = /** @class */ (function (_super) {
         pageContainerClassName: PropTypes.string,
         pageItemClassName: PropTypes.string,
         pageItemActiveClassName: PropTypes.string,
-        pageItemInactiveClassName: PropTypes.string,
-        activeIndex: PropTypes.number,
-        showTopLabelContainer: PropTypes.bool,
-        showBottomLabelContainer: PropTypes.bool,
-        clickSwitch: PropTypes.bool,
-        hoverSwitch: PropTypes.bool,
-        hoverSwitchDelay: PropTypes.number,
-        leaveCancelSwitch: PropTypes.bool,
-        onSwitch: PropTypes.func
+        pageItemInactiveClassName: PropTypes.string
     };
     ReactTabber.defaultProps = {
+        activeIndex: 0,
+        clickSwitch: true,
+        hoverSwitch: false,
+        hoverSwitchDelay: 0,
+        leaveCancelSwitch: true,
         tabContainerClassName: 'tab-container',
         labelContainerClassName: 'label-container',
+        showTopLabelContainer: true,
+        showBottomLabelContainer: false,
         topLabelContainerClassName: 'top',
         bottomLabelContainerClassName: 'bottom',
         labelItemClassName: 'label-item',
@@ -587,14 +596,7 @@ var ReactTabber = /** @class */ (function (_super) {
         pageContainerClassName: 'page-container',
         pageItemClassName: 'page-item',
         pageItemActiveClassName: 'page-active',
-        pageItemInactiveClassName: 'page-inactive',
-        activeIndex: 0,
-        showTopLabelContainer: true,
-        showBottomLabelContainer: false,
-        clickSwitch: true,
-        hoverSwitch: false,
-        hoverSwitchDelay: 0,
-        leaveCancelSwitch: true
+        pageItemInactiveClassName: 'page-inactive'
     };
     return ReactTabber;
 }(React.Component));

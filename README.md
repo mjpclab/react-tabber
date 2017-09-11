@@ -68,16 +68,44 @@ To use that, importing module `react-tabber/with-css` instead of `react-tabber`.
 For global variable mode, referencing the '-with-css' bundle file.
 
 # Properties
+## Behavior Properties
 `tabs`  
 Specify tabs you want to render as a tab, should be an array of rendering items, which has property `label` and `page`.
 `label` will be shown on tab label container, which allows user to switch tabs if it is not disabled by property `clickSwitch` or `hoverSwitch`.
 `page` is the content of the tab.
 
+`activeIndex`  
+Specify the initial active(switched) tab index. Starting from 0.
+
+`clickSwitch`  
+A boolean value to specify if user can click a label item to switch to that tab page.
+
+`hoverSwitch`  
+A boolean value to specify if user can hover on a label item to switch to that tab page.
+
+`hoverSwitchDelay`  
+Specify how long in milliseconds delay before switching, which is triggered by hover. Only available if `hoverSwitch` is true. Default value is 0.
+
+`leaveCancelSwitch`  
+A boolean value to specify if the delayed switch should be canceled when user stop hovering a label item within `hoverSwitchDelay` period of time.
+
+`onSwitch(oldIndex, newIndex)`  
+A callback will be invoked when switching tab, current active index is `oldIndex`, and target index is `newIndex`.
+
+## UI Properties
+### Tab
 `tabContainerClassName`  
 Tab container element's class name. Default value is 'tab-container';
 
+### Label
 `labelContainerClassName`  
 Label container element's class name. Default value is 'label-container';
+
+`showTopLabelContainer`  
+If show label container on top of tab page. Default value is true.
+
+`showBottomLabelContainer`  
+If show label container under bottom of tab page. Default value is false.
 
 `topLabelContainerClassName`  
 Top Label container element's class name. Default value is 'top';
@@ -94,6 +122,7 @@ The active(switched) label item element's class name. Default value is 'label-ac
 `labelItemInactiveClassName`  
 Non-active label item element's class name. Default value is 'label-inactive';
 
+### Page
 `pageContainerClassName`  
 Page container element's class name. Default value is 'page-container';
 
@@ -105,27 +134,3 @@ The active(switched) page item element's class name. Default value is 'page-acti
 
 `pageItemInactiveClassName`  
 Non-active page item element's class name. Default value is 'page-inactive';
-
-`activeIndex`  
-Specify the initial active(switched) tab index. Starting from 0.
-
-`showTopLabelContainer`  
-If show label container on top of tab page. Default value is true.
-
-`showBottomLabelContainer`  
-If show label container under bottom of tab page. Default value is false.
-
-`clickSwitch`  
-A boolean value to specify if user can click a label item to switch to that tab page.
-
-`hoverSwitch`  
-A boolean value to specify if user can hover on a label item to switch to that tab page.
-
-`hoverSwitchDelay`  
-Specify how long in milliseconds delay before switching, which is triggered by hover. Only available if `hoverSwitch` is true. Default value is 0.
-
-`leaveCancelSwitch`  
-A boolean value to specify if the delayed switch should be canceled when user stop hovering a label item within `hoverSwitchDelay` period of time.
-
-`onSwitch(oldIndex, newIndex)`  
-A callback will be invoked when switching tab, current active index is `oldIndex`, and target index is `newIndex`.

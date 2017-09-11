@@ -1,9 +1,18 @@
 declare function clearTimeout(handle?: number): void;
 
 interface ReactTabOptionalProps {
+	activeIndex: number;
+	clickSwitch: boolean;
+	hoverSwitch: boolean;
+	hoverSwitchDelay: number;
+	leaveCancelSwitch: boolean;
+	onSwitch?: (oldIndex: number, newIndex: number) => void;
+
 	tabContainerClassName: string;
 
 	labelContainerClassName: string;
+	showTopLabelContainer: boolean;
+	showBottomLabelContainer: boolean;
 	topLabelContainerClassName: string;
 	bottomLabelContainerClassName: string;
 	labelItemClassName: string;
@@ -14,17 +23,6 @@ interface ReactTabOptionalProps {
 	pageItemClassName: string;
 	pageItemActiveClassName: string;
 	pageItemInactiveClassName: string;
-
-	activeIndex: number;
-	showTopLabelContainer: boolean;
-	showBottomLabelContainer: boolean;
-
-	clickSwitch: boolean;
-	hoverSwitch: boolean;
-	hoverSwitchDelay: number;
-	leaveCancelSwitch: boolean;
-
-	onSwitch?: (oldIndex: number, newIndex: number) => void;
 }
 
 interface ReactTabState {
