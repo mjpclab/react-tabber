@@ -38,7 +38,7 @@ require(['react-tabber'], function(ReactTabber) {
 ```
 
 *Using global variable mode*  
-if you are using React and ReactTab in global variable mode, which means there is no module loader environment, `ReactTabber` will be a property of global scope.
+if you are using React and ReactTabber in global variable mode, which means there is no module loader environment, `ReactTabber` will be a property of global scope.
 
 ## Prepare tabs array
 You need to collect all components that want to put into tabs array.
@@ -64,8 +64,13 @@ By default, "react-tabber" module do not have any CSS style applied, which means
 To hide non-active tab pages, just applying CSS by "inactive" class(controlled by property `pageItemInactiveClassName`) to hide them.
 
 ReactTabber provides default CSS styles if you don't want to make it yourself. It also provides default skin.
-To use that, importing module `react-tabber/with-css` instead of `react-tabber`.
+
+## Use CSS bundled version
+For module environment, importing module `react-tabber/with-css` instead of `react-tabber`.
 For global variable mode, referencing the '-with-css' bundle file.
+
+## Use standalone CSS file
+Copying or referencing source CSS files under `src/css/` directory.
 
 # Properties
 ## Behavior Properties
