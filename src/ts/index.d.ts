@@ -9,12 +9,14 @@ interface ReactTabberItem {
 	key?: string | number;
 }
 
-interface ReactTabberOptionalProps {
-	activeIndex: number;
+interface ReactTabberProps {
+	tabs: ReactTabberItem[];
+
 	triggerEvents?: string | string[];
 	delayTriggerEvents?: string | string[];
 	delayTriggerCancelEvents?: string | string[];
 	delayTriggerLatency: number;
+	activeIndex: number;
 	onSwitch?: (oldIndex: number, newIndex: number) => void;
 
 	tabContainerClassName: string;
@@ -34,10 +36,6 @@ interface ReactTabberOptionalProps {
 	pageItemInactiveClassName: string;
 }
 
-interface ReactTabberProps extends Partial<ReactTabberOptionalProps> {
-	tabs: ReactTabberItem[];
-}
-
 interface ReactTabberState {
-	activeIndex: number;
+	targetIndex: number;
 }

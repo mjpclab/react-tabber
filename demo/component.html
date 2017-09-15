@@ -17,7 +17,60 @@
 
 <script type="text/javascript" src="../dist/react-tabber.js"></script>
 <script type="text/babel">
-	const tabs = [
+	class App extends React.Component {
+		constructor(props) {
+			super(props);
+
+			this.state = {
+				tabs: [
+					{label: 'title1', page: <div>content1</div>},
+					{label: <span>title2</span>, page: <div>content2</div>}
+				]
+			};
+
+			this.addTab = this.addTab.bind(this);
+			this.removeTab = this.removeTab.bind(this);
+		}
+
+		onSwitch(oldIndex, newIndex) {
+			console.log('switched ' + oldIndex + ' ' + newIndex);
+		}
+
+		addTab() {
+			const newTabs = this.state.tabs;
+			newTabs.push({
+				label: 'label-' + (newTabs.length + 1),
+				page: 'content-' + (newTabs.length + 1)
+			});
+
+			this.setState({
+				tabs: newTabs
+			});
+		}
+
+		removeTab() {
+			if (this.state.tabs.length) {
+				const newTabs = this.state.tabs;
+				newTabs.length--;
+
+				this.setState({
+					tabs: newTabs
+				});
+			}
+		}
+
+		render() {
+			return <div>
+				<ReactTabber tabs={this.state.tabs} onSwitch={this.onSwitch}/>
+				<button onClick={this.addTab}>Add Tab</button>
+				<button onClick={this.removeTab}>Remove Tab</button>
+			</div>;
+		}
+	}
+
+	ReactDOM.render(<App/>, document.getElementById('container'))
+
+	/*const tabs = [
 		{label: 'title1', page: <div>content1</div>},
 		{label: <span>title2</span>, page: <div>content2</div>}
 	];
@@ -25,16 +78,12 @@
 	function render() {
 		ReactDOM.render(
 				<div>
-					<ReactTabber tabs={tabs} onSwitch={onSwitch}/>
+					<ReactTabber tabs={tabs}/>
 					<button onClick={addTab}>Add Tab</button>
 					<button onClick={removeTab}>Remove Tab</button>
 				</div>,
 			document.getElementById('container')
 		);
-	}
-
-	function onSwitch(oldIndex, newIndex) {
-		console.log('switched ' + oldIndex + ' ' + newIndex);
 	}
 
 	function addTab() {
@@ -52,7 +101,7 @@
 		}
 	}
 
-	render();
+	render();*/
 </script>
 </body>
 </html>

@@ -501,13 +501,13 @@ var ReactTabber = /** @class */ (function (_super) {
     __extends(ReactTabber, _super);
     function ReactTabber(props) {
         var _this = _super.call(this, props) || this;
+        _this.currentIndex = -1;
         _this.state = {
-            activeIndex: -1
+            targetIndex: _this.getValidIndex(props.activeIndex)
         };
         return _this;
     }
     ReactTabber.prototype.componentWillMount = function () {
-        this.switchTo(this.props.activeIndex);
         var props = this.props;
         this.triggerEvents = normalizeTriggerEvents(props.triggerEvents);
         this.delayTriggerEvents = normalizeTriggerEvents(props.delayTriggerEvents);
@@ -516,12 +516,18 @@ var ReactTabber = /** @class */ (function (_super) {
     ReactTabber.prototype.componentWillUnmount = function () {
         clearTimeout(this.delayTimeout);
     };
+    ReactTabber.prototype.getValidIndex = function (index) {
+        if (!isFinite(index) || isNaN(index)) {
+            return -1;
+        }
+        var intIndex = parseInt(index);
+        return intIndex < 0 ? 0 : index;
+    };
     ReactTabber.prototype.getLabelContainer = function (positionClassName) {
         var _this = this;
         var props = this.props;
-        var state = this.state;
         var labelContainer = React.createElement("div", { className: props.labelContainerClassName + ' ' + positionClassName }, this.props.tabs.map(function (tab, index) {
-            var className = props.labelItemClassName + ' ' + (index === state.activeIndex ? props.labelItemActiveClassName : props.labelItemInactiveClassName);
+            var className = props.labelItemClassName + ' ' + (index === _this.currentIndex ? props.labelItemActiveClassName : props.labelItemInactiveClassName);
             var doSwitch = function () {
                 _this.switchTo(index);
             };
@@ -550,10 +556,10 @@ var ReactTabber = /** @class */ (function (_super) {
         return labelContainer;
     };
     ReactTabber.prototype.getPageContainer = function () {
+        var _this = this;
         var props = this.props;
-        var state = this.state;
         return React.createElement("div", { className: props.pageContainerClassName }, this.props.tabs.map(function (tab, index) {
-            var className = props.pageItemClassName + ' ' + (index === state.activeIndex ? props.pageItemActiveClassName : props.pageItemInactiveClassName);
+            var className = props.pageItemClassName + ' ' + (index === _this.currentIndex ? props.pageItemActiveClassName : props.pageItemInactiveClassName);
             return React.createElement("div", { key: tab.key ? 'key-' + tab.key : 'index-' + index, className: className }, tab.page);
         }));
     };
@@ -561,43 +567,22 @@ var ReactTabber = /** @class */ (function (_super) {
         var props = this.props;
         return React.createElement("div", { className: props.tabContainerClassName },
             props.showTopLabelContainer ? this.getLabelContainer(props.topLabelContainerClassName) : null,
-            " ",
             this.getPageContainer(),
-            " ",
             props.showBottomLabelContainer ? this.getLabelContainer(props.bottomLabelContainerClassName) : null);
     };
     ReactTabber.prototype.switchTo = function (index) {
-        if (!isFinite(index) || isNaN(index)) {
-            return;
-        }
-        var props = this.props;
-        var onSwitch = props.onSwitch;
-        var oldIndex;
-        var newIndex;
-        if (index < 0) {
-            newIndex = 0;
-        }
-        else if (index >= props.tabs.length) {
-            newIndex = props.tabs.length - 1;
-        }
-        else {
-            newIndex = parseInt(index);
-        }
-        //update
-        this.setState(function (prevState) {
-            oldIndex = prevState.activeIndex;
-            if (oldIndex !== newIndex) {
-                return {
-                    activeIndex: newIndex
-                };
-            }
-        }, onSwitch && function () {
-            if (oldIndex !== newIndex) {
-                onSwitch(oldIndex, newIndex);
-            }
+        this.setState({
+            targetIndex: this.getValidIndex(index)
         });
     };
     ReactTabber.prototype.render = function () {
+        var props = this.props;
+        var state = this.state;
+        var oldIndex = this.currentIndex;
+        var newIndex = this.currentIndex = state.targetIndex >= props.tabs.length ? props.tabs.length - 1 : state.targetIndex;
+        if (oldIndex !== newIndex && props.onSwitch) {
+            props.onSwitch(oldIndex, newIndex);
+        }
         return this.props.tabs ? this.getTabContainer() : null;
     };
     ReactTabber.propTypes = {
@@ -606,11 +591,11 @@ var ReactTabber = /** @class */ (function (_super) {
             page: PropTypes.node.isRequired,
             key: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
         })).isRequired,
-        activeIndex: PropTypes.number,
         triggerEvents: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]),
         delayTriggerEvents: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]),
         delayTriggerCancelEvents: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]),
         delayTriggerLatency: PropTypes.number,
+        activeIndex: PropTypes.number,
         onSwitch: PropTypes.func,
         tabContainerClassName: PropTypes.string,
         labelContainerClassName: PropTypes.string,
@@ -627,6 +612,7 @@ var ReactTabber = /** @class */ (function (_super) {
         pageItemInactiveClassName: PropTypes.string
     };
     ReactTabber.defaultProps = {
+        tabs: [],
         activeIndex: 0,
         triggerEvents: ['onClick'],
         delayTriggerLatency: 200,
