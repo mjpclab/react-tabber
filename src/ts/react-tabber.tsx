@@ -102,8 +102,8 @@ class ReactTabber extends React.Component<ReactTabberProps, ReactTabberState> {
 		clearTimeout(this.delayTimeout);
 	}
 
-	private getValidIndex(index: number): number {
-		if (!isFinite(index) || isNaN(index)) {
+	private getValidIndex(index: any): number {
+		if (index === '' || !isFinite(index) || isNaN(index)) {
 			return -1;
 		}
 
@@ -118,6 +118,7 @@ class ReactTabber extends React.Component<ReactTabberProps, ReactTabberState> {
 			{this.props.tabs.map((tab, index) => {
 				const className = props.labelItemClassName + ' ' + (index === this.currentIndex ? props.labelItemActiveClassName : props.labelItemInactiveClassName);
 				const doSwitch = () => {
+					clearTimeout(this.delayTimeout);
 					this.switchTo(index);
 				};
 				let localDelayTimeout: number;

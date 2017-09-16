@@ -517,7 +517,7 @@ var ReactTabber = /** @class */ (function (_super) {
         clearTimeout(this.delayTimeout);
     };
     ReactTabber.prototype.getValidIndex = function (index) {
-        if (!isFinite(index) || isNaN(index)) {
+        if (index === '' || !isFinite(index) || isNaN(index)) {
             return -1;
         }
         var intIndex = parseInt(index);
@@ -529,6 +529,7 @@ var ReactTabber = /** @class */ (function (_super) {
         var labelContainer = React.createElement("div", { className: props.labelContainerClassName + ' ' + positionClassName }, this.props.tabs.map(function (tab, index) {
             var className = props.labelItemClassName + ' ' + (index === _this.currentIndex ? props.labelItemActiveClassName : props.labelItemInactiveClassName);
             var doSwitch = function () {
+                clearTimeout(_this.delayTimeout);
                 _this.switchTo(index);
             };
             var localDelayTimeout;
