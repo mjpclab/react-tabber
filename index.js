@@ -1,1 +1,3 @@
-module.exports = require('./src/js/react-tabber');
+"use strict";
+var ReactTabber = require("./src/ts/react-tabber");
+module.exports = ReactTabber;

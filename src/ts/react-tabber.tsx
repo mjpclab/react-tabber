@@ -1,3 +1,6 @@
+/// <reference path='main.d.ts' />
+/// <reference path='private.d.ts' />
+
 import React = require('react');
 import PropTypes = require('prop-types');
 
@@ -115,7 +118,7 @@ class ReactTabber extends React.Component<ReactTabberProps, ReactTabberState> {
 		const props = this.props;
 
 		const labelContainer = <div className={props.labelContainerClassName + ' ' + positionClassName}>
-			{this.props.tabs.map((tab, index) => {
+			{this.props.tabs!.map((tab, index) => {
 				const className = props.labelItemClassName + ' ' + (index === this.currentIndex ? props.labelItemActiveClassName : props.labelItemInactiveClassName);
 				const doSwitch = () => {
 					clearTimeout(this.delayTimeout);
@@ -154,7 +157,7 @@ class ReactTabber extends React.Component<ReactTabberProps, ReactTabberState> {
 		const props = this.props;
 
 		return <div className={props.pageContainerClassName}>
-			{this.props.tabs.map((tab, index) => {
+			{this.props.tabs!.map((tab, index) => {
 				const className = props.pageItemClassName + ' ' + (index === this.currentIndex ? props.pageItemActiveClassName : props.pageItemInactiveClassName);
 				return <div
 					key={tab.key ? 'key-' + tab.key : 'index-' + index}
@@ -185,7 +188,7 @@ class ReactTabber extends React.Component<ReactTabberProps, ReactTabberState> {
 		const state = this.state;
 
 		const oldIndex = this.currentIndex;
-		const newIndex = this.currentIndex = state.targetIndex >= props.tabs.length ? props.tabs.length - 1 : state.targetIndex;
+		const newIndex = this.currentIndex = state.targetIndex >= props.tabs!.length ? props.tabs!.length - 1 : state.targetIndex;
 		if (oldIndex !== newIndex && props.onSwitch) {
 			props.onSwitch(oldIndex, newIndex);
 		}

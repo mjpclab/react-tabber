@@ -467,6 +467,8 @@ module.exports = warning;
 
 "use strict";
 
+/// <reference path='main.d.ts' />
+/// <reference path='private.d.ts' />
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -1780,7 +1782,11 @@ function updateLink (link, options, obj) {
 /* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(15);
+"use strict";
+
+var ReactTabber = __webpack_require__(15);
+module.exports = ReactTabber;
+
 
 /***/ }),
 /* 15 */
@@ -1815,8 +1821,8 @@ if(content.locals) module.exports = content.locals;
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!../../node_modules/css-loader/index.js??ref--0-1!./layout.css", function() {
-			var newContent = require("!!../../node_modules/css-loader/index.js??ref--0-1!./layout.css");
+		module.hot.accept("!!../../node_modules/css-loader/index.js??ref--1-1!./layout.css", function() {
+			var newContent = require("!!../../node_modules/css-loader/index.js??ref--1-1!./layout.css");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -1955,8 +1961,8 @@ if(content.locals) module.exports = content.locals;
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!../../node_modules/css-loader/index.js??ref--0-1!./skin-gray.css", function() {
-			var newContent = require("!!../../node_modules/css-loader/index.js??ref--0-1!./skin-gray.css");
+		module.hot.accept("!!../../node_modules/css-loader/index.js??ref--1-1!./skin-gray.css", function() {
+			var newContent = require("!!../../node_modules/css-loader/index.js??ref--1-1!./skin-gray.css");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});

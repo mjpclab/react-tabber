@@ -9,7 +9,7 @@ interface ReactTabberItem {
 	key?: string | number;
 }
 
-interface ReactTabberProps {
+interface _ReactTabberProps {
 	tabs: ReactTabberItem[];
 
 	triggerEvents?: string | string[];
@@ -34,6 +34,9 @@ interface ReactTabberProps {
 	pageItemClassName: string;
 	pageItemActiveClassName: string;
 	pageItemInactiveClassName: string;
+}
+
+interface ReactTabberProps extends Partial<_ReactTabberProps> {
 }
 
 interface ReactTabberState {

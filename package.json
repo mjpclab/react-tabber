@@ -1,14 +1,14 @@
 {
   "name": "react-tabber",
   "nameWithCss": "react-tabber-with-css",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "A React tab sheet component",
   "main": "index.js",
   "mainWithCss": "with-css.js",
-  "types": "src/ts/index.d.ts",
+  "types": "index.d.ts",
   "scripts": {
     "ts": "tsc -p src/ts/",
-    "build": "sh -c 'rm -rf dist/* src/js/*; tsc -p src/ts/; webpack;'"
+    "build": "sh -c 'rm -rf dist/*; tsc; webpack;'"
   },
   "keywords": [
     "react",

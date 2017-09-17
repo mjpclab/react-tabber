@@ -40,6 +40,12 @@ const getModuleConfig = function (isMinify) {
 	return {
 		rules: [
 			{
+				test: /\.tsx?$/,
+				use: [
+					{loader: 'awesome-typescript-loader'}
+				]
+			},
+			{
 				test: /\.css$/,
 				use: [
 					{loader: 'style-loader'},

@@ -467,6 +467,8 @@ module.exports = warning;
 
 "use strict";
 
+/// <reference path='main.d.ts' />
+/// <reference path='private.d.ts' />
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -1340,7 +1342,11 @@ module.exports = function() {
 /* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(5);
+"use strict";
+
+var ReactTabber = __webpack_require__(5);
+module.exports = ReactTabber;
+
 
 /***/ })
 /******/ ]);
