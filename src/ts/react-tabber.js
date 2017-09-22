@@ -86,7 +86,7 @@ var ReactTabber = /** @class */ (function (_super) {
             fillEventHandler(labelItemProps, _this.triggerEvents, doSwitch);
             labelItemProps.key = tab.key ? 'key-' + tab.key : 'index-' + index;
             labelItemProps.className = className;
-            return React.createElement('label', labelItemProps, tab.label);
+            return React.createElement('div', labelItemProps, tab.label);
         }));
         return labelContainer;
     };

@@ -147,7 +147,7 @@ class ReactTabber extends React.Component<ReactTabberProps, ReactTabberState> {
 				labelItemProps.key = tab.key ? 'key-' + tab.key : 'index-' + index;
 				labelItemProps.className = className;
 
-				return React.createElement('label', labelItemProps, tab.label);
+				return React.createElement('div', labelItemProps, tab.label);
 			})}
 		</div>;
 		return labelContainer;
