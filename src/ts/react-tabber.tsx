@@ -42,10 +42,10 @@ class ReactTabber extends React.Component<ReactTabberProps, ReactTabberState> {
 		tabContainerClassName: PropTypes.string,
 
 		labelContainerClassName: PropTypes.string,
-		showTopLabelContainer: PropTypes.bool,
-		showBottomLabelContainer: PropTypes.bool,
-		topLabelContainerClassName: PropTypes.string,
-		bottomLabelContainerClassName: PropTypes.string,
+		showHeaderLabelContainer: PropTypes.bool,
+		showFooterLabelContainer: PropTypes.bool,
+		headerLabelContainerClassName: PropTypes.string,
+		footerLabelContainerClassName: PropTypes.string,
 		labelItemClassName: PropTypes.string,
 		labelItemActiveClassName: PropTypes.string,
 		labelItemInactiveClassName: PropTypes.string,
@@ -66,10 +66,10 @@ class ReactTabber extends React.Component<ReactTabberProps, ReactTabberState> {
 		tabContainerClassName: 'tab-container',
 
 		labelContainerClassName: 'label-container',
-		showTopLabelContainer: true,
-		showBottomLabelContainer: false,
-		topLabelContainerClassName: 'top',
-		bottomLabelContainerClassName: 'bottom',
+		showHeaderLabelContainer: true,
+		showFooterLabelContainer: false,
+		headerLabelContainerClassName: 'header-container',
+		footerLabelContainerClassName: 'footer-container',
 		labelItemClassName: 'label-item',
 		labelItemActiveClassName: 'label-active',
 		labelItemInactiveClassName: 'label-inactive',
@@ -171,9 +171,9 @@ class ReactTabber extends React.Component<ReactTabberProps, ReactTabberState> {
 		const props = this.props;
 
 		return <div className={props.tabContainerClassName}>
-			{props.showTopLabelContainer ? this.getLabelContainer(props.topLabelContainerClassName!) : null}
+			{props.showHeaderLabelContainer ? this.getLabelContainer(props.headerLabelContainerClassName!) : null}
 			{this.getPageContainer()}
-			{props.showBottomLabelContainer ? this.getLabelContainer(props.bottomLabelContainerClassName!) : null}
+			{props.showFooterLabelContainer ? this.getLabelContainer(props.footerLabelContainerClassName!) : null}
 		</div>;
 	}
 

@@ -14,10 +14,10 @@ declare class ReactTabber extends React.Component<ReactTabberProps, ReactTabberS
         onSwitch: PropTypes.Requireable<any>;
         tabContainerClassName: PropTypes.Requireable<any>;
         labelContainerClassName: PropTypes.Requireable<any>;
-        showTopLabelContainer: PropTypes.Requireable<any>;
-        showBottomLabelContainer: PropTypes.Requireable<any>;
-        topLabelContainerClassName: PropTypes.Requireable<any>;
-        bottomLabelContainerClassName: PropTypes.Requireable<any>;
+        showHeaderLabelContainer: PropTypes.Requireable<any>;
+        showFooterLabelContainer: PropTypes.Requireable<any>;
+        headerLabelContainerClassName: PropTypes.Requireable<any>;
+        footerLabelContainerClassName: PropTypes.Requireable<any>;
         labelItemClassName: PropTypes.Requireable<any>;
         labelItemActiveClassName: PropTypes.Requireable<any>;
         labelItemInactiveClassName: PropTypes.Requireable<any>;

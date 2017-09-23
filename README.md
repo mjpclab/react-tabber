@@ -72,6 +72,13 @@ For global variable mode, referencing the '-with-css' bundle file.
 ## Use standalone CSS file
 Copying or referencing source CSS files under `src/css/` directory.
 
+## Vertical labels
+To use vertical labels style from default CSS, set `tabContainerClassName` to 'tab-container-vert'.
+Notice that this style is implemented by CSS flex features, which means old browsers like IE10-, Chrome 20- and Firefox 27- are not supported.
+```jsx
+ReactDOM.render(<ReactTabber tabs={tabs} tabContainerClassName="tab-container-vert"/>, document.getElementById('container'));
+```
+
 # Properties
 ## Behavior Properties
 `tabs`  
@@ -107,17 +114,17 @@ Tab container element's class name. Default value is 'tab-container';
 `labelContainerClassName`  
 Label container element's class name. Default value is 'label-container';
 
-`showTopLabelContainer`  
-If show label container on top of tab page. Default value is true.
+`showHeaderLabelContainer`  
+If show label container before tab page. Default value is true.
 
-`showBottomLabelContainer`  
-If show label container under bottom of tab page. Default value is false.
+`showFooterLabelContainer`  
+If show label container after tab page. Default value is false.
 
-`topLabelContainerClassName`  
-Top Label container element's class name. Default value is 'top';
+`headerLabelContainerClassName`  
+Header label container element's class name. Default value is 'header-container';
 
-`bottomLabelContainerClassName`  
-Bottom Label container element's class name. Default value is 'bottom';
+`footerLabelContainerClassName`  
+Footer label container element's class name. Default value is 'footer-container';
 
 `labelItemClassName`  
 Label item element's class name. Default value is 'label-item';

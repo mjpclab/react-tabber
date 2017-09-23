@@ -22,10 +22,10 @@ interface _ReactTabberProps {
 	tabContainerClassName: string;
 
 	labelContainerClassName: string;
-	showTopLabelContainer: boolean;
-	showBottomLabelContainer: boolean;
-	topLabelContainerClassName: string;
-	bottomLabelContainerClassName: string;
+	showHeaderLabelContainer: boolean;
+	showFooterLabelContainer: boolean;
+	headerLabelContainerClassName: string;
+	footerLabelContainerClassName: string;
 	labelItemClassName: string;
 	labelItemActiveClassName: string;
 	labelItemInactiveClassName: string;

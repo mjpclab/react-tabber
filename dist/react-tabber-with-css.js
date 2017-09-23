@@ -569,9 +569,9 @@ var ReactTabber = /** @class */ (function (_super) {
     ReactTabber.prototype.getTabContainer = function () {
         var props = this.props;
         return React.createElement("div", { className: props.tabContainerClassName },
-            props.showTopLabelContainer ? this.getLabelContainer(props.topLabelContainerClassName) : null,
+            props.showHeaderLabelContainer ? this.getLabelContainer(props.headerLabelContainerClassName) : null,
             this.getPageContainer(),
-            props.showBottomLabelContainer ? this.getLabelContainer(props.bottomLabelContainerClassName) : null);
+            props.showFooterLabelContainer ? this.getLabelContainer(props.footerLabelContainerClassName) : null);
     };
     ReactTabber.prototype.switchTo = function (index) {
         this.setState({
@@ -602,10 +602,10 @@ var ReactTabber = /** @class */ (function (_super) {
         onSwitch: PropTypes.func,
         tabContainerClassName: PropTypes.string,
         labelContainerClassName: PropTypes.string,
-        showTopLabelContainer: PropTypes.bool,
-        showBottomLabelContainer: PropTypes.bool,
-        topLabelContainerClassName: PropTypes.string,
-        bottomLabelContainerClassName: PropTypes.string,
+        showHeaderLabelContainer: PropTypes.bool,
+        showFooterLabelContainer: PropTypes.bool,
+        headerLabelContainerClassName: PropTypes.string,
+        footerLabelContainerClassName: PropTypes.string,
         labelItemClassName: PropTypes.string,
         labelItemActiveClassName: PropTypes.string,
         labelItemInactiveClassName: PropTypes.string,
@@ -621,10 +621,10 @@ var ReactTabber = /** @class */ (function (_super) {
         delayTriggerLatency: 200,
         tabContainerClassName: 'tab-container',
         labelContainerClassName: 'label-container',
-        showTopLabelContainer: true,
-        showBottomLabelContainer: false,
-        topLabelContainerClassName: 'top',
-        bottomLabelContainerClassName: 'bottom',
+        showHeaderLabelContainer: true,
+        showFooterLabelContainer: false,
+        headerLabelContainerClassName: 'header-container',
+        footerLabelContainerClassName: 'footer-container',
         labelItemClassName: 'label-item',
         labelItemActiveClassName: 'label-active',
         labelItemInactiveClassName: 'label-inactive',
@@ -1840,7 +1840,7 @@ exports = module.exports = __webpack_require__(11)(undefined);
 
 
 // module
-exports.push([module.i, ".tab-container {\n\tmargin-bottom: 2em;\n}\n\n.tab-container .label-container {\n\tposition: relative;\n}\n\n.tab-container .label-container.top {\n\tbottom: -1px;\n}\n\n.tab-container .label-container.bottom {\n\ttop: -1px;\n}\n\n.tab-container .label-container .label-item {\n\tdisplay: inline-block;\n\tmargin-right: 1em;\n\tborder: 1px solid;\n\n\tpadding: 0.5em 1em;\n\tcursor: pointer;\n}\n\n.tab-container .label-container.top .label-item {\n\tvertical-align: bottom;\n}\n\n.tab-container .label-container.bottom .label-item {\n\tvertical-align: top;\n}\n\n.tab-container .page-container {\n\tborder: 1px solid;\n}\n\n.tab-container .page-inactive {\n\tdisplay: none;\n}", ""]);
+exports.push([module.i, "/* container */\n.tab-container,\n.tab-container-vert {\n\tmargin-bottom: 2em;\n}\n\n.tab-container-vert {\n\tdisplay: -webkit-flex;\n\tdisplay: flex;\n\t-webkit-flex-flow: row nowrap;\n\tflex-flow: row nowrap;\n}\n\n/* label container */\n.tab-container .label-container,\n.tab-container-vert .label-container {\n\tposition: relative;\n}\n\n.tab-container .label-container.header-container {\n\tbottom: -1px;\n}\n\n.tab-container .label-container.footer-container {\n\ttop: -1px;\n}\n\n.tab-container-vert .label-container {\n\t-webkit-flex: 0 0 auto;\n\tflex: 0 0 auto;\n}\n\n.tab-container-vert .label-container.header-container {\n\tmargin-right: -1px;\n}\n\n.tab-container-vert .label-container.footer-container {\n\tmargin-left: -1px;\n}\n\n/* label item */\n.tab-container .label-container .label-item,\n.tab-container-vert .label-container .label-item {\n\tpadding: 0.5em 1em;\n\tcursor: pointer;\n\tborder: 1px solid;\n}\n\n.tab-container .label-container .label-item {\n\tdisplay: inline-block;\n\tmargin-right: 1em;\n}\n\n.tab-container .label-container.header-container .label-item {\n\tvertical-align: bottom;\n}\n\n.tab-container .label-container.footer-container .label-item {\n\tvertical-align: top;\n}\n\n.tab-container-vert .label-container .label-item {\n\tdisplay: block;\n\tmargin-bottom: 0.3em;\n}\n\n/* page container */\n.tab-container .page-container,\n.tab-container-vert .page-container {\n\tborder: 1px solid;\n}\n\n.tab-container-vert .page-container {\n\t-webkit-flex: 1 1 auto;\n\tflex: 1 1 auto;\n}\n\n.tab-container-vert .page-inactive,\n.tab-container .page-inactive {\n\tdisplay: none;\n}", ""]);
 
 // exports
 
@@ -1980,7 +1980,7 @@ exports = module.exports = __webpack_require__(11)(undefined);
 
 
 // module
-exports.push([module.i, ".tab-container .page-container {\n\tborder-color: #ccc;\n\tpadding: 1em;\n\tbackground: #fff;\n}\n\n.tab-container .label-container .label-item {\n\tborder-color: #ccc;\n\tbackground: #fff;\n}\n\n.tab-container .label-container .label-active {\n\tcolor: #000;\n}\n\n.tab-container .label-container.top .label-active {\n\tborder-bottom-color: #fff;\n}\n\n.tab-container .label-container.bottom .label-active {\n\tborder-top-color: #fff;\n}\n\n.tab-container .label-container .label-inactive {\n\tcolor:#aaa;\n}", ""]);
+exports.push([module.i, ".tab-container .page-container,\n.tab-container-vert .page-container {\n\tborder-color: #ccc;\n\tpadding: 1em;\n\tbackground: #fff;\n}\n\n.tab-container .label-container .label-item,\n.tab-container-vert .label-container .label-item {\n\tborder-color: #ccc;\n\tbackground: #fff;\n}\n\n.tab-container .label-container .label-inactive {\n\tcolor: #aaa;\n}\n\n.tab-container .label-container .label-active {\n\tcolor: #000;\n}\n\n.tab-container .label-container.header-container .label-active {\n\tborder-bottom-color: #fff;\n}\n\n.tab-container .label-container.footer-container .label-active {\n\tborder-top-color: #fff;\n}\n\n.tab-container-vert .label-container.header-container .label-active {\n\tborder-right-color: #fff;\n}\n\n.tab-container-vert .label-container.footer-container .label-active {\n\tborder-left-color: #fff;\n}\n", ""]);
 
 // exports
 
