@@ -108,11 +108,11 @@ A callback will be invoked when switching tab, current active index is `oldIndex
 ## UI Properties
 ### Tab
 `tabContainerClassName`  
-Tab container element's class name. Default value is 'tab-container';
+Tab container element's class name. Default value is 'tab-container'.
 
 ### Label
 `labelContainerClassName`  
-Label container element's class name. Default value is 'label-container';
+Label container element's class name. Default value is 'label-container'.
 
 `showHeaderLabelContainer`  
 If show label container before tab page. Default value is true.
@@ -121,29 +121,29 @@ If show label container before tab page. Default value is true.
 If show label container after tab page. Default value is false.
 
 `headerLabelContainerClassName`  
-Header label container element's class name. Default value is 'header-container';
+Header label container element's class name. Default value is 'header-container'.
 
 `footerLabelContainerClassName`  
-Footer label container element's class name. Default value is 'footer-container';
+Footer label container element's class name. Default value is 'footer-container'.
 
 `labelItemClassName`  
-Label item element's class name. Default value is 'label-item';
+Label item element's class name. Default value is 'label-item'.
 
 `labelItemActiveClassName`  
-The active(switched) label item element's class name. Default value is 'label-active';
+The active(switched) label item element's class name. Default value is 'label-active'.
 
 `labelItemInactiveClassName`  
-Non-active label item element's class name. Default value is 'label-inactive';
+Non-active label item element's class name. Default value is 'label-inactive'.
 
 ### Page
 `pageContainerClassName`  
-Page container element's class name. Default value is 'page-container';
+Page container element's class name. Default value is 'page-container'.
 
 `pageItemClassName`  
-Page item element's class name. Default value is 'page-item';
+Page item element's class name. Default value is 'page-item'.
 
 `pageItemActiveClassName`  
-The active(switched) page item element's class name. Default value is 'page-active';
+The active(switched) page item element's class name. Default value is 'page-active'.
 
 `pageItemInactiveClassName`  
-Non-active page item element's class name. Default value is 'page-inactive';
+Non-active page item element's class name. Default value is 'page-inactive'.
