@@ -76,23 +76,24 @@ Copying or referencing source CSS files under `src/css/` directory.
 ## Behavior Properties
 `tabs`  
 Specify tabs you want to render as a tab, should be an array of rendering items, which has property `label` and `page`.
-`label` will be shown on tab label container, which allows user to switch tabs if it is not disabled by property `clickSwitch` or `hoverSwitch`.
-`page` is the content of the tab.
+`label` will be shown on tab label container, `page` is the content of the tab.
+
+`triggerEvents`  
+Determine the types of React Element events triggered on label-item that will make the page-item switched.
+Can be an array of event names, or space separated event names. Default value is `['onClick']`.
+
+`delayTriggerEvents`  
+Specify React Element events on label-item that will trigger page switch after delay a small piece of time.
+Quite useful if you want to keep hover a little time before switching.
+
+`delayTriggerCancelEvents`  
+Specify events on label-item that will cancel delay switching.
+
+`delayTriggerLatency`  
+Specify how long (in milliseconds) need to wait before trigger the delayed switching events.
 
 `activeIndex`  
 Specify the initial active(switched) tab index. Starting from 0.
-
-`clickSwitch`  
-A boolean value to specify if user can click a label item to switch to that tab page.
-
-`hoverSwitch`  
-A boolean value to specify if user can hover on a label item to switch to that tab page.
-
-`hoverSwitchDelay`  
-Specify how long in milliseconds delay before switching, which is triggered by hover. Only available if `hoverSwitch` is true. Default value is 0.
-
-`leaveCancelSwitch`  
-A boolean value to specify if the delayed switch should be canceled when user stop hovering a label item within `hoverSwitchDelay` period of time.
 
 `onSwitch(oldIndex, newIndex)`  
 A callback will be invoked when switching tab, current active index is `oldIndex`, and target index is `newIndex`.
