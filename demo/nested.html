@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<title>Demo</title>
+	<link rel="stylesheet" type="text/css" href="../src/css/layout.css"/>
+	<link rel="stylesheet" type="text/css" href="../src/css/skin-gray.css"/>
+	<link rel="stylesheet" type="text/css" href="css/main.css"/>
+</head>
+<body>
+<div id="container"></div>
+
+<script type="text/javascript" src="../node_modules/react/dist/react.js"></script>
+<script type="text/javascript" src="../node_modules/react-dom/dist/react-dom.js"></script>
+<script type="text/javascript" src="js/browser.min.js"></script>
+
+<script type="text/javascript" src="../dist/react-tabber.js"></script>
+<script type="text/babel">
+	ReactDOM.render(<ReactTabber tabs={[
+			{
+				label: 'A', page: <ReactTabber tabContainerClassName="tab-container-vert" tabs={[
+				{
+					label: 'A-1', page: <ReactTabber tabs={[
+					{label: 'A-1-1', page: 'a-1-1'},
+					{label: 'A-1-2', page: 'a-1-2'}
+				]}/>
+				},
+				{label: 'A-2', page: 'a-2'}]}/>
+			},
+			{label: <span>B</span>, page: <div>b</div>}
+		]}/>,
+		document.getElementById('container')
+	);
+</script>
+</body>
+</html>
