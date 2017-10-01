@@ -1,5 +1,3 @@
-"use strict";
-require("../css/layout.css");
-require("../css/skin-gray.css");
-var ReactTabber = require("./react-tabber");
-module.exports = ReactTabber;
+import '../css/layout.css';
+import '../css/skin-gray.css';
+export { default } from './react-tabber';

@@ -1,8 +1,8 @@
-/// <reference path="main.d.ts" />
+/// <reference path="public.d.ts" />
 /// <reference path="private.d.ts" />
 /// <reference types="react" />
-import React = require('react');
-import PropTypes = require('prop-types');
+import * as React from 'react';
+import * as PropTypes from 'prop-types';
 declare class ReactTabber extends React.Component<ReactTabberProps, ReactTabberState> {
     static propTypes: {
         tabs: PropTypes.Validator<any>;
@@ -42,4 +42,4 @@ declare class ReactTabber extends React.Component<ReactTabberProps, ReactTabberS
     private switchTo(index);
     render(): JSX.Element | null;
 }
-export = ReactTabber;
+export default ReactTabber;

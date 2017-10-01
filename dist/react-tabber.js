@@ -70,7 +70,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 14);
+/******/ 	return __webpack_require__(__webpack_require__.s = 5);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -455,11 +455,15 @@ module.exports = warning;
 
 /***/ }),
 /* 5 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-
-/// <reference path='main.d.ts' />
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
+/// <reference path='public.d.ts' />
 /// <reference path='private.d.ts' />
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -471,8 +475,8 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var React = __webpack_require__(6);
-var PropTypes = __webpack_require__(7);
+
+
 var RE_WHITESPACES = /\s+/;
 function normalizeTriggerEvents(events) {
     if (events) {
@@ -520,7 +524,7 @@ var ReactTabber = /** @class */ (function (_super) {
     ReactTabber.prototype.getLabelContainer = function (positionClassName) {
         var _this = this;
         var props = this.props;
-        var labelContainer = React.createElement("div", { className: props.labelContainerClassName + ' ' + positionClassName }, this.props.tabs.map(function (tab, index) {
+        var labelContainer = __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", { className: props.labelContainerClassName + ' ' + positionClassName }, this.props.tabs.map(function (tab, index) {
             var className = props.labelItemClassName + ' ' + (index === _this.currentIndex ? props.labelItemActiveClassName : props.labelItemInactiveClassName);
             var doSwitch = function () {
                 clearTimeout(_this.delayTimeout);
@@ -546,21 +550,21 @@ var ReactTabber = /** @class */ (function (_super) {
             fillEventHandler(labelItemProps, _this.triggerEvents, doSwitch);
             labelItemProps.key = tab.key ? 'key-' + tab.key : 'index-' + index;
             labelItemProps.className = className;
-            return React.createElement('div', labelItemProps, tab.label);
+            return __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]('div', labelItemProps, tab.label);
         }));
         return labelContainer;
     };
     ReactTabber.prototype.getPageContainer = function () {
         var _this = this;
         var props = this.props;
-        return React.createElement("div", { className: props.pageContainerClassName }, this.props.tabs.map(function (tab, index) {
+        return __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", { className: props.pageContainerClassName }, this.props.tabs.map(function (tab, index) {
             var className = props.pageItemClassName + ' ' + (index === _this.currentIndex ? props.pageItemActiveClassName : props.pageItemInactiveClassName);
-            return React.createElement("div", { key: tab.key ? 'key-' + tab.key : 'index-' + index, className: className }, tab.page);
+            return __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", { key: tab.key ? 'key-' + tab.key : 'index-' + index, className: className }, tab.page);
         }));
     };
     ReactTabber.prototype.getTabContainer = function () {
         var props = this.props;
-        return React.createElement("div", { className: props.tabContainerClassName },
+        return __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", { className: props.tabContainerClassName },
             props.showHeaderLabelContainer ? this.getLabelContainer(props.headerLabelContainerClassName) : null,
             this.getPageContainer(),
             props.showFooterLabelContainer ? this.getLabelContainer(props.footerLabelContainerClassName) : null);
@@ -581,30 +585,30 @@ var ReactTabber = /** @class */ (function (_super) {
         return this.props.tabs ? this.getTabContainer() : null;
     };
     ReactTabber.propTypes = {
-        tabs: PropTypes.arrayOf(PropTypes.shape({
-            label: PropTypes.node.isRequired,
-            page: PropTypes.node.isRequired,
-            key: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+        tabs: __WEBPACK_IMPORTED_MODULE_1_prop_types__["arrayOf"](__WEBPACK_IMPORTED_MODULE_1_prop_types__["shape"]({
+            label: __WEBPACK_IMPORTED_MODULE_1_prop_types__["node"].isRequired,
+            page: __WEBPACK_IMPORTED_MODULE_1_prop_types__["node"].isRequired,
+            key: __WEBPACK_IMPORTED_MODULE_1_prop_types__["oneOfType"]([__WEBPACK_IMPORTED_MODULE_1_prop_types__["string"], __WEBPACK_IMPORTED_MODULE_1_prop_types__["number"]])
         })).isRequired,
-        triggerEvents: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]),
-        delayTriggerEvents: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]),
-        delayTriggerCancelEvents: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]),
-        delayTriggerLatency: PropTypes.number,
-        activeIndex: PropTypes.number,
-        onSwitch: PropTypes.func,
-        tabContainerClassName: PropTypes.string,
-        labelContainerClassName: PropTypes.string,
-        showHeaderLabelContainer: PropTypes.bool,
-        showFooterLabelContainer: PropTypes.bool,
-        headerLabelContainerClassName: PropTypes.string,
-        footerLabelContainerClassName: PropTypes.string,
-        labelItemClassName: PropTypes.string,
-        labelItemActiveClassName: PropTypes.string,
-        labelItemInactiveClassName: PropTypes.string,
-        pageContainerClassName: PropTypes.string,
-        pageItemClassName: PropTypes.string,
-        pageItemActiveClassName: PropTypes.string,
-        pageItemInactiveClassName: PropTypes.string
+        triggerEvents: __WEBPACK_IMPORTED_MODULE_1_prop_types__["oneOfType"]([__WEBPACK_IMPORTED_MODULE_1_prop_types__["string"], __WEBPACK_IMPORTED_MODULE_1_prop_types__["arrayOf"](__WEBPACK_IMPORTED_MODULE_1_prop_types__["string"])]),
+        delayTriggerEvents: __WEBPACK_IMPORTED_MODULE_1_prop_types__["oneOfType"]([__WEBPACK_IMPORTED_MODULE_1_prop_types__["string"], __WEBPACK_IMPORTED_MODULE_1_prop_types__["arrayOf"](__WEBPACK_IMPORTED_MODULE_1_prop_types__["string"])]),
+        delayTriggerCancelEvents: __WEBPACK_IMPORTED_MODULE_1_prop_types__["oneOfType"]([__WEBPACK_IMPORTED_MODULE_1_prop_types__["string"], __WEBPACK_IMPORTED_MODULE_1_prop_types__["arrayOf"](__WEBPACK_IMPORTED_MODULE_1_prop_types__["string"])]),
+        delayTriggerLatency: __WEBPACK_IMPORTED_MODULE_1_prop_types__["number"],
+        activeIndex: __WEBPACK_IMPORTED_MODULE_1_prop_types__["number"],
+        onSwitch: __WEBPACK_IMPORTED_MODULE_1_prop_types__["func"],
+        tabContainerClassName: __WEBPACK_IMPORTED_MODULE_1_prop_types__["string"],
+        labelContainerClassName: __WEBPACK_IMPORTED_MODULE_1_prop_types__["string"],
+        showHeaderLabelContainer: __WEBPACK_IMPORTED_MODULE_1_prop_types__["bool"],
+        showFooterLabelContainer: __WEBPACK_IMPORTED_MODULE_1_prop_types__["bool"],
+        headerLabelContainerClassName: __WEBPACK_IMPORTED_MODULE_1_prop_types__["string"],
+        footerLabelContainerClassName: __WEBPACK_IMPORTED_MODULE_1_prop_types__["string"],
+        labelItemClassName: __WEBPACK_IMPORTED_MODULE_1_prop_types__["string"],
+        labelItemActiveClassName: __WEBPACK_IMPORTED_MODULE_1_prop_types__["string"],
+        labelItemInactiveClassName: __WEBPACK_IMPORTED_MODULE_1_prop_types__["string"],
+        pageContainerClassName: __WEBPACK_IMPORTED_MODULE_1_prop_types__["string"],
+        pageItemClassName: __WEBPACK_IMPORTED_MODULE_1_prop_types__["string"],
+        pageItemActiveClassName: __WEBPACK_IMPORTED_MODULE_1_prop_types__["string"],
+        pageItemInactiveClassName: __WEBPACK_IMPORTED_MODULE_1_prop_types__["string"]
     };
     ReactTabber.defaultProps = {
         tabs: [],
@@ -626,8 +630,8 @@ var ReactTabber = /** @class */ (function (_super) {
         pageItemInactiveClassName: 'page-inactive'
     };
     return ReactTabber;
-}(React.Component));
-module.exports = ReactTabber;
+}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]));
+/* harmony default export */ __webpack_exports__["default"] = (ReactTabber);
 
 
 /***/ }),
@@ -1450,19 +1454,6 @@ module.exports = function() {
 };
 
 
-/***/ }),
-/* 12 */,
-/* 13 */,
-/* 14 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var ReactTabber = __webpack_require__(5);
-module.exports = ReactTabber;
-
-
 /***/ })
-/******/ ]);
+/******/ ])["default"];
 });
-//# sourceMappingURL=react-tabber.js.map

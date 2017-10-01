@@ -1,13 +1,10 @@
 {
   "name": "react-tabber",
-  "nameWithCss": "react-tabber-with-css",
   "version": "0.0.13",
   "description": "A React tab sheet component",
   "main": "index.js",
-  "mainWithCss": "with-css.js",
-  "types": "index.d.ts",
+  "types": "src/ts/react-tabber.d.ts",
   "scripts": {
-    "ts": "tsc -p src/ts/",
     "build": "sh -c 'rm -rf dist/*; tsc; webpack;'"
   },
   "keywords": [
@@ -30,6 +27,7 @@
     "react-dom": "^16.0.0"
   },
   "devDependencies": {
+    "awesome-typescript-loader": "^3.2.3",
     "css-loader": "^0.28.7",
     "style-loader": "^0.18.2",
     "typescript": "^2.5.3",

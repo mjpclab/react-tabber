@@ -1,5 +1,4 @@
-"use strict";
-/// <reference path='main.d.ts' />
+/// <reference path='public.d.ts' />
 /// <reference path='private.d.ts' />
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -11,8 +10,8 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var React = require("react");
-var PropTypes = require("prop-types");
+import * as React from 'react';
+import * as PropTypes from 'prop-types';
 var RE_WHITESPACES = /\s+/;
 function normalizeTriggerEvents(events) {
     if (events) {
@@ -167,4 +166,4 @@ var ReactTabber = /** @class */ (function (_super) {
     };
     return ReactTabber;
 }(React.Component));
-module.exports = ReactTabber;
+export default ReactTabber;

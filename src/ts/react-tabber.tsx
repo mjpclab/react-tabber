@@ -1,8 +1,8 @@
-/// <reference path='main.d.ts' />
+/// <reference path='public.d.ts' />
 /// <reference path='private.d.ts' />
 
-import React = require('react');
-import PropTypes = require('prop-types');
+import * as React from 'react';
+import * as PropTypes from 'prop-types';
 
 const RE_WHITESPACES = /\s+/;
 
@@ -197,4 +197,4 @@ class ReactTabber extends React.Component<ReactTabberProps, ReactTabberState> {
 	}
 }
 
-export = ReactTabber;
+export default ReactTabber;

@@ -1,6 +1,9 @@
 const webpack = require('webpack');
 const path = require('path');
-const fs = require('fs');
+
+const resolveConfig = {
+	extensions: ['.ts', '.tsx', '.js']
+};
 
 function toCapitalize(str) {
 	let result = str.replace(/-+/g, '-').replace(/^-+/, '').replace(/-+$/, '');
@@ -13,26 +16,21 @@ function toCapitalize(str) {
 	return result;
 }
 
-const PACKAGE_FILE = 'package.json';
-const thePackage = JSON.parse(fs.readFileSync(PACKAGE_FILE));
-
-const getEntryConfig = function () {
-	return {
-		[thePackage.name]: path.resolve(__dirname, thePackage.main),
-		[thePackage.nameWithCss]: path.resolve(__dirname, thePackage.mainWithCss)
-	};
+const getEntryConfig = function (entry) {
+	return path.resolve(entry);
 };
 
-const getOutputConfig = function (isMinify) {
+const getOutputConfig = function (libraryName, isMinify) {
 	return {
 		library: {
-			commonjs: '[name]',
-			amd: '[name]',
-			root: toCapitalize(thePackage.name)
+			commonjs: libraryName,
+			amd: libraryName,
+			root: toCapitalize(libraryName)
 		},
 		libraryTarget: 'umd',
-		path: path.resolve(__dirname, 'dist/'),
-		filename: '[name]' + (isMinify ? '.min' : '') + '.js'
+		libraryExport: 'default',
+		path: path.resolve('dist'),
+		filename: libraryName + (isMinify ? '.min' : '') + '.js'
 	};
 };
 
@@ -65,18 +63,28 @@ const externalsConfig = {
 	}
 };
 
-module.exports = [
-	{
-		entry: getEntryConfig(),
-		output: getOutputConfig(false),
+const entries = [
+	{name: 'react-tabber', path: 'src/ts/react-tabber.tsx'},
+	{name: 'react-tabber-with-css', path: 'src/ts/react-tabber-with-css.ts'}
+];
+
+let confs = [];
+entries.forEach(entry => {
+	//development version
+	confs.push({
+		resolve: resolveConfig,
+		entry: getEntryConfig(entry.path),
+		output: getOutputConfig(entry.name, false),
 		module: getModuleConfig(false),
 		externals: externalsConfig,
-		plugins: [],
-		devtool: 'source-map'
-	},
-	{
-		entry: getEntryConfig(),
-		output: getOutputConfig(true),
+		plugins: []
+	});
+
+	//production version
+	confs.push({
+		resolve: resolveConfig,
+		entry: getEntryConfig(entry.path),
+		output: getOutputConfig(entry.name, true),
 		module: getModuleConfig(true),
 		externals: externalsConfig,
 		plugins: [
@@ -92,7 +100,8 @@ module.exports = [
 					'NODE_ENV': JSON.stringify('production')
 				}
 			})
-		],
-		devtool: 'source-map'
-	}
-];
+		]
+	});
+});
+
+module.exports = confs;

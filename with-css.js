@@ -1,3 +1,1 @@
-"use strict";
-var ReactTabber = require("./src/ts/react-tabber-with-css");
-module.exports = ReactTabber;
+module.exports = require('./dist/react-tabber-with-css');
