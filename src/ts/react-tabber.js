@@ -56,10 +56,10 @@ var ReactTabber = /** @class */ (function (_super) {
         var intIndex = parseInt(index);
         return intIndex < 0 ? 0 : index;
     };
-    ReactTabber.prototype.getLabelContainer = function (positionClassName) {
+    ReactTabber.prototype._getLabelContainer = function (tabs, positionClassName) {
         var _this = this;
         var props = this.props;
-        var labelContainer = React.createElement("div", { className: props.labelContainerClassName + ' ' + positionClassName }, this.props.tabs.map(function (tab, index) {
+        var labelContainer = React.createElement("div", { className: props.labelContainerClassName + ' ' + positionClassName }, tabs.map(function (tab, index) {
             var className = props.labelItemClassName + ' ' + (index === _this.currentIndex ? props.labelItemActiveClassName : props.labelItemInactiveClassName);
             var doSwitch = function () {
                 clearTimeout(_this.delayTimeout);
@@ -89,20 +89,26 @@ var ReactTabber = /** @class */ (function (_super) {
         }));
         return labelContainer;
     };
-    ReactTabber.prototype.getPageContainer = function () {
+    ReactTabber.prototype.getHeaderLabelContainer = function (tabs) {
+        return this._getLabelContainer(tabs, this.props.headerLabelContainerClassName);
+    };
+    ReactTabber.prototype.getFooterLabelContainer = function (tabs) {
+        return this._getLabelContainer(tabs, this.props.footerLabelContainerClassName);
+    };
+    ReactTabber.prototype.getPageContainer = function (tabs) {
         var _this = this;
         var props = this.props;
-        return React.createElement("div", { className: props.pageContainerClassName }, this.props.tabs.map(function (tab, index) {
+        return React.createElement("div", { className: props.pageContainerClassName }, tabs.map(function (tab, index) {
             var className = props.pageItemClassName + ' ' + (index === _this.currentIndex ? props.pageItemActiveClassName : props.pageItemInactiveClassName);
             return React.createElement("div", { key: tab.key ? 'key-' + tab.key : 'index-' + index, className: className }, tab.page);
         }));
     };
-    ReactTabber.prototype.getTabContainer = function () {
+    ReactTabber.prototype.getTabContainer = function (tabs) {
         var props = this.props;
         return React.createElement("div", { className: props.tabContainerClassName },
-            props.showHeaderLabelContainer ? this.getLabelContainer(props.headerLabelContainerClassName) : null,
-            this.getPageContainer(),
-            props.showFooterLabelContainer ? this.getLabelContainer(props.footerLabelContainerClassName) : null);
+            props.showHeaderLabelContainer ? this.getHeaderLabelContainer(tabs) : null,
+            this.getPageContainer(tabs),
+            props.showFooterLabelContainer ? this.getFooterLabelContainer(tabs) : null);
     };
     ReactTabber.prototype.switchTo = function (index) {
         this.setState({
@@ -112,19 +118,23 @@ var ReactTabber = /** @class */ (function (_super) {
     ReactTabber.prototype.render = function () {
         var props = this.props;
         var state = this.state;
+        var tabs = props.tabs;
+        if (!tabs) {
+            return null;
+        }
         var oldIndex = this.currentIndex;
-        var newIndex = this.currentIndex = state.targetIndex >= props.tabs.length ? props.tabs.length - 1 : state.targetIndex;
+        var newIndex = this.currentIndex = state.targetIndex >= tabs.length ? tabs.length - 1 : state.targetIndex;
         if (oldIndex !== newIndex && props.onSwitch) {
             props.onSwitch(oldIndex, newIndex);
         }
-        return this.props.tabs ? this.getTabContainer() : null;
+        return this.getTabContainer(tabs);
     };
     ReactTabber.propTypes = {
         tabs: PropTypes.arrayOf(PropTypes.shape({
             label: PropTypes.node.isRequired,
             page: PropTypes.node.isRequired,
             key: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-        })).isRequired,
+        })),
         triggerEvents: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]),
         delayTriggerEvents: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]),
         delayTriggerCancelEvents: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]),

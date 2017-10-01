@@ -5,7 +5,7 @@ import * as React from 'react';
 import * as PropTypes from 'prop-types';
 declare class ReactTabber extends React.Component<ReactTabberProps, ReactTabberState> {
     static propTypes: {
-        tabs: PropTypes.Validator<any>;
+        tabs: PropTypes.Requireable<any>;
         triggerEvents: PropTypes.Requireable<any>;
         delayTriggerEvents: PropTypes.Requireable<any>;
         delayTriggerCancelEvents: PropTypes.Requireable<any>;
@@ -36,9 +36,11 @@ declare class ReactTabber extends React.Component<ReactTabberProps, ReactTabberS
     componentWillMount(): void;
     componentWillUnmount(): void;
     private getValidIndex(index);
-    private getLabelContainer(positionClassName);
-    private getPageContainer();
-    private getTabContainer();
+    private _getLabelContainer(tabs, positionClassName);
+    private getHeaderLabelContainer(tabs);
+    private getFooterLabelContainer(tabs);
+    private getPageContainer(tabs);
+    private getTabContainer(tabs);
     private switchTo(index);
     render(): JSX.Element | null;
 }

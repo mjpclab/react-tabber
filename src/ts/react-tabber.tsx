@@ -31,7 +31,7 @@ class ReactTabber extends React.Component<ReactTabberProps, ReactTabberState> {
 			label: PropTypes.node.isRequired,
 			page: PropTypes.node.isRequired,
 			key: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-		})).isRequired,
+		})),
 		triggerEvents: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]),
 		delayTriggerEvents: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]),
 		delayTriggerCancelEvents: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]),
@@ -114,11 +114,11 @@ class ReactTabber extends React.Component<ReactTabberProps, ReactTabberState> {
 		return intIndex < 0 ? 0 : index;
 	}
 
-	private getLabelContainer(positionClassName: string) {
+	private _getLabelContainer(tabs: ReactTabberItem[], positionClassName: string) {
 		const props = this.props;
 
 		const labelContainer = <div className={props.labelContainerClassName + ' ' + positionClassName}>
-			{this.props.tabs!.map((tab, index) => {
+			{tabs.map((tab, index) => {
 				const className = props.labelItemClassName + ' ' + (index === this.currentIndex ? props.labelItemActiveClassName : props.labelItemInactiveClassName);
 				const doSwitch = () => {
 					clearTimeout(this.delayTimeout);
@@ -153,11 +153,19 @@ class ReactTabber extends React.Component<ReactTabberProps, ReactTabberState> {
 		return labelContainer;
 	}
 
-	private getPageContainer() {
+	private getHeaderLabelContainer(tabs: ReactTabberItem[]) {
+		return this._getLabelContainer(tabs, this.props.headerLabelContainerClassName!);
+	}
+
+	private getFooterLabelContainer(tabs: ReactTabberItem[]) {
+		return this._getLabelContainer(tabs, this.props.footerLabelContainerClassName!);
+	}
+
+	private getPageContainer(tabs: ReactTabberItem[]) {
 		const props = this.props;
 
 		return <div className={props.pageContainerClassName}>
-			{this.props.tabs!.map((tab, index) => {
+			{tabs.map((tab, index) => {
 				const className = props.pageItemClassName + ' ' + (index === this.currentIndex ? props.pageItemActiveClassName : props.pageItemInactiveClassName);
 				return <div
 					key={tab.key ? 'key-' + tab.key : 'index-' + index}
@@ -167,13 +175,13 @@ class ReactTabber extends React.Component<ReactTabberProps, ReactTabberState> {
 		</div>;
 	}
 
-	private getTabContainer() {
+	private getTabContainer(tabs: ReactTabberItem[]) {
 		const props = this.props;
 
 		return <div className={props.tabContainerClassName}>
-			{props.showHeaderLabelContainer ? this.getLabelContainer(props.headerLabelContainerClassName!) : null}
-			{this.getPageContainer()}
-			{props.showFooterLabelContainer ? this.getLabelContainer(props.footerLabelContainerClassName!) : null}
+			{props.showHeaderLabelContainer ? this.getHeaderLabelContainer(tabs) : null}
+			{this.getPageContainer(tabs)}
+			{props.showFooterLabelContainer ? this.getFooterLabelContainer(tabs) : null}
 		</div>;
 	}
 
@@ -186,14 +194,19 @@ class ReactTabber extends React.Component<ReactTabberProps, ReactTabberState> {
 	render() {
 		const props = this.props;
 		const state = this.state;
+		const tabs = props.tabs;
+
+		if (!tabs) {
+			return null;
+		}
 
 		const oldIndex = this.currentIndex;
-		const newIndex = this.currentIndex = state.targetIndex >= props.tabs!.length ? props.tabs!.length - 1 : state.targetIndex;
+		const newIndex = this.currentIndex = state.targetIndex >= tabs.length ? tabs.length - 1 : state.targetIndex;
 		if (oldIndex !== newIndex && props.onSwitch) {
 			props.onSwitch(oldIndex, newIndex);
 		}
 
-		return this.props.tabs ? this.getTabContainer() : null;
+		return this.getTabContainer(tabs);
 	}
 }
 

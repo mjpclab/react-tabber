@@ -1163,10 +1163,10 @@ var ReactTabber = /** @class */ (function (_super) {
         var intIndex = parseInt(index);
         return intIndex < 0 ? 0 : index;
     };
-    ReactTabber.prototype.getLabelContainer = function (positionClassName) {
+    ReactTabber.prototype._getLabelContainer = function (tabs, positionClassName) {
         var _this = this;
         var props = this.props;
-        var labelContainer = __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", { className: props.labelContainerClassName + ' ' + positionClassName }, this.props.tabs.map(function (tab, index) {
+        var labelContainer = __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", { className: props.labelContainerClassName + ' ' + positionClassName }, tabs.map(function (tab, index) {
             var className = props.labelItemClassName + ' ' + (index === _this.currentIndex ? props.labelItemActiveClassName : props.labelItemInactiveClassName);
             var doSwitch = function () {
                 clearTimeout(_this.delayTimeout);
@@ -1196,20 +1196,26 @@ var ReactTabber = /** @class */ (function (_super) {
         }));
         return labelContainer;
     };
-    ReactTabber.prototype.getPageContainer = function () {
+    ReactTabber.prototype.getHeaderLabelContainer = function (tabs) {
+        return this._getLabelContainer(tabs, this.props.headerLabelContainerClassName);
+    };
+    ReactTabber.prototype.getFooterLabelContainer = function (tabs) {
+        return this._getLabelContainer(tabs, this.props.footerLabelContainerClassName);
+    };
+    ReactTabber.prototype.getPageContainer = function (tabs) {
         var _this = this;
         var props = this.props;
-        return __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", { className: props.pageContainerClassName }, this.props.tabs.map(function (tab, index) {
+        return __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", { className: props.pageContainerClassName }, tabs.map(function (tab, index) {
             var className = props.pageItemClassName + ' ' + (index === _this.currentIndex ? props.pageItemActiveClassName : props.pageItemInactiveClassName);
             return __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", { key: tab.key ? 'key-' + tab.key : 'index-' + index, className: className }, tab.page);
         }));
     };
-    ReactTabber.prototype.getTabContainer = function () {
+    ReactTabber.prototype.getTabContainer = function (tabs) {
         var props = this.props;
         return __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", { className: props.tabContainerClassName },
-            props.showHeaderLabelContainer ? this.getLabelContainer(props.headerLabelContainerClassName) : null,
-            this.getPageContainer(),
-            props.showFooterLabelContainer ? this.getLabelContainer(props.footerLabelContainerClassName) : null);
+            props.showHeaderLabelContainer ? this.getHeaderLabelContainer(tabs) : null,
+            this.getPageContainer(tabs),
+            props.showFooterLabelContainer ? this.getFooterLabelContainer(tabs) : null);
     };
     ReactTabber.prototype.switchTo = function (index) {
         this.setState({
@@ -1219,19 +1225,23 @@ var ReactTabber = /** @class */ (function (_super) {
     ReactTabber.prototype.render = function () {
         var props = this.props;
         var state = this.state;
+        var tabs = props.tabs;
+        if (!tabs) {
+            return null;
+        }
         var oldIndex = this.currentIndex;
-        var newIndex = this.currentIndex = state.targetIndex >= props.tabs.length ? props.tabs.length - 1 : state.targetIndex;
+        var newIndex = this.currentIndex = state.targetIndex >= tabs.length ? tabs.length - 1 : state.targetIndex;
         if (oldIndex !== newIndex && props.onSwitch) {
             props.onSwitch(oldIndex, newIndex);
         }
-        return this.props.tabs ? this.getTabContainer() : null;
+        return this.getTabContainer(tabs);
     };
     ReactTabber.propTypes = {
         tabs: __WEBPACK_IMPORTED_MODULE_1_prop_types__["arrayOf"](__WEBPACK_IMPORTED_MODULE_1_prop_types__["shape"]({
             label: __WEBPACK_IMPORTED_MODULE_1_prop_types__["node"].isRequired,
             page: __WEBPACK_IMPORTED_MODULE_1_prop_types__["node"].isRequired,
             key: __WEBPACK_IMPORTED_MODULE_1_prop_types__["oneOfType"]([__WEBPACK_IMPORTED_MODULE_1_prop_types__["string"], __WEBPACK_IMPORTED_MODULE_1_prop_types__["number"]])
-        })).isRequired,
+        })),
         triggerEvents: __WEBPACK_IMPORTED_MODULE_1_prop_types__["oneOfType"]([__WEBPACK_IMPORTED_MODULE_1_prop_types__["string"], __WEBPACK_IMPORTED_MODULE_1_prop_types__["arrayOf"](__WEBPACK_IMPORTED_MODULE_1_prop_types__["string"])]),
         delayTriggerEvents: __WEBPACK_IMPORTED_MODULE_1_prop_types__["oneOfType"]([__WEBPACK_IMPORTED_MODULE_1_prop_types__["string"], __WEBPACK_IMPORTED_MODULE_1_prop_types__["arrayOf"](__WEBPACK_IMPORTED_MODULE_1_prop_types__["string"])]),
         delayTriggerCancelEvents: __WEBPACK_IMPORTED_MODULE_1_prop_types__["oneOfType"]([__WEBPACK_IMPORTED_MODULE_1_prop_types__["string"], __WEBPACK_IMPORTED_MODULE_1_prop_types__["arrayOf"](__WEBPACK_IMPORTED_MODULE_1_prop_types__["string"])]),
