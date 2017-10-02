@@ -65,7 +65,7 @@ const externalsConfig = {
 
 const entries = [
 	{name: 'react-tabber', path: 'src/ts/react-tabber.tsx'},
-	{name: 'react-tabber-with-css', path: 'src/ts/react-tabber-with-css.ts'}
+	{name: 'react-tabber-with-css', path: 'with-css.ts'}
 ];
 
 let confs = [];

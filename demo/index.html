@@ -37,9 +37,6 @@
 						<ReactTabberPage>content 4</ReactTabberPage>
 						<p>another content 4. wrapped element in ReactTabberPage can be omitted.</p>
 					</ReactTabber>
-
-					<button onClick={addTab}>Add Tab</button>
-					<button onClick={removeTab}>Remove Tab</button>
 				</div>,
 			document.getElementById('container')
 		);
@@ -47,21 +44,6 @@
 
 	function onSwitch(oldIndex, newIndex) {
 		console.log('switched ' + oldIndex + ' ' + newIndex);
-	}
-
-	function addTab() {
-		tabs.push({
-			label: 'label-' + (tabs.length + 1),
-			page: 'content-' + (tabs.length + 1)
-		});
-		render();
-	}
-
-	function removeTab() {
-		if (tabs.length) {
-			tabs.length--;
-			render();
-		}
 	}
 
 	render();

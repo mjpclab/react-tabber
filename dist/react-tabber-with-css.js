@@ -900,12 +900,16 @@ module.exports = warning;
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__css_layout_css__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__css_layout_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__css_layout_css__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__css_skin_gray_css__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__css_skin_gray_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__css_skin_gray_css__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__react_tabber__ = __webpack_require__(13);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return __WEBPACK_IMPORTED_MODULE_2__react_tabber__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__src_css_layout_css__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__src_css_layout_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__src_css_layout_css__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_css_skin_gray_css__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_css_skin_gray_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__src_css_skin_gray_css__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__src_ts_react_tabber__ = __webpack_require__(13);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return __WEBPACK_IMPORTED_MODULE_2__src_ts_react_tabber__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "ReactTabber", function() { return __WEBPACK_IMPORTED_MODULE_2__src_ts_react_tabber__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "ReactTabberLabel", function() { return __WEBPACK_IMPORTED_MODULE_2__src_ts_react_tabber__["b"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "ReactTabberPage", function() { return __WEBPACK_IMPORTED_MODULE_2__src_ts_react_tabber__["c"]; });
+
 
 
 
@@ -1101,16 +1105,16 @@ exports.push([module.i, ".tab-container > .page-container,\n.tab-container-vert 
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* unused harmony export default */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ReactTabber; });
-/* unused harmony export ReactTabber */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__react_tabber_label__ = __webpack_require__(20);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__react_tabber_page__ = __webpack_require__(21);
-/* unused harmony reexport ReactTabberLabel */
-/* unused harmony reexport ReactTabberPage */
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_2__react_tabber_label__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __WEBPACK_IMPORTED_MODULE_3__react_tabber_page__["a"]; });
 /// <reference path='public.d.ts' />
 /// <reference path='private.d.ts' />
 var __extends = (this && this.__extends) || (function () {
