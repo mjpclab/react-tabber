@@ -56,7 +56,7 @@ ReactDOM.render(<ReactTabber tabs={tabs}/>, document.getElementById('container')
 ```
 ### By JSX template
 You can declare labels and pages by JSX template style. `ReactTabberLabel` represents a label and `ReactTabberPage` represents a page.
-Optional keys are specified onto `ReactTabberLabel`.
+Optional keys are specified onto `ReactTabberLabel`s.
 Continues multiple `ReactTabberPage`s are allowed, they are just belongs to the same closest `ReactTabberLabel`.
 `ReactTabberPage` Element can be omitted if inside contents has another element to wrap them.
 ```jsx

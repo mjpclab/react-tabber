@@ -1,5 +1,7 @@
-function ReactTabberLabel() {
-	return null;
+import {Component} from 'react';
+
+class ReactTabberPage extends Component {
+
 }
 
-export default ReactTabberLabel;
+export default ReactTabberPage;
