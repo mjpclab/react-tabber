@@ -17,6 +17,9 @@
 
 <script type="text/javascript" src="../dist/react-tabber.js"></script>
 <script type="text/babel">
+	var ReactTabberLabel=ReactTabber.Label;
+	var ReactTabberPage=ReactTabber.Page;
+
 	const tabs = [
 		{label: 'title1', page: <div>content1</div>},
 		{label: <span>title2</span>, page: <div>content2</div>}
@@ -25,7 +28,16 @@
 	function render() {
 		ReactDOM.render(
 				<div>
-					<ReactTabber tabs={tabs} onSwitch={onSwitch}/>
+					<ReactTabber tabs={tabs} onSwitch={onSwitch}>
+						<ReactTabberLabel>title <b>3</b></ReactTabberLabel>
+						<ReactTabberPage>content <b>3</b>. </ReactTabberPage>
+						<ReactTabberPage>another content <b>3</b>. </ReactTabberPage>
+
+						<ReactTabberLabel>title 4</ReactTabberLabel>
+						<ReactTabberPage>content 4</ReactTabberPage>
+						<p>another content 4. wrapped element in ReactTabberPage can be omitted.</p>
+					</ReactTabber>
+
 					<button onClick={addTab}>Add Tab</button>
 					<button onClick={removeTab}>Remove Tab</button>
 				</div>,

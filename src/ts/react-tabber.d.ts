@@ -3,7 +3,11 @@
 /// <reference types="react" />
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
+import ReactTabberLabel from './react-tabber-label';
+import ReactTabberPage from './react-tabber-page';
 declare class ReactTabber extends React.Component<ReactTabberProps, ReactTabberState> {
+    static Label: typeof ReactTabberLabel;
+    static Page: typeof ReactTabberPage;
     static propTypes: {
         tabs: PropTypes.Requireable<any>;
         triggerEvents: PropTypes.Requireable<any>;
@@ -42,6 +46,7 @@ declare class ReactTabber extends React.Component<ReactTabberProps, ReactTabberS
     private getPageContainer(tabs);
     private getTabContainer(tabs);
     private switchTo(index);
+    private getTabs();
     render(): JSX.Element | null;
 }
-export default ReactTabber;
+export { ReactTabber as default, ReactTabber, ReactTabberLabel, ReactTabberPage };

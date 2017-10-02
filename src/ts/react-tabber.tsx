@@ -4,6 +4,10 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 
+import ReactTabberLabel from './react-tabber-label';
+import ReactTabberPage from './react-tabber-page';
+import {ReactElement} from "react";
+
 const RE_WHITESPACES = /\s+/;
 
 function normalizeTriggerEvents(events: string | string[] | undefined): string[] | undefined {
@@ -26,6 +30,9 @@ function fillEventHandler(props: JSXProps, events: string[] | undefined | null, 
 }
 
 class ReactTabber extends React.Component<ReactTabberProps, ReactTabberState> {
+	static Label = ReactTabberLabel;
+	static Page = ReactTabberPage;
+
 	static propTypes = {
 		tabs: PropTypes.arrayOf(PropTypes.shape({
 			label: PropTypes.node.isRequired,
@@ -191,23 +198,95 @@ class ReactTabber extends React.Component<ReactTabberProps, ReactTabberState> {
 		});
 	}
 
-	render() {
+	private getTabs() {
 		const props = this.props;
-		const state = this.state;
-		const tabs = props.tabs;
+
+		const tabs: ReactTabberItem[] = [];
+
+		//props.tabs
+		if (props.tabs!.length) {
+			tabs.push.apply(tabs, props.tabs);
+		}
+
+		//props.children
+		if (props.children) {
+			let currentLabel: ReactTabberNode[] = [];
+			let currentPage: ReactTabberNode[] = [];
+			let key: string | undefined;
+
+			React.Children.forEach(props.children, item => {
+				const element = item as ReactElement<any>;
+				if (element.type && element.type === ReactTabberLabel) {
+					if (currentLabel.length) {
+						tabs.push({
+							label: currentLabel.length === 1 ? currentLabel[0] : currentLabel,
+							page: currentPage.length === 1 ? currentPage[0] : currentPage,
+							key: key
+						});
+					}
+					currentLabel = [];
+					if (Array.isArray(element.props.children)) {
+						currentLabel.push.apply(currentLabel, element.props.children);
+					}
+					else {
+						currentLabel.push(element.props.children);
+					}
+					currentPage = [];
+					key = element.key ? 'key-' + element.key : 'index-' + tabs.length;
+				}
+				else {
+					if (!currentLabel.length) {
+						currentLabel.push('');
+					}
+					if (element.type && element.type === ReactTabberPage) {
+						if (Array.isArray(element.props.children)) {
+							currentPage.push.apply(currentPage, element.props.children);
+						}
+						else {
+							currentPage.push(element.props.children);
+						}
+					}
+					else if (element.type) {
+						currentPage.push(element);
+					}
+				}
+			});
+
+			if (currentLabel.length) {
+				tabs.push({
+					label: currentLabel.length === 1 ? currentLabel[0] : currentLabel,
+					page: currentPage.length === 1 ? currentPage[0] : currentPage,
+					key: key
+				});
+			}
+		}
+
+		return tabs;
+	}
+
+	render() {
+		const self = this;
+		const props = self.props;
+		const state = self.state;
+		const tabs = self.getTabs();
 
 		if (!tabs) {
 			return null;
 		}
 
-		const oldIndex = this.currentIndex;
-		const newIndex = this.currentIndex = state.targetIndex >= tabs.length ? tabs.length - 1 : state.targetIndex;
+		const oldIndex = self.currentIndex;
+		const newIndex = self.currentIndex = state.targetIndex >= tabs.length ? tabs.length - 1 : state.targetIndex;
 		if (oldIndex !== newIndex && props.onSwitch) {
 			props.onSwitch(oldIndex, newIndex);
 		}
 
-		return this.getTabContainer(tabs);
+		return self.getTabContainer(tabs);
 	}
 }
 
-export default ReactTabber;
+export {
+	ReactTabber as default,
+	ReactTabber,
+	ReactTabberLabel,
+	ReactTabberPage
+}

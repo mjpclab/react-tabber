@@ -1,6 +1,6 @@
 {
   "name": "react-tabber",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "A React tab sheet component",
   "main": "index.js",
   "types": "src/ts/react-tabber.d.ts",
@@ -29,6 +29,7 @@
   "devDependencies": {
     "awesome-typescript-loader": "^3.2.3",
     "css-loader": "^0.28.7",
+    "exports-loader": "^0.6.4",
     "style-loader": "^0.18.2",
     "typescript": "^2.5.3",
     "webpack": "^3.6.0"

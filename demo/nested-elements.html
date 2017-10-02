@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<title>Demo</title>
+	<link rel="stylesheet" type="text/css" href="../src/css/layout.css"/>
+	<link rel="stylesheet" type="text/css" href="../src/css/skin-gray.css"/>
+	<link rel="stylesheet" type="text/css" href="css/main.css"/>
+</head>
+<body>
+<div id="container"></div>
+
+<script type="text/javascript" src="../node_modules/react/umd/react.development.js"></script>
+<script type="text/javascript" src="../node_modules/react-dom/umd/react-dom.development.js"></script>
+<script type="text/javascript" src="js/browser.min.js"></script>
+
+<script type="text/javascript" src="../dist/react-tabber.js"></script>
+<script type="text/babel">
+	var ReactTabberLabel = ReactTabber.Label;
+	var ReactTabberPage = ReactTabber.Page;
+
+	ReactDOM.render(<ReactTabber>
+				<ReactTabberLabel>A</ReactTabberLabel>
+				<ReactTabber tabContainerClassName="tab-container-vert">
+					<ReactTabberLabel>A-1</ReactTabberLabel>
+					<ReactTabber>
+						<ReactTabberLabel>A-1-1</ReactTabberLabel>
+						<ReactTabberPage>a-1-1</ReactTabberPage>
+						<ReactTabberLabel>A-1-2</ReactTabberLabel>
+						<ReactTabberPage>a-1-2</ReactTabberPage>
+					</ReactTabber>
+
+					<ReactTabberLabel>A-2</ReactTabberLabel>
+					<ReactTabberPage>a-2</ReactTabberPage>
+				</ReactTabber>
+
+				<ReactTabberLabel>B</ReactTabberLabel>
+				<ReactTabberPage>b</ReactTabberPage>
+			</ReactTabber>,
+		document.getElementById('container')
+	);
+</script>
+</body>
+</html>

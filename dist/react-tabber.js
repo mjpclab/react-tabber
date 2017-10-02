@@ -459,10 +459,16 @@ module.exports = warning;
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return ReactTabber; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ReactTabber", function() { return ReactTabber; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__react_tabber_label__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__react_tabber_page__ = __webpack_require__(13);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "ReactTabberLabel", function() { return __WEBPACK_IMPORTED_MODULE_2__react_tabber_label__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "ReactTabberPage", function() { return __WEBPACK_IMPORTED_MODULE_3__react_tabber_page__["a"]; });
 /// <reference path='public.d.ts' />
 /// <reference path='private.d.ts' />
 var __extends = (this && this.__extends) || (function () {
@@ -475,6 +481,8 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+
+
 
 
 var RE_WHITESPACES = /\s+/;
@@ -580,20 +588,82 @@ var ReactTabber = /** @class */ (function (_super) {
             targetIndex: this.getValidIndex(index)
         });
     };
-    ReactTabber.prototype.render = function () {
+    ReactTabber.prototype.getTabs = function () {
         var props = this.props;
-        var state = this.state;
-        var tabs = props.tabs;
+        var tabs = [];
+        //props.tabs
+        if (props.tabs.length) {
+            tabs.push.apply(tabs, props.tabs);
+        }
+        //props.children
+        if (props.children) {
+            var currentLabel_1 = [];
+            var currentPage_1 = [];
+            var key_1;
+            __WEBPACK_IMPORTED_MODULE_0_react__["Children"].forEach(props.children, function (item) {
+                var element = item;
+                if (element.type && element.type === __WEBPACK_IMPORTED_MODULE_2__react_tabber_label__["a" /* default */]) {
+                    if (currentLabel_1.length) {
+                        tabs.push({
+                            label: currentLabel_1.length === 1 ? currentLabel_1[0] : currentLabel_1,
+                            page: currentPage_1.length === 1 ? currentPage_1[0] : currentPage_1,
+                            key: key_1
+                        });
+                    }
+                    currentLabel_1 = [];
+                    if (Array.isArray(element.props.children)) {
+                        currentLabel_1.push.apply(currentLabel_1, element.props.children);
+                    }
+                    else {
+                        currentLabel_1.push(element.props.children);
+                    }
+                    currentPage_1 = [];
+                    key_1 = element.key ? 'key-' + element.key : 'index-' + tabs.length;
+                }
+                else {
+                    if (!currentLabel_1.length) {
+                        currentLabel_1.push('');
+                    }
+                    if (element.type && element.type === __WEBPACK_IMPORTED_MODULE_3__react_tabber_page__["a" /* default */]) {
+                        if (Array.isArray(element.props.children)) {
+                            currentPage_1.push.apply(currentPage_1, element.props.children);
+                        }
+                        else {
+                            currentPage_1.push(element.props.children);
+                        }
+                    }
+                    else if (element.type) {
+                        currentPage_1.push(element);
+                    }
+                }
+            });
+            if (currentLabel_1.length) {
+                tabs.push({
+                    label: currentLabel_1.length === 1 ? currentLabel_1[0] : currentLabel_1,
+                    page: currentPage_1.length === 1 ? currentPage_1[0] : currentPage_1,
+                    key: key_1
+                });
+            }
+        }
+        return tabs;
+    };
+    ReactTabber.prototype.render = function () {
+        var self = this;
+        var props = self.props;
+        var state = self.state;
+        var tabs = self.getTabs();
         if (!tabs) {
             return null;
         }
-        var oldIndex = this.currentIndex;
-        var newIndex = this.currentIndex = state.targetIndex >= tabs.length ? tabs.length - 1 : state.targetIndex;
+        var oldIndex = self.currentIndex;
+        var newIndex = self.currentIndex = state.targetIndex >= tabs.length ? tabs.length - 1 : state.targetIndex;
         if (oldIndex !== newIndex && props.onSwitch) {
             props.onSwitch(oldIndex, newIndex);
         }
-        return this.getTabContainer(tabs);
+        return self.getTabContainer(tabs);
     };
+    ReactTabber.Label = __WEBPACK_IMPORTED_MODULE_2__react_tabber_label__["a" /* default */];
+    ReactTabber.Page = __WEBPACK_IMPORTED_MODULE_3__react_tabber_page__["a" /* default */];
     ReactTabber.propTypes = {
         tabs: __WEBPACK_IMPORTED_MODULE_1_prop_types__["arrayOf"](__WEBPACK_IMPORTED_MODULE_1_prop_types__["shape"]({
             label: __WEBPACK_IMPORTED_MODULE_1_prop_types__["node"].isRequired,
@@ -641,7 +711,7 @@ var ReactTabber = /** @class */ (function (_super) {
     };
     return ReactTabber;
 }(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]));
-/* harmony default export */ __webpack_exports__["default"] = (ReactTabber);
+
 
 
 /***/ }),
@@ -1462,6 +1532,28 @@ module.exports = function() {
 
   return ReactPropTypes;
 };
+
+
+/***/ }),
+/* 12 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+function ReactTabberLabel() {
+    return null;
+}
+/* harmony default export */ __webpack_exports__["a"] = (ReactTabberLabel);
+
+
+/***/ }),
+/* 13 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+function ReactTabberLabel() {
+    return null;
+}
+/* harmony default export */ __webpack_exports__["a"] = (ReactTabberLabel);
 
 
 /***/ })

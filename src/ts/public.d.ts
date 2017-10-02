@@ -1,7 +1,4 @@
-type ReactTabberNode = string | number | JSX.Element | React.Component;
-
-interface ReactTabber {
-}
+type ReactTabberNode = string | number | JSX.Element | React.Component | boolean | null | undefined;
 
 interface ReactTabberItem {
 	label: ReactTabberNode | ReactTabberNode[];

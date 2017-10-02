@@ -40,22 +40,43 @@ require(['react-tabber'], function(ReactTabber) {
 *Using global variable mode*  
 if you are using React and ReactTabber in global variable mode, which means there is no module loader environment, `ReactTabber` will be a property of global scope.
 
-## Prepare tabs array
+## Prepare tabs array and render
+### By data structure
 You need to collect all components that want to put into tabs array.
 Each array item has property `label` and `page`, which can be a string, a number, a native DOM element, another React component, or array of these types of item.
 It also has an optional property `key` for the item which can improve performance if tabs array are changed dynamically and trigger render by it's parent component.
 Here is the example of tabs array:
 ```jsx
 let tabs = [
-  {label: 'label1', page: <div>content1</div>, key: 'tab1'},
-  {label: <span>label2</span>, page: <div>content2</div>, key: 'tab2'}
+  {label: 'label1', page: <div>content 1</div>, key: 'tab1'},
+  {label: 'label2', page: <div>content 2</div>, key: 'tab2'}
 ];
+
+ReactDOM.render(<ReactTabber tabs={tabs}/>, document.getElementById('container'));
+```
+### By JSX template
+You can declare labels and pages by JSX template style. `ReactTabberLabel` represents a label and `ReactTabberPage` represents a page.
+Optional keys are specified onto `ReactTabberLabel`.
+Continues multiple `ReactTabberPage`s are allowed, they are just belongs to the same closest `ReactTabberLabel`.
+`ReactTabberPage` Element can be omitted if inside contents has another element to wrap them.
+```jsx
+import {ReactTabber, ReactTabberLabel, ReactTabberPage} from 'react-tabber';
+ReactDOM.render(
+	<div>
+		<ReactTabber>
+			<ReactTabberLabel key="tab1">label1</ReactTabberLabel>
+			<ReactTabberPage>content 1</ReactTabberPage>
+
+			<ReactTabberLabel key="tab2">label2</ReactTabberLabel>
+			<ReactTabberPage>content 2</ReactTabberPage>
+		</ReactTabber>
+	</div>,
+	document.getElementById('container')
+);
 ```
 
 ## Render ReactTabber using tabs array
-```jsx
-ReactDOM.render(<ReactTabber tabs={tabs}/>, document.getElementById('container'));
-```
+
 While `tabs` is a mandatory property for the ReactTabber component, there are also other optional properties you maybe interested in.
 See the "Properties" part below.
 
