@@ -62,23 +62,33 @@ Continues multiple `ReactTabberPage`s are allowed, they are just belongs to the 
 ```jsx
 import {ReactTabber, ReactTabberLabel, ReactTabberPage} from 'react-tabber';
 ReactDOM.render(
-	<div>
-		<ReactTabber>
-			<ReactTabberLabel key="tab1">label1</ReactTabberLabel>
-			<ReactTabberPage>content 1</ReactTabberPage>
+	<ReactTabber>
+		<ReactTabberLabel key="tab1">label1</ReactTabberLabel>
+		<ReactTabberPage>content 1</ReactTabberPage>
 
-			<ReactTabberLabel key="tab2">label2</ReactTabberLabel>
-			<ReactTabberPage>content 2</ReactTabberPage>
-		</ReactTabber>
-	</div>,
+		<ReactTabberLabel key="tab2">label2</ReactTabberLabel>
+		<ReactTabberPage>content 2</ReactTabberPage>
+	</ReactTabber>,
 	document.getElementById('container')
 );
 ```
+For commonjs, AMD and global variable mode, import ReactTabberLabel, ReactTabberPage from ReactTabber:
+```javascript
+//commonjs
+var ReactTabber = require('react-tabber');
+var ReactTabberLabel = ReactTabber.Label;
+var ReactTabberPage = ReactTabber.Page;
 
-## Render ReactTabber using tabs array
+//AMD
+require(['react-tabber'], function (ReactTabber) {
+	var ReactTabberLabel = ReactTabber.Label;
+	var ReactTabberPage = ReactTabber.Page;
+});
 
-While `tabs` is a mandatory property for the ReactTabber component, there are also other optional properties you maybe interested in.
-See the "Properties" part below.
+//global variable
+var ReactTabberLabel = ReactTabber.Label;
+var ReactTabberPage = ReactTabber.Page;
+```
 
 # Including CSS
 By default, "react-tabber" module do not have any CSS style applied, which means all tab pages are always visible on the page.
@@ -88,7 +98,8 @@ ReactTabber provides default CSS styles if you don't want to make it yourself. I
 
 ## Use CSS bundled version
 For module environment, importing module `react-tabber/with-css` instead of `react-tabber`.
-For global variable mode, referencing the '-with-css' bundle file.
+
+For global variable mode, referencing the '-with-css' bundle file. Variable name will be `ReactTabberWithCss` insteadof `ReactTabber`.
 
 ## Use standalone CSS file
 Copying or referencing source CSS files under `src/css/` directory.
@@ -101,10 +112,14 @@ ReactDOM.render(<ReactTabber tabs={tabs} tabContainerClassName="tab-container-ve
 ```
 
 # Properties
+Properties are options specified as attribute on to ReactTabber:
+```jsx
+<ReactTabber option1="value1" option2="value2"/>
+```
 ## Behavior Properties
 `tabs`  
-Specify tabs you want to render as a tab, should be an array of rendering items, which has property `label` and `page`.
-`label` will be shown on tab label container, `page` is the content of the tab.
+Specify tabs you want to render as a tab, should be an array of rendering items, which has property `label`, `page` and optional `key`.
+`label` will be shown on tab label container. `page` is the content of the tab. `key` is used to identify different tab labels and pages.
 
 `triggerEvents`  
 Determine the types of React Element events triggered on label-item that will make the page-item switched.
