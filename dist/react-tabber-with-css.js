@@ -1253,8 +1253,7 @@ var ReactTabber = /** @class */ (function (_super) {
             var currentPage_1 = [];
             var key_1;
             __WEBPACK_IMPORTED_MODULE_0_react__["Children"].forEach(props.children, function (item) {
-                var element = item;
-                if (element.type && element.type === __WEBPACK_IMPORTED_MODULE_2__react_tabber_label__["a" /* default */]) {
+                if (item.type && item.type === __WEBPACK_IMPORTED_MODULE_2__react_tabber_label__["a" /* default */]) {
                     if (currentLabel_1.length) {
                         tabs.push({
                             label: currentLabel_1.length === 1 ? currentLabel_1[0] : currentLabel_1,
@@ -1263,29 +1262,29 @@ var ReactTabber = /** @class */ (function (_super) {
                         });
                     }
                     currentLabel_1 = [];
-                    if (Array.isArray(element.props.children)) {
-                        currentLabel_1.push.apply(currentLabel_1, element.props.children);
+                    if (Array.isArray(item.props.children)) {
+                        currentLabel_1.push.apply(currentLabel_1, item.props.children);
                     }
                     else {
-                        currentLabel_1.push(element.props.children);
+                        currentLabel_1.push(item.props.children);
                     }
                     currentPage_1 = [];
-                    key_1 = element.key ? 'key-' + element.key : 'index-' + tabs.length;
+                    key_1 = item.key ? 'key-' + item.key : 'index-' + tabs.length;
                 }
                 else {
                     if (!currentLabel_1.length) {
                         currentLabel_1.push('');
                     }
-                    if (element.type && element.type === __WEBPACK_IMPORTED_MODULE_3__react_tabber_page__["a" /* default */]) {
-                        if (Array.isArray(element.props.children)) {
-                            currentPage_1.push.apply(currentPage_1, element.props.children);
+                    if (item.type && item.type === __WEBPACK_IMPORTED_MODULE_3__react_tabber_page__["a" /* default */]) {
+                        if (Array.isArray(item.props.children)) {
+                            currentPage_1.push.apply(currentPage_1, item.props.children);
                         }
                         else {
-                            currentPage_1.push(element.props.children);
+                            currentPage_1.push(item.props.children);
                         }
                     }
-                    else if (element.type) {
-                        currentPage_1.push(element);
+                    else if (item.type) {
+                        currentPage_1.push(item);
                     }
                 }
             });
@@ -1304,9 +1303,6 @@ var ReactTabber = /** @class */ (function (_super) {
         var props = self.props;
         var state = self.state;
         var tabs = self.getTabs();
-        if (!tabs) {
-            return null;
-        }
         var oldIndex = self.currentIndex;
         var newIndex = self.currentIndex = state.targetIndex >= tabs.length ? tabs.length - 1 : state.targetIndex;
         if (oldIndex !== newIndex && props.onSwitch) {

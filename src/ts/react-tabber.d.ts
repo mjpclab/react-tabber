@@ -47,6 +47,6 @@ declare class ReactTabber extends React.Component<ReactTabberProps, ReactTabberS
     private getTabContainer(tabs);
     private switchTo(index);
     private getTabs();
-    render(): JSX.Element | null;
+    render(): JSX.Element;
 }
 export { ReactTabber as default, ReactTabber, ReactTabberLabel, ReactTabberPage };
