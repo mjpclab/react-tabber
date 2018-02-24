@@ -1,6 +1,6 @@
 {
   "name": "react-tabber",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "description": "A React tab sheet component",
   "main": "index.js",
   "types": "src/ts/react-tabber.d.ts",
@@ -21,10 +21,10 @@
   "dependencies": {
     "@types/prop-types": "^15.5.2",
     "@types/react": "^16.0.7",
-    "@types/react-dom": "^15.5.5"
+    "@types/react-dom": "^15.5.5",
+    "prop-types": "^15.6.0"
   },
   "peerDependencies": {
-    "prop-types": "^15.6.0",
     "react": "^16.0.0",
     "react-dom": "^16.0.0"
   },
