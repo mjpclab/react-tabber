@@ -214,7 +214,8 @@ class ReactTabber extends React.Component<ReactTabberProps, ReactTabberState> {
 			let currentPage: ReactTabberNode[] = [];
 			let key: string | undefined;
 
-			React.Children.forEach(props.children, (item: ReactElement<any>) => {
+			React.Children.forEach(props.children, (child: React.ReactChild) => {
+				const item = child as ReactElement<any>;
 				if (item.type && item.type === ReactTabberLabel) {
 					if (currentLabel.length) {
 						tabs.push({

@@ -7,7 +7,7 @@
 		exports["react-tabber-with-css"] = factory(require("react"));
 	else
 		root["ReactTabberWithCss"] = factory(root["React"]);
-})(this, function(__WEBPACK_EXTERNAL_MODULE_1__) {
+})(typeof self !== 'undefined' ? self : this, function(__WEBPACK_EXTERNAL_MODULE_1__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -942,8 +942,8 @@ if(content.locals) module.exports = content.locals;
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!../../node_modules/css-loader/index.js??ref--1-1!./layout.css", function() {
-			var newContent = require("!!../../node_modules/css-loader/index.js??ref--1-1!./layout.css");
+		module.hot.accept("!!../../node_modules/_css-loader@0.28.10@css-loader/index.js??ref--1-1!./layout.css", function() {
+			var newContent = require("!!../../node_modules/_css-loader@0.28.10@css-loader/index.js??ref--1-1!./layout.css");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -956,7 +956,7 @@ if(false) {
 /* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(5)(undefined);
+exports = module.exports = __webpack_require__(5)(false);
 // imports
 
 
@@ -1082,8 +1082,8 @@ if(content.locals) module.exports = content.locals;
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!../../node_modules/css-loader/index.js??ref--1-1!./skin-gray.css", function() {
-			var newContent = require("!!../../node_modules/css-loader/index.js??ref--1-1!./skin-gray.css");
+		module.hot.accept("!!../../node_modules/_css-loader@0.28.10@css-loader/index.js??ref--1-1!./skin-gray.css", function() {
+			var newContent = require("!!../../node_modules/_css-loader@0.28.10@css-loader/index.js??ref--1-1!./skin-gray.css");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -1096,7 +1096,7 @@ if(false) {
 /* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(5)(undefined);
+exports = module.exports = __webpack_require__(5)(false);
 // imports
 
 
@@ -1252,7 +1252,8 @@ var ReactTabber = /** @class */ (function (_super) {
             var currentLabel_1 = [];
             var currentPage_1 = [];
             var key_1;
-            __WEBPACK_IMPORTED_MODULE_0_react__["Children"].forEach(props.children, function (item) {
+            __WEBPACK_IMPORTED_MODULE_0_react__["Children"].forEach(props.children, function (child) {
+                var item = child;
                 if (item.type && item.type === __WEBPACK_IMPORTED_MODULE_2__react_tabber_label__["a" /* default */]) {
                     if (currentLabel_1.length) {
                         tabs.push({

@@ -129,7 +129,8 @@ var ReactTabber = /** @class */ (function (_super) {
             var currentLabel_1 = [];
             var currentPage_1 = [];
             var key_1;
-            React.Children.forEach(props.children, function (item) {
+            React.Children.forEach(props.children, function (child) {
+                var item = child;
                 if (item.type && item.type === ReactTabberLabel) {
                     if (currentLabel_1.length) {
                         tabs.push({

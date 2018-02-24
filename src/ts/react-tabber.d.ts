@@ -1,6 +1,5 @@
 /// <reference path="public.d.ts" />
 /// <reference path="private.d.ts" />
-/// <reference types="react" />
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import ReactTabberLabel from './react-tabber-label';

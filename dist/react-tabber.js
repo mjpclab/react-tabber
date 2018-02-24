@@ -7,7 +7,7 @@
 		exports["react-tabber"] = factory(require("react"));
 	else
 		root["ReactTabber"] = factory(root["React"]);
-})(this, function(__WEBPACK_EXTERNAL_MODULE_1__) {
+})(typeof self !== 'undefined' ? self : this, function(__WEBPACK_EXTERNAL_MODULE_1__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -606,7 +606,8 @@ var ReactTabber = /** @class */ (function (_super) {
             var currentLabel_1 = [];
             var currentPage_1 = [];
             var key_1;
-            __WEBPACK_IMPORTED_MODULE_0_react__["Children"].forEach(props.children, function (item) {
+            __WEBPACK_IMPORTED_MODULE_0_react__["Children"].forEach(props.children, function (child) {
+                var item = child;
                 if (item.type && item.type === __WEBPACK_IMPORTED_MODULE_2__react_tabber_label__["a" /* default */]) {
                     if (currentLabel_1.length) {
                         tabs.push({
