@@ -14,7 +14,8 @@ declare class ReactTabber extends React.Component<ReactTabberProps, ReactTabberS
         delayTriggerCancelEvents: PropTypes.Requireable<any>;
         delayTriggerLatency: PropTypes.Requireable<any>;
         activeIndex: PropTypes.Requireable<any>;
-        onSwitch: PropTypes.Requireable<any>;
+        onSwitching: PropTypes.Requireable<any>;
+        onSwitched: PropTypes.Requireable<any>;
         tabContainerClassName: PropTypes.Requireable<any>;
         labelContainerClassName: PropTypes.Requireable<any>;
         showHeaderLabelContainer: PropTypes.Requireable<any>;
@@ -31,6 +32,7 @@ declare class ReactTabber extends React.Component<ReactTabberProps, ReactTabberS
     };
     static defaultProps: ReactTabberProps;
     private currentIndex;
+    private renderedIndex;
     private triggerEvents?;
     private delayTriggerEvents?;
     private delayTriggerCancelEvents?;
@@ -47,5 +49,8 @@ declare class ReactTabber extends React.Component<ReactTabberProps, ReactTabberS
     private switchTo(index);
     private getTabs();
     render(): JSX.Element;
+    private updateRenderedIndex();
+    componentDidMount(): void;
+    componentDidUpdate(): void;
 }
 export { ReactTabber as default, ReactTabber, ReactTabberLabel, ReactTabberPage };

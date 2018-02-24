@@ -138,8 +138,13 @@ Specify how long (in milliseconds) need to wait before trigger the delayed switc
 `activeIndex`  
 Specify the initial active(switched) tab index. Starting from 0.
 
-`onSwitch(oldIndex, newIndex)`  
-A callback will be invoked when switching tab, current active index is `oldIndex`, and target index is `newIndex`.
+`onSwitching(oldIndex, newIndex)`  
+A callback will be invoked when start switching tab, current active index is `oldIndex`, and target index is `newIndex`.
+Subscribe this event if you want to know a switching is performed as early as possible.
+
+`onSwitched(oldIndex, newIndex)`  
+A callback will be invoked when finish switching tab, previous active index is `oldIndex`, and current index is `newIndex`.
+Subscribe this event if you want to do some work based on result of switching(e.g. get the height of the component).
 
 ## UI Properties
 ### Tab

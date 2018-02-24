@@ -14,7 +14,8 @@ interface _ReactTabberProps {
 	delayTriggerCancelEvents?: string | string[];
 	delayTriggerLatency: number;
 	activeIndex: number;
-	onSwitch?: (oldIndex: number, newIndex: number) => void;
+	onSwitching?: (oldIndex: number, newIndex: number) => void;
+	onSwitched?: (oldIndex: number, newIndex: number) => void;
 
 	tabContainerClassName: string;
 

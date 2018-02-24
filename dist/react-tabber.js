@@ -514,6 +514,7 @@ var ReactTabber = /** @class */ (function (_super) {
     function ReactTabber(props) {
         var _this = _super.call(this, props) || this;
         _this.currentIndex = -1;
+        _this.renderedIndex = -1;
         _this.state = {
             targetIndex: _this.getValidIndex(props.activeIndex)
         };
@@ -660,10 +661,25 @@ var ReactTabber = /** @class */ (function (_super) {
         var tabs = self.getTabs();
         var oldIndex = self.currentIndex;
         var newIndex = self.currentIndex = state.targetIndex >= tabs.length ? tabs.length - 1 : state.targetIndex;
-        if (oldIndex !== newIndex && props.onSwitch) {
-            props.onSwitch(oldIndex, newIndex);
+        if (oldIndex !== newIndex && props.onSwitching) {
+            props.onSwitching(oldIndex, newIndex);
         }
         return self.getTabContainer(tabs);
+    };
+    ReactTabber.prototype.updateRenderedIndex = function () {
+        var self = this;
+        var props = self.props;
+        var oldIndex = self.renderedIndex;
+        var newIndex = self.renderedIndex = self.currentIndex;
+        if (oldIndex !== newIndex && props.onSwitched) {
+            props.onSwitched(oldIndex, newIndex);
+        }
+    };
+    ReactTabber.prototype.componentDidMount = function () {
+        this.updateRenderedIndex();
+    };
+    ReactTabber.prototype.componentDidUpdate = function () {
+        this.updateRenderedIndex();
     };
     ReactTabber.Label = __WEBPACK_IMPORTED_MODULE_2__react_tabber_label__["a" /* default */];
     ReactTabber.Page = __WEBPACK_IMPORTED_MODULE_3__react_tabber_page__["a" /* default */];
@@ -678,7 +694,8 @@ var ReactTabber = /** @class */ (function (_super) {
         delayTriggerCancelEvents: __WEBPACK_IMPORTED_MODULE_1_prop_types__["oneOfType"]([__WEBPACK_IMPORTED_MODULE_1_prop_types__["string"], __WEBPACK_IMPORTED_MODULE_1_prop_types__["arrayOf"](__WEBPACK_IMPORTED_MODULE_1_prop_types__["string"])]),
         delayTriggerLatency: __WEBPACK_IMPORTED_MODULE_1_prop_types__["number"],
         activeIndex: __WEBPACK_IMPORTED_MODULE_1_prop_types__["number"],
-        onSwitch: __WEBPACK_IMPORTED_MODULE_1_prop_types__["func"],
+        onSwitching: __WEBPACK_IMPORTED_MODULE_1_prop_types__["func"],
+        onSwitched: __WEBPACK_IMPORTED_MODULE_1_prop_types__["func"],
         tabContainerClassName: __WEBPACK_IMPORTED_MODULE_1_prop_types__["string"],
         labelContainerClassName: __WEBPACK_IMPORTED_MODULE_1_prop_types__["string"],
         showHeaderLabelContainer: __WEBPACK_IMPORTED_MODULE_1_prop_types__["bool"],

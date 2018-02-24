@@ -44,7 +44,8 @@ class ReactTabber extends React.Component<ReactTabberProps, ReactTabberState> {
 		delayTriggerCancelEvents: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]),
 		delayTriggerLatency: PropTypes.number,
 		activeIndex: PropTypes.number,
-		onSwitch: PropTypes.func,
+		onSwitching: PropTypes.func,
+		onSwitched: PropTypes.func,
 
 		tabContainerClassName: PropTypes.string,
 
@@ -88,6 +89,7 @@ class ReactTabber extends React.Component<ReactTabberProps, ReactTabberState> {
 	};
 
 	private currentIndex: number = -1;
+	private renderedIndex: number = -1;
 	private triggerEvents?: string[];
 	private delayTriggerEvents?: string[];
 	private delayTriggerCancelEvents?: string[];
@@ -272,11 +274,29 @@ class ReactTabber extends React.Component<ReactTabberProps, ReactTabberState> {
 
 		const oldIndex = self.currentIndex;
 		const newIndex = self.currentIndex = state.targetIndex >= tabs.length ? tabs.length - 1 : state.targetIndex;
-		if (oldIndex !== newIndex && props.onSwitch) {
-			props.onSwitch(oldIndex, newIndex);
+		if (oldIndex !== newIndex && props.onSwitching) {
+			props.onSwitching(oldIndex, newIndex);
 		}
 
 		return self.getTabContainer(tabs);
+	}
+
+	private updateRenderedIndex() {
+		const self = this;
+		const props = self.props;
+		const oldIndex = self.renderedIndex;
+		const newIndex = self.renderedIndex = self.currentIndex;
+		if (oldIndex !== newIndex && props.onSwitched) {
+			props.onSwitched(oldIndex, newIndex);
+		}
+	}
+
+	componentDidMount() {
+		this.updateRenderedIndex();
+	}
+
+	componentDidUpdate() {
+		this.updateRenderedIndex();
 	}
 }
 
