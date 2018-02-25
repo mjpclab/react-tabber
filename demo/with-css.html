@@ -27,7 +27,7 @@
 	function render() {
 		ReactDOM.render(
 				<div>
-					<ReactTabber tabs={tabs} onSwitch={onSwitch}>
+					<ReactTabber tabs={tabs} onSwitching={onSwitching}>
 						<ReactTabberLabel>title <b>3</b></ReactTabberLabel>
 						<ReactTabberPage>content <b>3</b>. </ReactTabberPage>
 						<ReactTabberPage>another content <b>3</b>. </ReactTabberPage>
@@ -41,8 +41,8 @@
 		);
 	}
 
-	function onSwitch(oldIndex, newIndex) {
-		console.log('switched ' + oldIndex + ' ' + newIndex);
+	function onSwitching(oldIndex, newIndex) {
+		console.log('switching ' + oldIndex + ' ' + newIndex);
 	}
 
 	render();

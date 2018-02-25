@@ -32,8 +32,8 @@
 			this.removeTab = this.removeTab.bind(this);
 		}
 
-		onSwitch(oldIndex, newIndex) {
-			console.log('switched ' + oldIndex + ' ' + newIndex);
+		onSwitching(oldIndex, newIndex) {
+			console.log('switching ' + oldIndex + ' ' + newIndex);
 		}
 
 		addTab() {
@@ -61,7 +61,7 @@
 
 		render() {
 			return <div>
-				<ReactTabber tabs={this.state.tabs} onSwitch={this.onSwitch}/>
+				<ReactTabber tabs={this.state.tabs} onSwitching={this.onSwitching}/>
 				<button onClick={this.addTab}>Add Tab</button>
 				<button onClick={this.removeTab}>Remove Tab</button>
 			</div>;
