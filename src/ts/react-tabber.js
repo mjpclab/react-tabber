@@ -37,6 +37,7 @@ var ReactTabber = /** @class */ (function (_super) {
     function ReactTabber(props) {
         var _this = _super.call(this, props) || this;
         _this.currentIndex = -1;
+        _this.renderedIndex = -1;
         _this.state = {
             targetIndex: _this.getValidIndex(props.activeIndex)
         };
@@ -183,10 +184,25 @@ var ReactTabber = /** @class */ (function (_super) {
         var tabs = self.getTabs();
         var oldIndex = self.currentIndex;
         var newIndex = self.currentIndex = state.targetIndex >= tabs.length ? tabs.length - 1 : state.targetIndex;
-        if (oldIndex !== newIndex && props.onSwitch) {
-            props.onSwitch(oldIndex, newIndex);
+        if (oldIndex !== newIndex && props.onSwitching) {
+            props.onSwitching(oldIndex, newIndex);
         }
         return self.getTabContainer(tabs);
+    };
+    ReactTabber.prototype.updateRenderedIndex = function () {
+        var self = this;
+        var props = self.props;
+        var oldIndex = self.renderedIndex;
+        var newIndex = self.renderedIndex = self.currentIndex;
+        if (oldIndex !== newIndex && props.onSwitched) {
+            props.onSwitched(oldIndex, newIndex);
+        }
+    };
+    ReactTabber.prototype.componentDidMount = function () {
+        this.updateRenderedIndex();
+    };
+    ReactTabber.prototype.componentDidUpdate = function () {
+        this.updateRenderedIndex();
     };
     ReactTabber.Label = ReactTabberLabel;
     ReactTabber.Page = ReactTabberPage;
@@ -201,7 +217,8 @@ var ReactTabber = /** @class */ (function (_super) {
         delayTriggerCancelEvents: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]),
         delayTriggerLatency: PropTypes.number,
         activeIndex: PropTypes.number,
-        onSwitch: PropTypes.func,
+        onSwitching: PropTypes.func,
+        onSwitched: PropTypes.func,
         tabContainerClassName: PropTypes.string,
         labelContainerClassName: PropTypes.string,
         showHeaderLabelContainer: PropTypes.bool,
