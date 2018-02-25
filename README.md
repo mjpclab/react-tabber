@@ -136,7 +136,10 @@ Specify events on label-item that will cancel delay switching.
 Specify how long (in milliseconds) need to wait before trigger the delayed switching events.
 
 `activeIndex`  
-Specify the initial active(switched) tab index. Starting from 0.
+Specify the active(switched) tab index. Starting from 0.
+When this property is changed, will switch to the specified tab.
+If this property is not changed during re-rendering, will remain its last state, which may already be switched to another one by user.
+Subscribe event `switching` or `switched` to get informed. 
 
 `onSwitching(oldIndex, newIndex)`  
 A callback will be invoked when start switching tab, current active index is `oldIndex`, and target index is `newIndex`.

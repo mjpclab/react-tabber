@@ -22,18 +22,29 @@
 			super(props);
 
 			this.state = {
+				activeIndex: 0,
 				tabs: [
 					{label: 'title1', page: <div>content1</div>},
 					{label: <span>title2</span>, page: <div>content2</div>}
 				]
 			};
 
+			this.onSwitching = this.onSwitching.bind(this);
+			this.onSwitched = this.onSwitched.bind(this);
 			this.addTab = this.addTab.bind(this);
 			this.removeTab = this.removeTab.bind(this);
+			this.prevTab = this.prevTab.bind(this);
+			this.nextTab = this.nextTab.bind(this);
 		}
 
 		onSwitching(oldIndex, newIndex) {
 			console.log('switching ' + oldIndex + ' ' + newIndex);
+		}
+
+		onSwitched(oldIndex, newIndex) {
+			this.setState({
+				activeIndex: newIndex
+			});
 		}
 
 		addTab() {
@@ -59,16 +70,35 @@
 			}
 		}
 
+		prevTab() {
+			const tabCount = this.state.tabs.length;
+			const newIndex = (this.state.activeIndex - 1 + tabCount) % tabCount;
+			this.setState({
+				activeIndex: newIndex
+			});
+		}
+
+		nextTab() {
+			const tabCount = this.state.tabs.length;
+			const newIndex = (this.state.activeIndex + 1) % tabCount;
+			this.setState({
+				activeIndex: newIndex
+			});
+		}
+
 		render() {
 			return <div>
-				<ReactTabber tabs={this.state.tabs} onSwitching={this.onSwitching}/>
+				<ReactTabber activeIndex={this.state.activeIndex} tabs={this.state.tabs} onSwitching={this.onSwitching} onSwitched={this.onSwitched}/>
 				<button onClick={this.addTab}>Add Tab</button>
 				<button onClick={this.removeTab}>Remove Tab</button>
+				<br/>
+				<button onClick={this.prevTab}>Prev Tab</button>
+				<button onClick={this.nextTab}>Next Tab</button>
 			</div>;
 		}
 	}
 
-	ReactDOM.render(<App/>, document.getElementById('container'))
+	ReactDOM.render(<App/>, document.getElementById('container'));
 </script>
 </body>
 </html>

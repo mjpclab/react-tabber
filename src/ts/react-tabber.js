@@ -36,13 +36,28 @@ var ReactTabber = /** @class */ (function (_super) {
     __extends(ReactTabber, _super);
     function ReactTabber(props) {
         var _this = _super.call(this, props) || this;
+        _this.activeIndex = -1;
         _this.currentIndex = -1;
         _this.renderedIndex = -1;
+        _this.activeIndex = _this.getValidIndex(props.activeIndex);
         _this.state = {
-            targetIndex: _this.getValidIndex(props.activeIndex)
+            targetIndex: _this.activeIndex
         };
         return _this;
     }
+    ReactTabber.prototype.componentWillReceiveProps = function (nextProps) {
+        if (nextProps.activeIndex === undefined) {
+            return;
+        }
+        var oldIndex = this.activeIndex;
+        var newIndex = this.getValidIndex(nextProps.activeIndex);
+        if (oldIndex !== newIndex) {
+            this.activeIndex = newIndex;
+            this.setState({
+                targetIndex: this.activeIndex
+            });
+        }
+    };
     ReactTabber.prototype.componentWillMount = function () {
         var props = this.props;
         this.triggerEvents = normalizeTriggerEvents(props.triggerEvents);

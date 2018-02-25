@@ -31,6 +31,7 @@ declare class ReactTabber extends React.Component<ReactTabberProps, ReactTabberS
         pageItemInactiveClassName: PropTypes.Requireable<any>;
     };
     static defaultProps: ReactTabberProps;
+    private activeIndex;
     private currentIndex;
     private renderedIndex;
     private triggerEvents?;
@@ -38,6 +39,7 @@ declare class ReactTabber extends React.Component<ReactTabberProps, ReactTabberS
     private delayTriggerCancelEvents?;
     private delayTimeout?;
     constructor(props: any);
+    componentWillReceiveProps(nextProps: ReactTabberProps): void;
     componentWillMount(): void;
     componentWillUnmount(): void;
     private getValidIndex(index);

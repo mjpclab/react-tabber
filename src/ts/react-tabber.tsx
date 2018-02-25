@@ -88,6 +88,7 @@ class ReactTabber extends React.Component<ReactTabberProps, ReactTabberState> {
 		pageItemInactiveClassName: 'page-inactive'
 	};
 
+	private activeIndex: number = -1;
 	private currentIndex: number = -1;
 	private renderedIndex: number = -1;
 	private triggerEvents?: string[];
@@ -98,9 +99,25 @@ class ReactTabber extends React.Component<ReactTabberProps, ReactTabberState> {
 	constructor(props: any) {
 		super(props);
 
+		this.activeIndex = this.getValidIndex(props.activeIndex);
 		this.state = {
-			targetIndex: this.getValidIndex(props.activeIndex)
+			targetIndex: this.activeIndex
 		};
+	}
+
+	componentWillReceiveProps(nextProps: ReactTabberProps) {
+		if (nextProps.activeIndex === undefined) {
+			return;
+		}
+
+		const oldIndex = this.activeIndex;
+		const newIndex = this.getValidIndex(nextProps.activeIndex);
+		if (oldIndex !== newIndex) {
+			this.activeIndex = newIndex;
+			this.setState({
+				targetIndex: this.activeIndex
+			});
+		}
 	}
 
 	componentWillMount() {
