@@ -112,7 +112,7 @@ ReactDOM.render(<ReactTabber tabs={tabs} tabContainerClassName="tab-container-ve
 ```
 
 # Properties
-Properties are options specified as attribute on to ReactTabber:
+Properties are options specified as attribute onto ReactTabber:
 ```jsx
 <ReactTabber option1="value1" option2="value2"/>
 ```
