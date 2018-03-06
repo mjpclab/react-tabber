@@ -1,13 +1,13 @@
 type ReactTabberNode = string | number | JSX.Element | React.Component | boolean | null | undefined;
 
-interface ReactTabberItem {
+interface ReactTabberEntry {
 	label: ReactTabberNode | ReactTabberNode[];
 	page: ReactTabberNode | ReactTabberNode[];
 	key?: string | number;
 }
 
 interface _ReactTabberProps {
-	tabs: ReactTabberItem[];
+	tabs: ReactTabberEntry[];
 
 	triggerEvents?: string | string[];
 	delayTriggerEvents?: string | string[];

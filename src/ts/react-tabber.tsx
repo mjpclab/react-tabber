@@ -140,7 +140,7 @@ class ReactTabber extends React.Component<ReactTabberProps, ReactTabberState> {
 		return intIndex < 0 ? 0 : index;
 	}
 
-	private _getLabelContainer(tabs: ReactTabberItem[], positionClassName: string) {
+	private _getLabelContainer(tabs: ReactTabberEntry[], positionClassName: string) {
 		const props = this.props;
 
 		const labelContainer = <div className={props.labelContainerClassName + ' ' + positionClassName}>
@@ -179,15 +179,15 @@ class ReactTabber extends React.Component<ReactTabberProps, ReactTabberState> {
 		return labelContainer;
 	}
 
-	private getHeaderLabelContainer(tabs: ReactTabberItem[]) {
+	private getHeaderLabelContainer(tabs: ReactTabberEntry[]) {
 		return this._getLabelContainer(tabs, this.props.headerLabelContainerClassName!);
 	}
 
-	private getFooterLabelContainer(tabs: ReactTabberItem[]) {
+	private getFooterLabelContainer(tabs: ReactTabberEntry[]) {
 		return this._getLabelContainer(tabs, this.props.footerLabelContainerClassName!);
 	}
 
-	private getPageContainer(tabs: ReactTabberItem[]) {
+	private getPageContainer(tabs: ReactTabberEntry[]) {
 		const props = this.props;
 
 		return <div className={props.pageContainerClassName}>
@@ -201,7 +201,7 @@ class ReactTabber extends React.Component<ReactTabberProps, ReactTabberState> {
 		</div>;
 	}
 
-	private getTabContainer(tabs: ReactTabberItem[]) {
+	private getTabContainer(tabs: ReactTabberEntry[]) {
 		const props = this.props;
 
 		return <div className={props.tabContainerClassName}>
@@ -217,14 +217,13 @@ class ReactTabber extends React.Component<ReactTabberProps, ReactTabberState> {
 		});
 	}
 
-	private getTabs() {
+	private getTabEntries() {
+		const entries: ReactTabberEntry[] = [];
 		const props = this.props;
-
-		const tabs: ReactTabberItem[] = [];
 
 		//props.tabs
 		if (props.tabs!.length) {
-			tabs.push.apply(tabs, props.tabs);
+			entries.push.apply(entries, props.tabs);
 		}
 
 		//props.children
@@ -234,45 +233,45 @@ class ReactTabber extends React.Component<ReactTabberProps, ReactTabberState> {
 			let key: string | undefined;
 
 			React.Children.forEach(props.children, (child: React.ReactChild) => {
-				const item = child as ReactElement<any>;
-				if (item.type && item.type === ReactTabberLabel) {
+				const element = child as ReactElement<any>;
+				if (element.type && element.type === ReactTabberLabel) {
 					if (currentLabel.length) {
-						tabs.push({
+						entries.push({
 							label: currentLabel.length === 1 ? currentLabel[0] : currentLabel,
 							page: currentPage.length === 1 ? currentPage[0] : currentPage,
 							key: key
 						});
 					}
 					currentLabel = [];
-					if (Array.isArray(item.props.children)) {
-						currentLabel.push.apply(currentLabel, item.props.children);
+					if (Array.isArray(element.props.children)) {
+						currentLabel.push.apply(currentLabel, element.props.children);
 					}
 					else {
-						currentLabel.push(item.props.children);
+						currentLabel.push(element.props.children);
 					}
 					currentPage = [];
-					key = item.key ? 'key-' + item.key : 'index-' + tabs.length;
+					key = element.key ? 'key-' + element.key : 'index-' + entries.length;
 				}
 				else {
 					if (!currentLabel.length) {
 						currentLabel.push('');
 					}
-					if (item.type && item.type === ReactTabberPage) {
-						if (Array.isArray(item.props.children)) {
-							currentPage.push.apply(currentPage, item.props.children);
+					if (element.type && element.type === ReactTabberPage) {
+						if (Array.isArray(element.props.children)) {
+							currentPage.push.apply(currentPage, element.props.children);
 						}
 						else {
-							currentPage.push(item.props.children);
+							currentPage.push(element.props.children);
 						}
 					}
-					else if (item.type) {
-						currentPage.push(item);
+					else if (element.type) {
+						currentPage.push(element);
 					}
 				}
 			});
 
 			if (currentLabel.length) {
-				tabs.push({
+				entries.push({
 					label: currentLabel.length === 1 ? currentLabel[0] : currentLabel,
 					page: currentPage.length === 1 ? currentPage[0] : currentPage,
 					key: key
@@ -280,22 +279,22 @@ class ReactTabber extends React.Component<ReactTabberProps, ReactTabberState> {
 			}
 		}
 
-		return tabs;
+		return entries;
 	}
 
 	render() {
 		const self = this;
 		const props = self.props;
 		const state = self.state;
-		const tabs = self.getTabs();
+		const tabEntries = self.getTabEntries();
 
 		const oldIndex = self.currentIndex;
-		const newIndex = self.currentIndex = state.targetIndex >= tabs.length ? tabs.length - 1 : state.targetIndex;
+		const newIndex = self.currentIndex = state.targetIndex >= tabEntries.length ? tabEntries.length - 1 : state.targetIndex;
 		if (oldIndex !== newIndex && props.onSwitching) {
 			props.onSwitching(oldIndex, newIndex);
 		}
 
-		return self.getTabContainer(tabs);
+		return self.getTabContainer(tabEntries);
 	}
 
 	private updateRenderedIndex() {

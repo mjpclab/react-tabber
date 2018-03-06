@@ -133,12 +133,12 @@ var ReactTabber = /** @class */ (function (_super) {
             targetIndex: this.getValidIndex(index)
         });
     };
-    ReactTabber.prototype.getTabs = function () {
+    ReactTabber.prototype.getTabEntries = function () {
+        var entries = [];
         var props = this.props;
-        var tabs = [];
         //props.tabs
         if (props.tabs.length) {
-            tabs.push.apply(tabs, props.tabs);
+            entries.push.apply(entries, props.tabs);
         }
         //props.children
         if (props.children) {
@@ -146,63 +146,63 @@ var ReactTabber = /** @class */ (function (_super) {
             var currentPage_1 = [];
             var key_1;
             React.Children.forEach(props.children, function (child) {
-                var item = child;
-                if (item.type && item.type === ReactTabberLabel) {
+                var element = child;
+                if (element.type && element.type === ReactTabberLabel) {
                     if (currentLabel_1.length) {
-                        tabs.push({
+                        entries.push({
                             label: currentLabel_1.length === 1 ? currentLabel_1[0] : currentLabel_1,
                             page: currentPage_1.length === 1 ? currentPage_1[0] : currentPage_1,
                             key: key_1
                         });
                     }
                     currentLabel_1 = [];
-                    if (Array.isArray(item.props.children)) {
-                        currentLabel_1.push.apply(currentLabel_1, item.props.children);
+                    if (Array.isArray(element.props.children)) {
+                        currentLabel_1.push.apply(currentLabel_1, element.props.children);
                     }
                     else {
-                        currentLabel_1.push(item.props.children);
+                        currentLabel_1.push(element.props.children);
                     }
                     currentPage_1 = [];
-                    key_1 = item.key ? 'key-' + item.key : 'index-' + tabs.length;
+                    key_1 = element.key ? 'key-' + element.key : 'index-' + entries.length;
                 }
                 else {
                     if (!currentLabel_1.length) {
                         currentLabel_1.push('');
                     }
-                    if (item.type && item.type === ReactTabberPage) {
-                        if (Array.isArray(item.props.children)) {
-                            currentPage_1.push.apply(currentPage_1, item.props.children);
+                    if (element.type && element.type === ReactTabberPage) {
+                        if (Array.isArray(element.props.children)) {
+                            currentPage_1.push.apply(currentPage_1, element.props.children);
                         }
                         else {
-                            currentPage_1.push(item.props.children);
+                            currentPage_1.push(element.props.children);
                         }
                     }
-                    else if (item.type) {
-                        currentPage_1.push(item);
+                    else if (element.type) {
+                        currentPage_1.push(element);
                     }
                 }
             });
             if (currentLabel_1.length) {
-                tabs.push({
+                entries.push({
                     label: currentLabel_1.length === 1 ? currentLabel_1[0] : currentLabel_1,
                     page: currentPage_1.length === 1 ? currentPage_1[0] : currentPage_1,
                     key: key_1
                 });
             }
         }
-        return tabs;
+        return entries;
     };
     ReactTabber.prototype.render = function () {
         var self = this;
         var props = self.props;
         var state = self.state;
-        var tabs = self.getTabs();
+        var tabEntries = self.getTabEntries();
         var oldIndex = self.currentIndex;
-        var newIndex = self.currentIndex = state.targetIndex >= tabs.length ? tabs.length - 1 : state.targetIndex;
+        var newIndex = self.currentIndex = state.targetIndex >= tabEntries.length ? tabEntries.length - 1 : state.targetIndex;
         if (oldIndex !== newIndex && props.onSwitching) {
             props.onSwitching(oldIndex, newIndex);
         }
-        return self.getTabContainer(tabs);
+        return self.getTabContainer(tabEntries);
     };
     ReactTabber.prototype.updateRenderedIndex = function () {
         var self = this;
