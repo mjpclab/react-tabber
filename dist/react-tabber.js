@@ -487,6 +487,14 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __assign = (this && this.__assign) || Object.assign || function(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+        s = arguments[i];
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+            t[p] = s[p];
+    }
+    return t;
+};
 
 
 
@@ -502,12 +510,12 @@ function normalizeTriggerEvents(events) {
         }
     }
 }
-function fillEventHandler(props, events, handler) {
-    if (events && events.length) {
-        events.forEach(function (event) {
-            props[event] = handler;
-        });
-    }
+function getEventHandler(events, handler) {
+    var eventHandlers = {};
+    events && events.length && events.forEach(function (event) {
+        eventHandlers[event] = handler;
+    });
+    return eventHandlers;
 }
 var ReactTabber = /** @class */ (function (_super) {
     __extends(ReactTabber, _super);
@@ -555,7 +563,6 @@ var ReactTabber = /** @class */ (function (_super) {
         var _this = this;
         var props = this.props;
         var labelContainer = __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", { className: props.labelContainerClassName + ' ' + positionClassName }, tabs.map(function (tab, index) {
-            var className = props.labelItemClassName + ' ' + (index === _this.currentIndex ? props.labelItemActiveClassName : props.labelItemInactiveClassName);
             var doSwitch = function () {
                 clearTimeout(_this.delayTimeout);
                 _this.switchTo(index);
@@ -572,15 +579,15 @@ var ReactTabber = /** @class */ (function (_super) {
                     clearTimeout(localDelayTimeout);
                 }
             };
-            var labelItemProps = {};
+            var labelItemProps = Object.assign({}, tab.labelProps);
             if (_this.delayTriggerEvents && _this.delayTriggerEvents.length) {
-                fillEventHandler(labelItemProps, _this.delayTriggerCancelEvents, cancelDelayDoSwitch);
-                fillEventHandler(labelItemProps, _this.delayTriggerEvents, delayDoSwitch);
+                Object.assign(labelItemProps, getEventHandler(_this.delayTriggerCancelEvents, cancelDelayDoSwitch), getEventHandler(_this.delayTriggerEvents, delayDoSwitch));
             }
-            fillEventHandler(labelItemProps, _this.triggerEvents, doSwitch);
-            labelItemProps.key = tab.key ? 'key-' + tab.key : 'index-' + index;
-            labelItemProps.className = className;
-            return __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]('div', labelItemProps, tab.label);
+            Object.assign(labelItemProps, getEventHandler(_this.triggerEvents, doSwitch), {
+                key: tab.key ? 'key-' + tab.key : 'index-' + index,
+                className: props.labelItemClassName + ' ' + (index === _this.currentIndex ? props.labelItemActiveClassName : props.labelItemInactiveClassName)
+            });
+            return __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", __assign({}, labelItemProps), tab.label);
         }));
         return labelContainer;
     };
@@ -594,8 +601,11 @@ var ReactTabber = /** @class */ (function (_super) {
         var _this = this;
         var props = this.props;
         return __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", { className: props.pageContainerClassName }, tabs.map(function (tab, index) {
-            var className = props.pageItemClassName + ' ' + (index === _this.currentIndex ? props.pageItemActiveClassName : props.pageItemInactiveClassName);
-            return __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", { key: tab.key ? 'key-' + tab.key : 'index-' + index, className: className }, tab.page);
+            var pageItemProps = Object.assign({}, tab.pageProps, {
+                key: tab.key ? 'key-' + tab.key : 'index-' + index,
+                className: props.pageItemClassName + ' ' + (index === _this.currentIndex ? props.pageItemActiveClassName : props.pageItemInactiveClassName)
+            });
+            return __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("div", __assign({}, pageItemProps), tab.page);
         }));
     };
     ReactTabber.prototype.getTabContainer = function (tabs) {
@@ -619,50 +629,59 @@ var ReactTabber = /** @class */ (function (_super) {
         }
         //props.children
         if (props.children) {
-            var currentLabel_1 = [];
-            var currentPage_1 = [];
+            var currentLabelProps_1 = {};
+            var currentLabelItems_1 = [];
+            var currentPageProps_1 = {};
+            var currentPageItems_1 = [];
             var key_1;
             __WEBPACK_IMPORTED_MODULE_0_react__["Children"].forEach(props.children, function (child) {
                 var element = child;
                 if (element.type && element.type === __WEBPACK_IMPORTED_MODULE_2__react_tabber_label__["a" /* default */]) {
-                    if (currentLabel_1.length) {
+                    if (currentLabelItems_1.length) {
                         entries.push({
-                            label: currentLabel_1.length === 1 ? currentLabel_1[0] : currentLabel_1,
-                            page: currentPage_1.length === 1 ? currentPage_1[0] : currentPage_1,
+                            labelProps: currentLabelProps_1,
+                            label: currentLabelItems_1.length === 1 ? currentLabelItems_1[0] : currentLabelItems_1,
+                            pageProps: currentPageProps_1,
+                            page: currentPageItems_1.length === 1 ? currentPageItems_1[0] : currentPageItems_1,
                             key: key_1
                         });
                     }
-                    currentLabel_1 = [];
+                    currentLabelProps_1 = element.props;
+                    currentLabelItems_1 = [];
                     if (Array.isArray(element.props.children)) {
-                        currentLabel_1.push.apply(currentLabel_1, element.props.children);
+                        currentLabelItems_1.push.apply(currentLabelItems_1, element.props.children);
                     }
                     else {
-                        currentLabel_1.push(element.props.children);
+                        currentLabelItems_1.push(element.props.children);
                     }
-                    currentPage_1 = [];
+                    currentPageProps_1 = {};
+                    currentPageItems_1 = [];
                     key_1 = element.key ? 'key-' + element.key : 'index-' + entries.length;
                 }
                 else {
-                    if (!currentLabel_1.length) {
-                        currentLabel_1.push('');
+                    if (!currentLabelItems_1.length) {
+                        currentLabelItems_1.push('');
                     }
                     if (element.type && element.type === __WEBPACK_IMPORTED_MODULE_3__react_tabber_page__["a" /* default */]) {
+                        Object.assign(currentPageProps_1, element.props, { children: undefined });
                         if (Array.isArray(element.props.children)) {
-                            currentPage_1.push.apply(currentPage_1, element.props.children);
+                            currentPageItems_1.push.apply(currentPageItems_1, element.props.children);
                         }
                         else {
-                            currentPage_1.push(element.props.children);
+                            currentPageItems_1.push(element.props.children);
                         }
                     }
                     else if (element.type) {
-                        currentPage_1.push(element);
+                        currentPageItems_1.push(element);
                     }
                 }
             });
-            if (currentLabel_1.length) {
+            if (currentLabelItems_1.length) {
                 entries.push({
-                    label: currentLabel_1.length === 1 ? currentLabel_1[0] : currentLabel_1,
-                    page: currentPage_1.length === 1 ? currentPage_1[0] : currentPage_1,
+                    labelProps: currentLabelProps_1,
+                    label: currentLabelItems_1.length === 1 ? currentLabelItems_1[0] : currentLabelItems_1,
+                    pageProps: currentPageProps_1,
+                    page: currentPageItems_1.length === 1 ? currentPageItems_1[0] : currentPageItems_1,
                     key: key_1
                 });
             }

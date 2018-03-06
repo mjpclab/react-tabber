@@ -1,7 +1,13 @@
 type ReactTabberNode = string | number | JSX.Element | React.Component | boolean | null | undefined;
 
+type JSXProps = {
+	[attr: string]: any;
+};
+
 interface ReactTabberEntry {
+	labelProps?: JSXProps
 	label: ReactTabberNode | ReactTabberNode[];
+	pageProps?: JSXProps
 	page: ReactTabberNode | ReactTabberNode[];
 	key?: string | number;
 }

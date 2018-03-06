@@ -21,12 +21,14 @@ function normalizeTriggerEvents(events: string | string[] | undefined): string[]
 	}
 }
 
-function fillEventHandler(props: JSXProps, events: string[] | undefined | null, handler: any) {
-	if (events && events.length) {
-		events.forEach(event => {
-			props[event] = handler;
-		});
-	}
+function getEventHandler(events: string[] | undefined | null, handler: any) {
+	const eventHandlers: JSXProps = {};
+
+	events && events.length && events.forEach(event => {
+		eventHandlers[event] = handler;
+	});
+
+	return eventHandlers;
 }
 
 class ReactTabber extends React.Component<ReactTabberProps, ReactTabberState> {
@@ -145,7 +147,6 @@ class ReactTabber extends React.Component<ReactTabberProps, ReactTabberState> {
 
 		const labelContainer = <div className={props.labelContainerClassName + ' ' + positionClassName}>
 			{tabs.map((tab, index) => {
-				const className = props.labelItemClassName + ' ' + (index === this.currentIndex ? props.labelItemActiveClassName : props.labelItemInactiveClassName);
 				const doSwitch = () => {
 					clearTimeout(this.delayTimeout);
 					this.switchTo(index);
@@ -163,17 +164,24 @@ class ReactTabber extends React.Component<ReactTabberProps, ReactTabberState> {
 					}
 				};
 
-				const labelItemProps: JSXProps = {};
+				const labelItemProps: JSXProps = Object.assign({}, tab.labelProps);
 				if (this.delayTriggerEvents && this.delayTriggerEvents.length) {
-					fillEventHandler(labelItemProps, this.delayTriggerCancelEvents, cancelDelayDoSwitch);
-					fillEventHandler(labelItemProps, this.delayTriggerEvents, delayDoSwitch);
+					Object.assign(
+						labelItemProps,
+						getEventHandler(this.delayTriggerCancelEvents, cancelDelayDoSwitch),
+						getEventHandler(this.delayTriggerEvents, delayDoSwitch)
+					);
 				}
-				fillEventHandler(labelItemProps, this.triggerEvents, doSwitch);
+				Object.assign(
+					labelItemProps,
+					getEventHandler(this.triggerEvents, doSwitch),
+					{
+						key: tab.key ? 'key-' + tab.key : 'index-' + index,
+						className: props.labelItemClassName + ' ' + (index === this.currentIndex ? props.labelItemActiveClassName : props.labelItemInactiveClassName)
+					}
+				);
 
-				labelItemProps.key = tab.key ? 'key-' + tab.key : 'index-' + index;
-				labelItemProps.className = className;
-
-				return React.createElement('div', labelItemProps, tab.label);
+				return <div {...labelItemProps}>{tab.label}</div>;
 			})}
 		</div>;
 		return labelContainer;
@@ -192,11 +200,12 @@ class ReactTabber extends React.Component<ReactTabberProps, ReactTabberState> {
 
 		return <div className={props.pageContainerClassName}>
 			{tabs.map((tab, index) => {
-				const className = props.pageItemClassName + ' ' + (index === this.currentIndex ? props.pageItemActiveClassName : props.pageItemInactiveClassName);
-				return <div
-					key={tab.key ? 'key-' + tab.key : 'index-' + index}
-					className={className}
-				>{tab.page}</div>
+				const pageItemProps: JSXProps = Object.assign({}, tab.pageProps, {
+					key: tab.key ? 'key-' + tab.key : 'index-' + index,
+					className: props.pageItemClassName + ' ' + (index === this.currentIndex ? props.pageItemActiveClassName : props.pageItemInactiveClassName)
+				});
+
+				return <div {...pageItemProps}>{tab.page}</div>
 			})}
 		</div>;
 	}
@@ -228,52 +237,61 @@ class ReactTabber extends React.Component<ReactTabberProps, ReactTabberState> {
 
 		//props.children
 		if (props.children) {
-			let currentLabel: ReactTabberNode[] = [];
-			let currentPage: ReactTabberNode[] = [];
+			let currentLabelProps = {};
+			let currentLabelItems: ReactTabberNode[] = [];
+			let currentPageProps = {};
+			let currentPageItems: ReactTabberNode[] = [];
 			let key: string | undefined;
 
 			React.Children.forEach(props.children, (child: React.ReactChild) => {
 				const element = child as ReactElement<any>;
 				if (element.type && element.type === ReactTabberLabel) {
-					if (currentLabel.length) {
+					if (currentLabelItems.length) {
 						entries.push({
-							label: currentLabel.length === 1 ? currentLabel[0] : currentLabel,
-							page: currentPage.length === 1 ? currentPage[0] : currentPage,
+							labelProps: currentLabelProps,
+							label: currentLabelItems.length === 1 ? currentLabelItems[0] : currentLabelItems,
+							pageProps: currentPageProps,
+							page: currentPageItems.length === 1 ? currentPageItems[0] : currentPageItems,
 							key: key
 						});
 					}
-					currentLabel = [];
+					currentLabelProps = element.props;
+					currentLabelItems = [];
 					if (Array.isArray(element.props.children)) {
-						currentLabel.push.apply(currentLabel, element.props.children);
+						currentLabelItems.push(...element.props.children);
 					}
 					else {
-						currentLabel.push(element.props.children);
+						currentLabelItems.push(element.props.children);
 					}
-					currentPage = [];
+					currentPageProps = {};
+					currentPageItems = [];
 					key = element.key ? 'key-' + element.key : 'index-' + entries.length;
 				}
 				else {
-					if (!currentLabel.length) {
-						currentLabel.push('');
+					if (!currentLabelItems.length) {
+						currentLabelItems.push('');
 					}
 					if (element.type && element.type === ReactTabberPage) {
+						Object.assign(currentPageProps, element.props, {children: undefined});
 						if (Array.isArray(element.props.children)) {
-							currentPage.push.apply(currentPage, element.props.children);
+							currentPageItems.push(...element.props.children);
 						}
 						else {
-							currentPage.push(element.props.children);
+							currentPageItems.push(element.props.children);
 						}
 					}
 					else if (element.type) {
-						currentPage.push(element);
+						currentPageItems.push(element);
 					}
 				}
 			});
 
-			if (currentLabel.length) {
+			if (currentLabelItems.length) {
 				entries.push({
-					label: currentLabel.length === 1 ? currentLabel[0] : currentLabel,
-					page: currentPage.length === 1 ? currentPage[0] : currentPage,
+					labelProps: currentLabelProps,
+					label: currentLabelItems.length === 1 ? currentLabelItems[0] : currentLabelItems,
+					pageProps: currentPageProps,
+					page: currentPageItems.length === 1 ? currentPageItems[0] : currentPageItems,
 					key: key
 				});
 			}
