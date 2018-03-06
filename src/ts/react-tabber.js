@@ -169,7 +169,7 @@ var ReactTabber = /** @class */ (function (_super) {
                             key: key_1
                         });
                     }
-                    currentLabelProps_1 = element.props;
+                    currentLabelProps_1 = Object.assign({}, element.props, { children: undefined });
                     currentLabelItems_1 = [];
                     if (Array.isArray(element.props.children)) {
                         currentLabelItems_1.push.apply(currentLabelItems_1, element.props.children);

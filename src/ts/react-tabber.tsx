@@ -255,7 +255,7 @@ class ReactTabber extends React.Component<ReactTabberProps, ReactTabberState> {
 							key: key
 						});
 					}
-					currentLabelProps = element.props;
+					currentLabelProps = Object.assign({}, element.props, {children: undefined});
 					currentLabelItems = [];
 					if (Array.isArray(element.props.children)) {
 						currentLabelItems.push(...element.props.children);
