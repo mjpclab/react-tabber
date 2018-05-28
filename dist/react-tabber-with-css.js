@@ -942,8 +942,8 @@ if(content.locals) module.exports = content.locals;
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!../../node_modules/_css-loader@0.28.10@css-loader/index.js??ref--1-1!./layout.css", function() {
-			var newContent = require("!!../../node_modules/_css-loader@0.28.10@css-loader/index.js??ref--1-1!./layout.css");
+		module.hot.accept("!!../../node_modules/css-loader/index.js??ref--1-1!./layout.css", function() {
+			var newContent = require("!!../../node_modules/css-loader/index.js??ref--1-1!./layout.css");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -1082,8 +1082,8 @@ if(content.locals) module.exports = content.locals;
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!../../node_modules/_css-loader@0.28.10@css-loader/index.js??ref--1-1!./skin-gray.css", function() {
-			var newContent = require("!!../../node_modules/_css-loader@0.28.10@css-loader/index.js??ref--1-1!./skin-gray.css");
+		module.hot.accept("!!../../node_modules/css-loader/index.js??ref--1-1!./skin-gray.css", function() {
+			var newContent = require("!!../../node_modules/css-loader/index.js??ref--1-1!./skin-gray.css");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -1292,7 +1292,7 @@ var ReactTabber = /** @class */ (function (_super) {
                             key: key_1
                         });
                     }
-                    currentLabelProps_1 = Object.assign({}, element.props, { children: undefined });
+                    currentLabelProps_1 = Object.assign({}, element.props);
                     currentLabelItems_1 = [];
                     if (Array.isArray(element.props.children)) {
                         currentLabelItems_1.push.apply(currentLabelItems_1, element.props.children);
@@ -1309,7 +1309,7 @@ var ReactTabber = /** @class */ (function (_super) {
                         currentLabelItems_1.push('');
                     }
                     if (element.type && element.type === __WEBPACK_IMPORTED_MODULE_3__react_tabber_page__["a" /* default */]) {
-                        Object.assign(currentPageProps_1, element.props, { children: undefined });
+                        Object.assign(currentPageProps_1, element.props);
                         if (Array.isArray(element.props.children)) {
                             currentPageItems_1.push.apply(currentPageItems_1, element.props.children);
                         }

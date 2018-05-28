@@ -646,7 +646,7 @@ var ReactTabber = /** @class */ (function (_super) {
                             key: key_1
                         });
                     }
-                    currentLabelProps_1 = Object.assign({}, element.props, { children: undefined });
+                    currentLabelProps_1 = Object.assign({}, element.props);
                     currentLabelItems_1 = [];
                     if (Array.isArray(element.props.children)) {
                         currentLabelItems_1.push.apply(currentLabelItems_1, element.props.children);
@@ -663,7 +663,7 @@ var ReactTabber = /** @class */ (function (_super) {
                         currentLabelItems_1.push('');
                     }
                     if (element.type && element.type === __WEBPACK_IMPORTED_MODULE_3__react_tabber_page__["a" /* default */]) {
-                        Object.assign(currentPageProps_1, element.props, { children: undefined });
+                        Object.assign(currentPageProps_1, element.props);
                         if (Array.isArray(element.props.children)) {
                             currentPageItems_1.push.apply(currentPageItems_1, element.props.children);
                         }

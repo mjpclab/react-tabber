@@ -255,7 +255,7 @@ class ReactTabber extends React.Component<ReactTabberProps, ReactTabberState> {
 							key: key
 						});
 					}
-					currentLabelProps = Object.assign({}, element.props, {children: undefined});
+					currentLabelProps = Object.assign({}, element.props);
 					currentLabelItems = [];
 					if (Array.isArray(element.props.children)) {
 						currentLabelItems.push(...element.props.children);
@@ -272,7 +272,7 @@ class ReactTabber extends React.Component<ReactTabberProps, ReactTabberState> {
 						currentLabelItems.push('');
 					}
 					if (element.type && element.type === ReactTabberPage) {
-						Object.assign(currentPageProps, element.props, {children: undefined});
+						Object.assign(currentPageProps, element.props);
 						if (Array.isArray(element.props.children)) {
 							currentPageItems.push(...element.props.children);
 						}

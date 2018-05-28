@@ -19,21 +19,21 @@
     "url": "git+https://github.com/mjpclab/react-tabber.git"
   },
   "dependencies": {
-    "@types/prop-types": "^15.5.2",
-    "@types/react": "^16.0.7",
-    "@types/react-dom": "^15.5.5",
+    "@types/prop-types": "^15.5.3",
+    "@types/react": "^16.3.14",
+    "@types/react-dom": "^16.0.5",
     "prop-types": "^15.6.0"
   },
   "peerDependencies": {
-    "react": "^16.0.0",
-    "react-dom": "^16.0.0"
+    "react": "^16.4.0",
+    "react-dom": "^16.4.0"
   },
   "devDependencies": {
-    "awesome-typescript-loader": "^3.4.1",
-    "css-loader": "^0.28.10",
+    "awesome-typescript-loader": "^3.5.0",
+    "css-loader": "^0.28.11",
     "exports-loader": "^0.6.4",
     "style-loader": "^0.18.2",
-    "typescript": "^2.7.2",
-    "webpack": "^3.10.0"
+    "typescript": "^2.8.3",
+    "webpack": "^3.12.0"
   }
 }
