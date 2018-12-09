@@ -1,12 +1,8 @@
 /// <reference path='public.d.ts' />
 /// <reference path='private.d.ts' />
 
-import * as React from 'react';
-import * as PropTypes from 'prop-types';
-
-import ReactTabberLabel from './react-tabber-label';
-import ReactTabberPage from './react-tabber-page';
-import {ReactElement} from "react";
+import React, {Component, ReactElement} from 'react';
+import PropTypes from 'prop-types';
 
 const RE_WHITESPACES = /\s+/;
 
@@ -14,8 +10,7 @@ function normalizeTriggerEvents(events: string | string[] | undefined): string[]
 	if (events) {
 		if (Array.isArray(events)) {
 			return events;
-		}
-		else {
+		} else {
 			return String(events).split(RE_WHITESPACES);
 		}
 	}
@@ -31,6 +26,12 @@ function getEventHandler(events: string[] | undefined | null, handler: any) {
 	return eventHandlers;
 }
 
+class ReactTabberLabel extends Component {
+}
+
+class ReactTabberPage extends Component {
+}
+
 class ReactTabber extends React.Component<ReactTabberProps, ReactTabberState> {
 	static Label = ReactTabberLabel;
 	static Page = ReactTabberPage;
@@ -40,7 +41,7 @@ class ReactTabber extends React.Component<ReactTabberProps, ReactTabberState> {
 			label: PropTypes.node.isRequired,
 			page: PropTypes.node.isRequired,
 			key: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-		})),
+		})).isRequired,
 		triggerEvents: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]),
 		delayTriggerEvents: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]),
 		delayTriggerCancelEvents: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]),
@@ -232,7 +233,7 @@ class ReactTabber extends React.Component<ReactTabberProps, ReactTabberState> {
 
 		//props.tabs
 		if (props.tabs!.length) {
-			entries.push.apply(entries, props.tabs);
+			entries.push.apply(entries, props.tabs!);
 		}
 
 		//props.children
@@ -243,7 +244,7 @@ class ReactTabber extends React.Component<ReactTabberProps, ReactTabberState> {
 			let currentPageItems: ReactTabberNode[] = [];
 			let key: string | undefined;
 
-			React.Children.forEach(props.children, (child: React.ReactChild) => {
+			React.Children.forEach(props.children, child => {
 				const element = child as ReactElement<any>;
 				if (element.type && element.type === ReactTabberLabel) {
 					if (currentLabelItems.length) {
@@ -259,15 +260,13 @@ class ReactTabber extends React.Component<ReactTabberProps, ReactTabberState> {
 					currentLabelItems = [];
 					if (Array.isArray(element.props.children)) {
 						currentLabelItems.push(...element.props.children);
-					}
-					else {
+					} else {
 						currentLabelItems.push(element.props.children);
 					}
 					currentPageProps = {};
 					currentPageItems = [];
 					key = element.key ? 'key-' + element.key : 'index-' + entries.length;
-				}
-				else {
+				} else {
 					if (!currentLabelItems.length) {
 						currentLabelItems.push('');
 					}
@@ -275,12 +274,10 @@ class ReactTabber extends React.Component<ReactTabberProps, ReactTabberState> {
 						Object.assign(currentPageProps, element.props);
 						if (Array.isArray(element.props.children)) {
 							currentPageItems.push(...element.props.children);
-						}
-						else {
+						} else {
 							currentPageItems.push(element.props.children);
 						}
-					}
-					else if (element.type) {
+					} else if (element.type) {
 						currentPageItems.push(element);
 					}
 				}
@@ -334,9 +331,4 @@ class ReactTabber extends React.Component<ReactTabberProps, ReactTabberState> {
 	}
 }
 
-export {
-	ReactTabber as default,
-	ReactTabber,
-	ReactTabberLabel,
-	ReactTabberPage
-}
+export default ReactTabber;

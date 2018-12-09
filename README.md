@@ -55,39 +55,34 @@ let tabs = [
 ReactDOM.render(<ReactTabber tabs={tabs}/>, document.getElementById('container'));
 ```
 ### By JSX template
-You can declare labels and pages by JSX template style. `ReactTabberLabel` represents a label and `ReactTabberPage` represents a page.
-Optional keys are specified onto `ReactTabberLabel`s.
-Continues multiple `ReactTabberPage`s are allowed, they are just belongs to the same closest `ReactTabberLabel`.
-`ReactTabberPage` Element can be omitted if inside contents has another element to wrap them.
+You can declare labels and pages by JSX template style. `ReactTabber.Label` represents a label and `ReactTabber.Page` represents a page.
+Optional keys are specified onto `ReactTabber.Label`s.
+Continues multiple `ReactTabber.Page`s are allowed, they are just belongs to the same closest `ReactTabber.Label`.
+`ReactTabber.Page` Element can be omitted if inside contents has another element to wrap them.
 ```jsx
-import {ReactTabber, ReactTabberLabel, ReactTabberPage} from 'react-tabber';
+import ReactTabber from 'react-tabber';
 ReactDOM.render(
 	<ReactTabber>
-		<ReactTabberLabel key="tab1">label1</ReactTabberLabel>
-		<ReactTabberPage>content 1</ReactTabberPage>
+		<ReactTabber.Label key="tab1">label1</ReactTabber.Label>
+		<ReactTabber.Page>content 1</ReactTabber.Page>
 
-		<ReactTabberLabel key="tab2">label2</ReactTabberLabel>
-		<ReactTabberPage>content 2</ReactTabberPage>
+		<ReactTabber.Label key="tab2">label2</ReactTabber.Label>
+		<ReactTabber.Page>content 2</ReactTabber.Page>
 	</ReactTabber>,
 	document.getElementById('container')
 );
 ```
-For commonjs, AMD and global variable mode, import ReactTabberLabel, ReactTabberPage from ReactTabber:
+For commonjs, AMD and global variable mode, import `ReactTabber`.
 ```javascript
 //commonjs
 var ReactTabber = require('react-tabber');
-var ReactTabberLabel = ReactTabber.Label;
-var ReactTabberPage = ReactTabber.Page;
 
 //AMD
 require(['react-tabber'], function (ReactTabber) {
-	var ReactTabberLabel = ReactTabber.Label;
-	var ReactTabberPage = ReactTabber.Page;
 });
 
 //global variable
-var ReactTabberLabel = ReactTabber.Label;
-var ReactTabberPage = ReactTabber.Page;
+//ReactTabber is a global variable.
 ```
 
 # Including CSS

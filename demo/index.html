@@ -13,13 +13,11 @@
 
 <script type="text/javascript" src="../node_modules/react/umd/react.development.js"></script>
 <script type="text/javascript" src="../node_modules/react-dom/umd/react-dom.development.js"></script>
+<script type="text/javascript" src="../node_modules/prop-types/prop-types.js"></script>
 <script type="text/javascript" src="js/browser.min.js"></script>
 
 <script type="text/javascript" src="../dist/react-tabber.js"></script>
 <script type="text/babel">
-	var ReactTabberLabel = ReactTabber.Label;
-	var ReactTabberPage = ReactTabber.Page;
-
 	const tabs = [
 		{label: 'title1', page: <div>content1</div>},
 		{label: <span>title2</span>, page: <div>content2</div>}
@@ -29,12 +27,12 @@
 		ReactDOM.render(
 				<div>
 					<ReactTabber tabs={tabs} onSwitching={onSwitching}>
-						<ReactTabberLabel>title <b>3</b></ReactTabberLabel>
-						<ReactTabberPage>content <b>3</b>. </ReactTabberPage>
-						<ReactTabberPage>another content <b>3</b>. </ReactTabberPage>
+						<ReactTabber.Label>title <b>3</b></ReactTabber.Label>
+						<ReactTabber.Page>content <b>3</b>. </ReactTabber.Page>
+						<ReactTabber.Page>another content <b>3</b>. </ReactTabber.Page>
 
-						<ReactTabberLabel>title 4</ReactTabberLabel>
-						<ReactTabberPage>content 4</ReactTabberPage>
+						<ReactTabber.Label>title 4</ReactTabber.Label>
+						<ReactTabber.Page>content 4</ReactTabber.Page>
 						<p>another content 4. wrapped element in ReactTabberPage can be omitted.</p>
 					</ReactTabber>
 				</div>,

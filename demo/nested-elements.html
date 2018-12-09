@@ -13,30 +13,28 @@
 
 <script type="text/javascript" src="../node_modules/react/umd/react.development.js"></script>
 <script type="text/javascript" src="../node_modules/react-dom/umd/react-dom.development.js"></script>
+<script type="text/javascript" src="../node_modules/prop-types/prop-types.js"></script>
 <script type="text/javascript" src="js/browser.min.js"></script>
 
 <script type="text/javascript" src="../dist/react-tabber.js"></script>
 <script type="text/babel">
-	var ReactTabberLabel = ReactTabber.Label;
-	var ReactTabberPage = ReactTabber.Page;
-
 	ReactDOM.render(<ReactTabber>
-				<ReactTabberLabel>A</ReactTabberLabel>
+				<ReactTabber.Label>A</ReactTabber.Label>
 				<ReactTabber tabContainerClassName="tab-container-vert">
-					<ReactTabberLabel>A-1</ReactTabberLabel>
+					<ReactTabber.Label>A-1</ReactTabber.Label>
 					<ReactTabber>
-						<ReactTabberLabel>A-1-1</ReactTabberLabel>
-						<ReactTabberPage>a-1-1</ReactTabberPage>
-						<ReactTabberLabel>A-1-2</ReactTabberLabel>
-						<ReactTabberPage>a-1-2</ReactTabberPage>
+						<ReactTabber.Label>A-1-1</ReactTabber.Label>
+						<ReactTabber.Page>a-1-1</ReactTabber.Page>
+						<ReactTabber.Label>A-1-2</ReactTabber.Label>
+						<ReactTabber.Page>a-1-2</ReactTabber.Page>
 					</ReactTabber>
 
-					<ReactTabberLabel>A-2</ReactTabberLabel>
-					<ReactTabberPage>a-2</ReactTabberPage>
+					<ReactTabber.Label>A-2</ReactTabber.Label>
+					<ReactTabber.Page>a-2</ReactTabber.Page>
 				</ReactTabber>
 
-				<ReactTabberLabel>B</ReactTabberLabel>
-				<ReactTabberPage>b</ReactTabberPage>
+				<ReactTabber.Label>B</ReactTabber.Label>
+				<ReactTabber.Page>b</ReactTabber.Page>
 			</ReactTabber>,
 		document.getElementById('container')
 	);

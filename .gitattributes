@@ -1,2 +1,2 @@
-/dist/**	binary
-/src/ts/*.js    binary
+/src/built/**   binary
+/dist/**        binary
