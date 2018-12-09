@@ -1,5 +1,5 @@
-/// <reference path='public.d.ts' />
-/// <reference path='private.d.ts' />
+/// <reference path='./type/public.d.ts' />
+/// <reference path='./type/private.d.ts' />
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -24,40 +24,12 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-var RE_WHITESPACES = /\s+/;
-function normalizeTriggerEvents(events) {
-    if (events) {
-        if (Array.isArray(events)) {
-            return events;
-        }
-        else {
-            return String(events).split(RE_WHITESPACES);
-        }
-    }
-}
-function getEventHandler(events, handler) {
-    var eventHandlers = {};
-    events && events.length && events.forEach(function (event) {
-        eventHandlers[event] = handler;
-    });
-    return eventHandlers;
-}
-var ReactTabberLabel = /** @class */ (function (_super) {
-    __extends(ReactTabberLabel, _super);
-    function ReactTabberLabel() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    return ReactTabberLabel;
-}(Component));
-var ReactTabberPage = /** @class */ (function (_super) {
-    __extends(ReactTabberPage, _super);
-    function ReactTabberPage() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    return ReactTabberPage;
-}(Component));
+import normalizeEvents from './utility/normalize-events';
+import createEventHandler from "./utility/create-event-handler";
+import Label from './component/label';
+import Panel from './component/panel';
 var ReactTabber = /** @class */ (function (_super) {
     __extends(ReactTabber, _super);
     function ReactTabber(props) {
@@ -86,9 +58,9 @@ var ReactTabber = /** @class */ (function (_super) {
     };
     ReactTabber.prototype.componentWillMount = function () {
         var props = this.props;
-        this.triggerEvents = normalizeTriggerEvents(props.triggerEvents);
-        this.delayTriggerEvents = normalizeTriggerEvents(props.delayTriggerEvents);
-        this.delayTriggerCancelEvents = normalizeTriggerEvents(props.delayTriggerCancelEvents);
+        this.triggerEvents = normalizeEvents(props.triggerEvents);
+        this.delayTriggerEvents = normalizeEvents(props.delayTriggerEvents);
+        this.delayTriggerCancelEvents = normalizeEvents(props.delayTriggerCancelEvents);
     };
     ReactTabber.prototype.componentWillUnmount = function () {
         clearTimeout(this.delayTimeout);
@@ -122,9 +94,9 @@ var ReactTabber = /** @class */ (function (_super) {
             };
             var labelItemProps = Object.assign({}, tab.labelProps);
             if (_this.delayTriggerEvents && _this.delayTriggerEvents.length) {
-                Object.assign(labelItemProps, getEventHandler(_this.delayTriggerCancelEvents, cancelDelayDoSwitch), getEventHandler(_this.delayTriggerEvents, delayDoSwitch));
+                Object.assign(labelItemProps, createEventHandler(_this.delayTriggerCancelEvents, cancelDelayDoSwitch), createEventHandler(_this.delayTriggerEvents, delayDoSwitch));
             }
-            Object.assign(labelItemProps, getEventHandler(_this.triggerEvents, doSwitch), {
+            Object.assign(labelItemProps, createEventHandler(_this.triggerEvents, doSwitch), {
                 key: tab.key ? 'key-' + tab.key : 'index-' + index,
                 className: props.labelItemClassName + ' ' + (index === _this.currentIndex ? props.labelItemActiveClassName : props.labelItemInactiveClassName)
             });
@@ -177,7 +149,7 @@ var ReactTabber = /** @class */ (function (_super) {
             var key_1;
             React.Children.forEach(props.children, function (child) {
                 var element = child;
-                if (element.type && element.type === ReactTabberLabel) {
+                if (element.type && element.type === Label) {
                     if (currentLabelItems_1.length) {
                         entries.push({
                             labelProps: currentLabelProps_1,
@@ -203,7 +175,7 @@ var ReactTabber = /** @class */ (function (_super) {
                     if (!currentLabelItems_1.length) {
                         currentLabelItems_1.push('');
                     }
-                    if (element.type && element.type === ReactTabberPage) {
+                    if (element.type && element.type === Panel) {
                         Object.assign(currentPageProps_1, element.props);
                         if (Array.isArray(element.props.children)) {
                             currentPageItems_1.push.apply(currentPageItems_1, element.props.children);
@@ -256,8 +228,8 @@ var ReactTabber = /** @class */ (function (_super) {
     ReactTabber.prototype.componentDidUpdate = function () {
         this.updateRenderedIndex();
     };
-    ReactTabber.Label = ReactTabberLabel;
-    ReactTabber.Page = ReactTabberPage;
+    ReactTabber.Label = Label;
+    ReactTabber.Page = Panel;
     ReactTabber.propTypes = {
         tabs: PropTypes.arrayOf(PropTypes.shape({
             label: PropTypes.node.isRequired,

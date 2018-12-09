@@ -7,9 +7,71 @@
     var React__default = 'default' in React ? React['default'] : React;
     PropTypes = PropTypes && PropTypes.hasOwnProperty('default') ? PropTypes['default'] : PropTypes;
 
-    /// <reference path='public.d.ts' />
-    /// <reference path='private.d.ts' />
+    var RE_WHITESPACES = /\s+/;
+    function normalizeEvents(events) {
+        if (events) {
+            if (Array.isArray(events)) {
+                return events;
+            }
+            else {
+                return String(events).split(RE_WHITESPACES);
+            }
+        }
+    }
+
+    function createEventHandler(events, handler) {
+        var eventHandlers = {};
+        events && events.length && events.forEach(function (event) {
+            eventHandlers[event] = handler;
+        });
+        return eventHandlers;
+    }
+
     var __extends = (undefined && undefined.__extends) || (function () {
+        var extendStatics = function (d, b) {
+            extendStatics = Object.setPrototypeOf ||
+                ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+                function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+            return extendStatics(d, b);
+        };
+        return function (d, b) {
+            extendStatics(d, b);
+            function __() { this.constructor = d; }
+            d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+        };
+    })();
+    var Label = /** @class */ (function (_super) {
+        __extends(Label, _super);
+        function Label() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        return Label;
+    }(React.Component));
+
+    var __extends$1 = (undefined && undefined.__extends) || (function () {
+        var extendStatics = function (d, b) {
+            extendStatics = Object.setPrototypeOf ||
+                ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+                function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+            return extendStatics(d, b);
+        };
+        return function (d, b) {
+            extendStatics(d, b);
+            function __() { this.constructor = d; }
+            d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+        };
+    })();
+    var Panel = /** @class */ (function (_super) {
+        __extends$1(Panel, _super);
+        function Panel() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        return Panel;
+    }(React.Component));
+
+    /// <reference path='./type/public.d.ts' />
+    /// <reference path='./type/private.d.ts' />
+    var __extends$2 = (undefined && undefined.__extends) || (function () {
         var extendStatics = function (d, b) {
             extendStatics = Object.setPrototypeOf ||
                 ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -33,40 +95,8 @@
         };
         return __assign.apply(this, arguments);
     };
-    var RE_WHITESPACES = /\s+/;
-    function normalizeTriggerEvents(events) {
-        if (events) {
-            if (Array.isArray(events)) {
-                return events;
-            }
-            else {
-                return String(events).split(RE_WHITESPACES);
-            }
-        }
-    }
-    function getEventHandler(events, handler) {
-        var eventHandlers = {};
-        events && events.length && events.forEach(function (event) {
-            eventHandlers[event] = handler;
-        });
-        return eventHandlers;
-    }
-    var ReactTabberLabel = /** @class */ (function (_super) {
-        __extends(ReactTabberLabel, _super);
-        function ReactTabberLabel() {
-            return _super !== null && _super.apply(this, arguments) || this;
-        }
-        return ReactTabberLabel;
-    }(React.Component));
-    var ReactTabberPage = /** @class */ (function (_super) {
-        __extends(ReactTabberPage, _super);
-        function ReactTabberPage() {
-            return _super !== null && _super.apply(this, arguments) || this;
-        }
-        return ReactTabberPage;
-    }(React.Component));
     var ReactTabber = /** @class */ (function (_super) {
-        __extends(ReactTabber, _super);
+        __extends$2(ReactTabber, _super);
         function ReactTabber(props) {
             var _this = _super.call(this, props) || this;
             _this.activeIndex = -1;
@@ -93,9 +123,9 @@
         };
         ReactTabber.prototype.componentWillMount = function () {
             var props = this.props;
-            this.triggerEvents = normalizeTriggerEvents(props.triggerEvents);
-            this.delayTriggerEvents = normalizeTriggerEvents(props.delayTriggerEvents);
-            this.delayTriggerCancelEvents = normalizeTriggerEvents(props.delayTriggerCancelEvents);
+            this.triggerEvents = normalizeEvents(props.triggerEvents);
+            this.delayTriggerEvents = normalizeEvents(props.delayTriggerEvents);
+            this.delayTriggerCancelEvents = normalizeEvents(props.delayTriggerCancelEvents);
         };
         ReactTabber.prototype.componentWillUnmount = function () {
             clearTimeout(this.delayTimeout);
@@ -129,9 +159,9 @@
                 };
                 var labelItemProps = Object.assign({}, tab.labelProps);
                 if (_this.delayTriggerEvents && _this.delayTriggerEvents.length) {
-                    Object.assign(labelItemProps, getEventHandler(_this.delayTriggerCancelEvents, cancelDelayDoSwitch), getEventHandler(_this.delayTriggerEvents, delayDoSwitch));
+                    Object.assign(labelItemProps, createEventHandler(_this.delayTriggerCancelEvents, cancelDelayDoSwitch), createEventHandler(_this.delayTriggerEvents, delayDoSwitch));
                 }
-                Object.assign(labelItemProps, getEventHandler(_this.triggerEvents, doSwitch), {
+                Object.assign(labelItemProps, createEventHandler(_this.triggerEvents, doSwitch), {
                     key: tab.key ? 'key-' + tab.key : 'index-' + index,
                     className: props.labelItemClassName + ' ' + (index === _this.currentIndex ? props.labelItemActiveClassName : props.labelItemInactiveClassName)
                 });
@@ -184,7 +214,7 @@
                 var key_1;
                 React__default.Children.forEach(props.children, function (child) {
                     var element = child;
-                    if (element.type && element.type === ReactTabberLabel) {
+                    if (element.type && element.type === Label) {
                         if (currentLabelItems_1.length) {
                             entries.push({
                                 labelProps: currentLabelProps_1,
@@ -210,7 +240,7 @@
                         if (!currentLabelItems_1.length) {
                             currentLabelItems_1.push('');
                         }
-                        if (element.type && element.type === ReactTabberPage) {
+                        if (element.type && element.type === Panel) {
                             Object.assign(currentPageProps_1, element.props);
                             if (Array.isArray(element.props.children)) {
                                 currentPageItems_1.push.apply(currentPageItems_1, element.props.children);
@@ -263,8 +293,8 @@
         ReactTabber.prototype.componentDidUpdate = function () {
             this.updateRenderedIndex();
         };
-        ReactTabber.Label = ReactTabberLabel;
-        ReactTabber.Page = ReactTabberPage;
+        ReactTabber.Label = Label;
+        ReactTabber.Page = Panel;
         ReactTabber.propTypes = {
             tabs: PropTypes.arrayOf(PropTypes.shape({
                 label: PropTypes.node.isRequired,

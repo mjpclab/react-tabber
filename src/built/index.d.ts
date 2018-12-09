@@ -1,14 +1,12 @@
-/// <reference path="../ts/public.d.ts" />
-/// <reference path="../ts/private.d.ts" />
-import React, { Component } from 'react';
+/// <reference path="../ts/type/public.d.ts" />
+/// <reference path="../ts/type/private.d.ts" />
+import React from 'react';
 import PropTypes from 'prop-types';
-declare class ReactTabberLabel extends Component {
-}
-declare class ReactTabberPage extends Component {
-}
+import Label from './component/label';
+import Panel from './component/panel';
 declare class ReactTabber extends React.Component<ReactTabberProps, ReactTabberState> {
-    static Label: typeof ReactTabberLabel;
-    static Page: typeof ReactTabberPage;
+    static Label: typeof Label;
+    static Page: typeof Panel;
     static propTypes: {
         tabs: PropTypes.Validator<(PropTypes.InferProps<{
             label: PropTypes.Validator<string | number | boolean | {} | PropTypes.ReactElementLike | PropTypes.ReactNodeArray>;
