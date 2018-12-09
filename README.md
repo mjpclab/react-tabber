@@ -72,32 +72,17 @@ ReactDOM.render(
 	document.getElementById('container')
 );
 ```
-For commonjs, AMD and global variable mode, import `ReactTabber`.
-```javascript
-//commonjs
-var ReactTabber = require('react-tabber');
-
-//AMD
-require(['react-tabber'], function (ReactTabber) {
-});
-
-//global variable
-//ReactTabber is a global variable.
-```
 
 # Including CSS
-By default, "react-tabber" module do not have any CSS style applied, which means all tab pages are always visible on the page.
-To hide non-active tab pages, just applying CSS by "inactive" class(controlled by property `pageItemInactiveClassName`) to hide them.
+react-tabber provides default CSS styles if you don't want to make from scratch. Make sure CSS class name options are not customized.
 
-ReactTabber provides default CSS styles if you don't want to make it yourself. It also provides default skin.
-
-## Use CSS bundled version
-For module environment, importing module `react-tabber/with-css` instead of `react-tabber`.
-
-For global variable mode, referencing the '-with-css' bundle file. Variable name will be `ReactTabberWithCss` insteadof `ReactTabber`.
+## Importing by module
+```javascript
+import 'react-tabber/src/built/theme/gray'
+```
 
 ## Use standalone CSS file
-Copying or referencing source CSS files under `src/css/` directory.
+Copying or referencing CSS files from `dist/theme/` directory.
 
 ## Vertical labels
 To use vertical labels style from default CSS, set `tabContainerClassName` to 'tab-container-vert'.
