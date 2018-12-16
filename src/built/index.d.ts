@@ -45,7 +45,6 @@ declare class ReactTabber extends React.Component<ReactTabber.Props, ReactTabber
     componentWillReceiveProps(nextProps: ReactTabber.Props): void;
     componentWillMount(): void;
     componentWillUnmount(): void;
-    private getValidIndex;
     private _createLabelContainer;
     private createHeaderLabelContainer;
     private createFooterLabelContainer;

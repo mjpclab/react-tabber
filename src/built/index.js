@@ -25,6 +25,7 @@ var __assign = (this && this.__assign) || function () {
 };
 import React from 'react';
 import PropTypes from 'prop-types';
+import getValidIndex from './utility/get-valid-index';
 import normalizeEvents from './utility/normalize-events';
 import createEventHandler from "./utility/create-event-handler";
 import Label from './component/label';
@@ -36,7 +37,7 @@ var ReactTabber = /** @class */ (function (_super) {
         _this.activeIndex = -1;
         _this.currentIndex = -1;
         _this.renderedIndex = -1;
-        _this.activeIndex = _this.getValidIndex(props.activeIndex);
+        _this.activeIndex = getValidIndex(props.activeIndex);
         _this.state = {
             targetIndex: _this.activeIndex
         };
@@ -47,7 +48,7 @@ var ReactTabber = /** @class */ (function (_super) {
             return;
         }
         var oldIndex = this.activeIndex;
-        var newIndex = this.getValidIndex(nextProps.activeIndex);
+        var newIndex = getValidIndex(nextProps.activeIndex);
         if (oldIndex !== newIndex) {
             this.activeIndex = newIndex;
             this.setState({
@@ -63,13 +64,6 @@ var ReactTabber = /** @class */ (function (_super) {
     };
     ReactTabber.prototype.componentWillUnmount = function () {
         clearTimeout(this.delayTimeout);
-    };
-    ReactTabber.prototype.getValidIndex = function (index) {
-        if (index === '' || !isFinite(index) || isNaN(index)) {
-            return -1;
-        }
-        var intIndex = parseInt(index);
-        return intIndex < 0 ? 0 : index;
     };
     ReactTabber.prototype._createLabelContainer = function (tabs, positionClassName) {
         var _this = this;
@@ -126,7 +120,7 @@ var ReactTabber = /** @class */ (function (_super) {
     };
     ReactTabber.prototype.switchTo = function (index) {
         this.setState({
-            targetIndex: this.getValidIndex(index)
+            targetIndex: getValidIndex(index)
         });
     };
     ReactTabber.prototype.getTabEntries = function () {

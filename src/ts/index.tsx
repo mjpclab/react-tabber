@@ -3,6 +3,7 @@
 import React, {ReactElement} from 'react';
 import PropTypes from 'prop-types';
 
+import getValidIndex from './utility/get-valid-index';
 import normalizeEvents from './utility/normalize-events';
 import createEventHandler from "./utility/create-event-handler";
 
@@ -79,7 +80,7 @@ class ReactTabber extends React.Component<ReactTabber.Props, ReactTabber.State> 
 	constructor(props: any) {
 		super(props);
 
-		this.activeIndex = this.getValidIndex(props.activeIndex);
+		this.activeIndex = getValidIndex(props.activeIndex);
 		this.state = {
 			targetIndex: this.activeIndex
 		};
@@ -91,7 +92,7 @@ class ReactTabber extends React.Component<ReactTabber.Props, ReactTabber.State> 
 		}
 
 		const oldIndex = this.activeIndex;
-		const newIndex = this.getValidIndex(nextProps.activeIndex);
+		const newIndex = getValidIndex(nextProps.activeIndex);
 		if (oldIndex !== newIndex) {
 			this.activeIndex = newIndex;
 			this.setState({
@@ -109,15 +110,6 @@ class ReactTabber extends React.Component<ReactTabber.Props, ReactTabber.State> 
 
 	componentWillUnmount() {
 		clearTimeout(this.delayTimeout);
-	}
-
-	private getValidIndex(index: any): number {
-		if (index === '' || !isFinite(index) || isNaN(index)) {
-			return -1;
-		}
-
-		const intIndex = parseInt(index);
-		return intIndex < 0 ? 0 : index;
 	}
 
 	private _createLabelContainer(tabs: ReactTabber.Entry[], positionClassName: string) {
@@ -214,7 +206,7 @@ class ReactTabber extends React.Component<ReactTabber.Props, ReactTabber.State> 
 
 	private switchTo(index: number) {
 		this.setState({
-			targetIndex: this.getValidIndex(index)
+			targetIndex: getValidIndex(index)
 		});
 	}
 
