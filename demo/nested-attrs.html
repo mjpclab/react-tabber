@@ -19,16 +19,16 @@
 <script type="text/babel">
 	ReactDOM.render(<ReactTabber tabs={[
 			{
-				label: 'A', page: <ReactTabber tabContainerClassName="tab-container-vert" tabs={[
+				label: 'A', panel: <ReactTabber tabContainerClassName="tab-container-vert" tabs={[
 				{
-					label: 'A-1', page: <ReactTabber tabs={[
-					{label: 'A-1-1', page: 'a-1-1'},
-					{label: 'A-1-2', page: 'a-1-2'}
+					label: 'A-1', panel: <ReactTabber tabs={[
+					{label: 'A-1-1', panel: 'a-1-1'},
+					{label: 'A-1-2', panel: 'a-1-2'}
 				]}/>
 				},
-				{label: 'A-2', page: 'a-2'}]}/>
+				{label: 'A-2', panel: 'a-2'}]}/>
 			},
-			{label: <span>B</span>, page: <div>b</div>}
+			{label: <span>B</span>, panel: <div>b</div>}
 		]}/>,
 		document.getElementById('container')
 	);

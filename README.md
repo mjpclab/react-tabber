@@ -10,11 +10,11 @@ A React Tab sheet component.
         > .label-item
         > .label-item
         > ...
-    > .page-container
-        > .page-item
-        > .page-item
-        > .page-item
-        > .page-item
+    > .panel-container
+        > .panel-item
+        > .panel-item
+        > .panel-item
+        > .panel-item
         > ...
 ```
 
@@ -43,31 +43,31 @@ if you are using React and ReactTabber in global variable mode, which means ther
 ## Prepare tabs array and render
 ### By data structure
 You need to collect all components that want to put into tabs array.
-Each array item has property `label` and `page`, which can be a string, a number, a native DOM element, another React component, or array of these types of item.
+Each array item has property `label` and `panel`, which can be a string, a number, a native DOM element, another React component, or array of these types of item.
 It also has an optional property `key` for the item which can improve performance if tabs array are changed dynamically and trigger render by it's parent component.
 Here is the example of tabs array:
 ```jsx
 let tabs = [
-  {label: 'label1', page: <div>content 1</div>, key: 'tab1'},
-  {label: 'label2', page: <div>content 2</div>, key: 'tab2'}
+  {label: 'label1', panel: <div>content 1</div>, key: 'tab1'},
+  {label: 'label2', panel: <div>content 2</div>, key: 'tab2'}
 ];
 
 ReactDOM.render(<ReactTabber tabs={tabs}/>, document.getElementById('container'));
 ```
 ### By JSX template
-You can declare labels and pages by JSX template style. `ReactTabber.Label` represents a label and `ReactTabber.Page` represents a page.
+You can declare labels and panels by JSX template style. `ReactTabber.Label` represents a label and `ReactTabber.Panel` represents a panel.
 Optional keys are specified onto `ReactTabber.Label`s.
-Continues multiple `ReactTabber.Page`s are allowed, they are just belongs to the same closest `ReactTabber.Label`.
-`ReactTabber.Page` Element can be omitted if inside contents has another element to wrap them.
+Continues multiple `ReactTabber.Panel`s are allowed, they are just belongs to the same closest `ReactTabber.Label`.
+`ReactTabber.Panel` Element can be omitted if inside contents has another element to wrap them.
 ```jsx
 import ReactTabber from 'react-tabber';
 ReactDOM.render(
 	<ReactTabber>
 		<ReactTabber.Label key="tab1">label1</ReactTabber.Label>
-		<ReactTabber.Page>content 1</ReactTabber.Page>
+		<ReactTabber.Panel>content 1</ReactTabber.Panel>
 
 		<ReactTabber.Label key="tab2">label2</ReactTabber.Label>
-		<ReactTabber.Page>content 2</ReactTabber.Page>
+		<ReactTabber.Panel>content 2</ReactTabber.Panel>
 	</ReactTabber>,
 	document.getElementById('container')
 );
@@ -98,15 +98,15 @@ Properties are options specified as attribute onto ReactTabber:
 ```
 ## Behavior Properties
 `tabs`  
-Specify tabs you want to render as a tab, should be an array of rendering items, which has property `label`, `page` and optional `key`.
-`label` will be shown on tab label container. `page` is the content of the tab. `key` is used to identify different tab labels and pages.
+Specify tabs you want to render as a tab, should be an array of rendering items, which has property `label`, `panel` and optional `key`.
+`label` will be shown on tab label container. `panel` is the content of the tab. `key` is used to identify different tab labels and panels.
 
 `triggerEvents`  
-Determine the types of React Element events triggered on label-item that will make the page-item switched.
+Determine the types of React Element events triggered on label-item that will make the panel-item switched.
 Can be an array of event names, or space separated event names. Default value is `['onClick']`.
 
 `delayTriggerEvents`  
-Specify React Element events on label-item that will trigger page switch after delay a small piece of time.
+Specify React Element events on label-item that will trigger panel switch after delay a small piece of time.
 Quite useful if you want to keep hover a little time before switching.
 
 `delayTriggerCancelEvents`  
@@ -139,10 +139,10 @@ Tab container element's class name. Default value is 'tab-container'.
 Label container element's class name. Default value is 'label-container'.
 
 `showHeaderLabelContainer`  
-If show label container before tab page. Default value is true.
+If show label container before tab panel. Default value is true.
 
 `showFooterLabelContainer`  
-If show label container after tab page. Default value is false.
+If show label container after tab panel. Default value is false.
 
 `headerLabelContainerClassName`  
 Header label container element's class name. Default value is 'header-container'.
@@ -159,15 +159,15 @@ The active(switched) label item element's class name. Default value is 'label-ac
 `labelItemInactiveClassName`  
 Non-active label item element's class name. Default value is 'label-inactive'.
 
-### Page
-`pageContainerClassName`  
-Page container element's class name. Default value is 'page-container'.
+### Panel
+`panelContainerClassName`  
+Panel container element's class name. Default value is 'panel-container'.
 
-`pageItemClassName`  
-Page item element's class name. Default value is 'page-item'.
+`panelItemClassName`  
+Panel item element's class name. Default value is 'panel-item'.
 
-`pageItemActiveClassName`  
-The active(switched) page item element's class name. Default value is 'page-active'.
+`panelItemActiveClassName`  
+The active(switched) panel item element's class name. Default value is 'panel-active'.
 
-`pageItemInactiveClassName`  
-Non-active page item element's class name. Default value is 'page-inactive'.
+`panelItemInactiveClassName`  
+Non-active panel item element's class name. Default value is 'panel-inactive'.

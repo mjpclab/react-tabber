@@ -110,22 +110,22 @@ var ReactTabber = /** @class */ (function (_super) {
     ReactTabber.prototype.getFooterLabelContainer = function (tabs) {
         return this._getLabelContainer(tabs, this.props.footerLabelContainerClassName);
     };
-    ReactTabber.prototype.getPageContainer = function (tabs) {
+    ReactTabber.prototype.getPanelContainer = function (tabs) {
         var _this = this;
         var props = this.props;
-        return React.createElement("div", { className: props.pageContainerClassName }, tabs.map(function (tab, index) {
-            var pageItemProps = Object.assign({}, tab.pageProps, {
+        return React.createElement("div", { className: props.panelContainerClassName }, tabs.map(function (tab, index) {
+            var panelItemProps = Object.assign({}, tab.panelProps, {
                 key: tab.key ? 'key-' + tab.key : 'index-' + index,
-                className: props.pageItemClassName + ' ' + (index === _this.currentIndex ? props.pageItemActiveClassName : props.pageItemInactiveClassName)
+                className: props.panelItemClassName + ' ' + (index === _this.currentIndex ? props.panelItemActiveClassName : props.panelItemInactiveClassName)
             });
-            return React.createElement("div", __assign({}, pageItemProps), tab.page);
+            return React.createElement("div", __assign({}, panelItemProps), tab.panel);
         }));
     };
     ReactTabber.prototype.getTabContainer = function (tabs) {
         var props = this.props;
         return React.createElement("div", { className: props.tabContainerClassName },
             props.showHeaderLabelContainer ? this.getHeaderLabelContainer(tabs) : null,
-            this.getPageContainer(tabs),
+            this.getPanelContainer(tabs),
             props.showFooterLabelContainer ? this.getFooterLabelContainer(tabs) : null);
     };
     ReactTabber.prototype.switchTo = function (index) {
@@ -144,8 +144,8 @@ var ReactTabber = /** @class */ (function (_super) {
         if (props.children) {
             var currentLabelProps_1 = {};
             var currentLabelItems_1 = [];
-            var currentPageProps_1 = {};
-            var currentPageItems_1 = [];
+            var currentPanelProps_1 = {};
+            var currentPanelItems_1 = [];
             var key_1;
             React.Children.forEach(props.children, function (child) {
                 var element = child;
@@ -154,8 +154,8 @@ var ReactTabber = /** @class */ (function (_super) {
                         entries.push({
                             labelProps: currentLabelProps_1,
                             label: currentLabelItems_1.length === 1 ? currentLabelItems_1[0] : currentLabelItems_1,
-                            pageProps: currentPageProps_1,
-                            page: currentPageItems_1.length === 1 ? currentPageItems_1[0] : currentPageItems_1,
+                            panelProps: currentPanelProps_1,
+                            panel: currentPanelItems_1.length === 1 ? currentPanelItems_1[0] : currentPanelItems_1,
                             key: key_1
                         });
                     }
@@ -167,8 +167,8 @@ var ReactTabber = /** @class */ (function (_super) {
                     else {
                         currentLabelItems_1.push(element.props.children);
                     }
-                    currentPageProps_1 = {};
-                    currentPageItems_1 = [];
+                    currentPanelProps_1 = {};
+                    currentPanelItems_1 = [];
                     key_1 = element.key ? 'key-' + element.key : 'index-' + entries.length;
                 }
                 else {
@@ -176,16 +176,16 @@ var ReactTabber = /** @class */ (function (_super) {
                         currentLabelItems_1.push('');
                     }
                     if (element.type && element.type === Panel) {
-                        Object.assign(currentPageProps_1, element.props);
+                        Object.assign(currentPanelProps_1, element.props);
                         if (Array.isArray(element.props.children)) {
-                            currentPageItems_1.push.apply(currentPageItems_1, element.props.children);
+                            currentPanelItems_1.push.apply(currentPanelItems_1, element.props.children);
                         }
                         else {
-                            currentPageItems_1.push(element.props.children);
+                            currentPanelItems_1.push(element.props.children);
                         }
                     }
                     else if (element.type) {
-                        currentPageItems_1.push(element);
+                        currentPanelItems_1.push(element);
                     }
                 }
             });
@@ -193,8 +193,8 @@ var ReactTabber = /** @class */ (function (_super) {
                 entries.push({
                     labelProps: currentLabelProps_1,
                     label: currentLabelItems_1.length === 1 ? currentLabelItems_1[0] : currentLabelItems_1,
-                    pageProps: currentPageProps_1,
-                    page: currentPageItems_1.length === 1 ? currentPageItems_1[0] : currentPageItems_1,
+                    panelProps: currentPanelProps_1,
+                    panel: currentPanelItems_1.length === 1 ? currentPanelItems_1[0] : currentPanelItems_1,
                     key: key_1
                 });
             }
@@ -229,11 +229,11 @@ var ReactTabber = /** @class */ (function (_super) {
         this.updateRenderedIndex();
     };
     ReactTabber.Label = Label;
-    ReactTabber.Page = Panel;
+    ReactTabber.Panel = Panel;
     ReactTabber.propTypes = {
         tabs: PropTypes.arrayOf(PropTypes.shape({
             label: PropTypes.node.isRequired,
-            page: PropTypes.node.isRequired,
+            panel: PropTypes.node.isRequired,
             key: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
         })).isRequired,
         triggerEvents: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]),
@@ -252,10 +252,10 @@ var ReactTabber = /** @class */ (function (_super) {
         labelItemClassName: PropTypes.string,
         labelItemActiveClassName: PropTypes.string,
         labelItemInactiveClassName: PropTypes.string,
-        pageContainerClassName: PropTypes.string,
-        pageItemClassName: PropTypes.string,
-        pageItemActiveClassName: PropTypes.string,
-        pageItemInactiveClassName: PropTypes.string
+        panelContainerClassName: PropTypes.string,
+        panelItemClassName: PropTypes.string,
+        panelItemActiveClassName: PropTypes.string,
+        panelItemInactiveClassName: PropTypes.string
     };
     ReactTabber.defaultProps = {
         tabs: [],
@@ -271,10 +271,10 @@ var ReactTabber = /** @class */ (function (_super) {
         labelItemClassName: 'label-item',
         labelItemActiveClassName: 'label-active',
         labelItemInactiveClassName: 'label-inactive',
-        pageContainerClassName: 'page-container',
-        pageItemClassName: 'page-item',
-        pageItemActiveClassName: 'page-active',
-        pageItemInactiveClassName: 'page-inactive'
+        panelContainerClassName: 'panel-container',
+        panelItemClassName: 'panel-item',
+        panelItemActiveClassName: 'panel-active',
+        panelItemInactiveClassName: 'panel-inactive'
     };
     return ReactTabber;
 }(React.Component));

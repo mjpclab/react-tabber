@@ -24,8 +24,8 @@
 			this.state = {
 				activeIndex: 0,
 				tabs: [
-					{label: 'title1', page: <div>content1</div>},
-					{label: <span>title2</span>, page: <div>content2</div>}
+					{label: 'title1', panel: <div>content1</div>},
+					{label: <span>title2</span>, panel: <div>content2</div>}
 				]
 			};
 
@@ -51,7 +51,7 @@
 			const newTabs = this.state.tabs;
 			newTabs.push({
 				label: 'label-' + (newTabs.length + 1),
-				page: 'content-' + (newTabs.length + 1)
+				panel: 'content-' + (newTabs.length + 1)
 			});
 
 			this.setState({

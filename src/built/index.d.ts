@@ -6,11 +6,11 @@ import Label from './component/label';
 import Panel from './component/panel';
 declare class ReactTabber extends React.Component<ReactTabberProps, ReactTabberState> {
     static Label: typeof Label;
-    static Page: typeof Panel;
+    static Panel: typeof Panel;
     static propTypes: {
         tabs: PropTypes.Validator<(PropTypes.InferProps<{
             label: PropTypes.Validator<string | number | boolean | {} | PropTypes.ReactElementLike | PropTypes.ReactNodeArray>;
-            page: PropTypes.Validator<string | number | boolean | {} | PropTypes.ReactElementLike | PropTypes.ReactNodeArray>;
+            panel: PropTypes.Validator<string | number | boolean | {} | PropTypes.ReactElementLike | PropTypes.ReactNodeArray>;
             key: PropTypes.Requireable<string | number>;
         }> | null)[]>;
         triggerEvents: PropTypes.Requireable<string | (string | null)[]>;
@@ -29,10 +29,10 @@ declare class ReactTabber extends React.Component<ReactTabberProps, ReactTabberS
         labelItemClassName: PropTypes.Requireable<string>;
         labelItemActiveClassName: PropTypes.Requireable<string>;
         labelItemInactiveClassName: PropTypes.Requireable<string>;
-        pageContainerClassName: PropTypes.Requireable<string>;
-        pageItemClassName: PropTypes.Requireable<string>;
-        pageItemActiveClassName: PropTypes.Requireable<string>;
-        pageItemInactiveClassName: PropTypes.Requireable<string>;
+        panelContainerClassName: PropTypes.Requireable<string>;
+        panelItemClassName: PropTypes.Requireable<string>;
+        panelItemActiveClassName: PropTypes.Requireable<string>;
+        panelItemInactiveClassName: PropTypes.Requireable<string>;
     };
     static defaultProps: ReactTabberProps;
     private activeIndex;
@@ -50,7 +50,7 @@ declare class ReactTabber extends React.Component<ReactTabberProps, ReactTabberS
     private _getLabelContainer;
     private getHeaderLabelContainer;
     private getFooterLabelContainer;
-    private getPageContainer;
+    private getPanelContainer;
     private getTabContainer;
     private switchTo;
     private getTabEntries;

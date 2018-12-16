@@ -12,12 +12,12 @@ import Panel from './component/panel';
 
 class ReactTabber extends React.Component<ReactTabberProps, ReactTabberState> {
 	static Label = Label;
-	static Page = Panel;
+	static Panel = Panel;
 
 	static propTypes = {
 		tabs: PropTypes.arrayOf(PropTypes.shape({
 			label: PropTypes.node.isRequired,
-			page: PropTypes.node.isRequired,
+			panel: PropTypes.node.isRequired,
 			key: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 		})).isRequired,
 		triggerEvents: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]),
@@ -39,10 +39,10 @@ class ReactTabber extends React.Component<ReactTabberProps, ReactTabberState> {
 		labelItemActiveClassName: PropTypes.string,
 		labelItemInactiveClassName: PropTypes.string,
 
-		pageContainerClassName: PropTypes.string,
-		pageItemClassName: PropTypes.string,
-		pageItemActiveClassName: PropTypes.string,
-		pageItemInactiveClassName: PropTypes.string
+		panelContainerClassName: PropTypes.string,
+		panelItemClassName: PropTypes.string,
+		panelItemActiveClassName: PropTypes.string,
+		panelItemInactiveClassName: PropTypes.string
 	};
 
 	static defaultProps: ReactTabberProps = {
@@ -63,10 +63,10 @@ class ReactTabber extends React.Component<ReactTabberProps, ReactTabberState> {
 		labelItemActiveClassName: 'label-active',
 		labelItemInactiveClassName: 'label-inactive',
 
-		pageContainerClassName: 'page-container',
-		pageItemClassName: 'page-item',
-		pageItemActiveClassName: 'page-active',
-		pageItemInactiveClassName: 'page-inactive'
+		panelContainerClassName: 'panel-container',
+		panelItemClassName: 'panel-item',
+		panelItemActiveClassName: 'panel-active',
+		panelItemInactiveClassName: 'panel-inactive'
 	};
 
 	private activeIndex: number = -1;
@@ -174,17 +174,17 @@ class ReactTabber extends React.Component<ReactTabberProps, ReactTabberState> {
 		return this._getLabelContainer(tabs, this.props.footerLabelContainerClassName!);
 	}
 
-	private getPageContainer(tabs: ReactTabberEntry[]) {
+	private getPanelContainer(tabs: ReactTabberEntry[]) {
 		const props = this.props;
 
-		return <div className={props.pageContainerClassName}>
+		return <div className={props.panelContainerClassName}>
 			{tabs.map((tab, index) => {
-				const pageItemProps: JSXProps = Object.assign({}, tab.pageProps, {
+				const panelItemProps: JSXProps = Object.assign({}, tab.panelProps, {
 					key: tab.key ? 'key-' + tab.key : 'index-' + index,
-					className: props.pageItemClassName + ' ' + (index === this.currentIndex ? props.pageItemActiveClassName : props.pageItemInactiveClassName)
+					className: props.panelItemClassName + ' ' + (index === this.currentIndex ? props.panelItemActiveClassName : props.panelItemInactiveClassName)
 				});
 
-				return <div {...pageItemProps}>{tab.page}</div>
+				return <div {...panelItemProps}>{tab.panel}</div>
 			})}
 		</div>;
 	}
@@ -194,7 +194,7 @@ class ReactTabber extends React.Component<ReactTabberProps, ReactTabberState> {
 
 		return <div className={props.tabContainerClassName}>
 			{props.showHeaderLabelContainer ? this.getHeaderLabelContainer(tabs) : null}
-			{this.getPageContainer(tabs)}
+			{this.getPanelContainer(tabs)}
 			{props.showFooterLabelContainer ? this.getFooterLabelContainer(tabs) : null}
 		</div>;
 	}
@@ -218,8 +218,8 @@ class ReactTabber extends React.Component<ReactTabberProps, ReactTabberState> {
 		if (props.children) {
 			let currentLabelProps = {};
 			let currentLabelItems: ReactTabberNode[] = [];
-			let currentPageProps = {};
-			let currentPageItems: ReactTabberNode[] = [];
+			let currentPanelProps = {};
+			let currentPanelItems: ReactTabberNode[] = [];
 			let key: string | undefined;
 
 			React.Children.forEach(props.children, child => {
@@ -229,8 +229,8 @@ class ReactTabber extends React.Component<ReactTabberProps, ReactTabberState> {
 						entries.push({
 							labelProps: currentLabelProps,
 							label: currentLabelItems.length === 1 ? currentLabelItems[0] : currentLabelItems,
-							pageProps: currentPageProps,
-							page: currentPageItems.length === 1 ? currentPageItems[0] : currentPageItems,
+							panelProps: currentPanelProps,
+							panel: currentPanelItems.length === 1 ? currentPanelItems[0] : currentPanelItems,
 							key: key
 						});
 					}
@@ -241,22 +241,22 @@ class ReactTabber extends React.Component<ReactTabberProps, ReactTabberState> {
 					} else {
 						currentLabelItems.push(element.props.children);
 					}
-					currentPageProps = {};
-					currentPageItems = [];
+					currentPanelProps = {};
+					currentPanelItems = [];
 					key = element.key ? 'key-' + element.key : 'index-' + entries.length;
 				} else {
 					if (!currentLabelItems.length) {
 						currentLabelItems.push('');
 					}
 					if (element.type && element.type === Panel) {
-						Object.assign(currentPageProps, element.props);
+						Object.assign(currentPanelProps, element.props);
 						if (Array.isArray(element.props.children)) {
-							currentPageItems.push(...element.props.children);
+							currentPanelItems.push(...element.props.children);
 						} else {
-							currentPageItems.push(element.props.children);
+							currentPanelItems.push(element.props.children);
 						}
 					} else if (element.type) {
-						currentPageItems.push(element);
+						currentPanelItems.push(element);
 					}
 				}
 			});
@@ -265,8 +265,8 @@ class ReactTabber extends React.Component<ReactTabberProps, ReactTabberState> {
 				entries.push({
 					labelProps: currentLabelProps,
 					label: currentLabelItems.length === 1 ? currentLabelItems[0] : currentLabelItems,
-					pageProps: currentPageProps,
-					page: currentPageItems.length === 1 ? currentPageItems[0] : currentPageItems,
+					panelProps: currentPanelProps,
+					panel: currentPanelItems.length === 1 ? currentPanelItems[0] : currentPanelItems,
 					key: key
 				});
 			}

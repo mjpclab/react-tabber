@@ -7,12 +7,12 @@ type JSXProps = {
 interface ReactTabberEntry {
 	labelProps?: JSXProps
 	label: ReactTabberNode | ReactTabberNode[];
-	pageProps?: JSXProps
-	page: ReactTabberNode | ReactTabberNode[];
+	panelProps?: JSXProps
+	panel: ReactTabberNode | ReactTabberNode[];
 	key?: string | number;
 }
 
-interface _ReactTabberProps {
+interface NecessaryProps {
 	tabs: ReactTabberEntry[];
 
 	triggerEvents?: string | string[];
@@ -34,13 +34,13 @@ interface _ReactTabberProps {
 	labelItemActiveClassName: string;
 	labelItemInactiveClassName: string;
 
-	pageContainerClassName: string;
-	pageItemClassName: string;
-	pageItemActiveClassName: string;
-	pageItemInactiveClassName: string;
+	panelContainerClassName: string;
+	panelItemClassName: string;
+	panelItemActiveClassName: string;
+	panelItemInactiveClassName: string;
 }
 
-interface ReactTabberProps extends Partial<_ReactTabberProps> {
+interface ReactTabberProps extends Partial<NecessaryProps> {
 }
 
 interface ReactTabberState {
