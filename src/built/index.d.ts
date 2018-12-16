@@ -1,10 +1,9 @@
 /// <reference path="../ts/type/public.d.ts" />
-/// <reference path="../ts/type/private.d.ts" />
 import React from 'react';
 import PropTypes from 'prop-types';
 import Label from './component/label';
 import Panel from './component/panel';
-declare class ReactTabber extends React.Component<ReactTabberProps, ReactTabberState> {
+declare class ReactTabber extends React.Component<ReactTabber.Props, ReactTabber.State> {
     static Label: typeof Label;
     static Panel: typeof Panel;
     static propTypes: {
@@ -34,7 +33,7 @@ declare class ReactTabber extends React.Component<ReactTabberProps, ReactTabberS
         panelItemActiveClassName: PropTypes.Requireable<string>;
         panelItemInactiveClassName: PropTypes.Requireable<string>;
     };
-    static defaultProps: ReactTabberProps;
+    static defaultProps: ReactTabber.Props;
     private activeIndex;
     private currentIndex;
     private renderedIndex;
@@ -43,15 +42,15 @@ declare class ReactTabber extends React.Component<ReactTabberProps, ReactTabberS
     private delayTriggerCancelEvents?;
     private delayTimeout?;
     constructor(props: any);
-    componentWillReceiveProps(nextProps: ReactTabberProps): void;
+    componentWillReceiveProps(nextProps: ReactTabber.Props): void;
     componentWillMount(): void;
     componentWillUnmount(): void;
     private getValidIndex;
-    private _getLabelContainer;
-    private getHeaderLabelContainer;
-    private getFooterLabelContainer;
-    private getPanelContainer;
-    private getTabContainer;
+    private _createLabelContainer;
+    private createHeaderLabelContainer;
+    private createFooterLabelContainer;
+    private createPanelContainer;
+    private createTabContainer;
     private switchTo;
     private getTabEntries;
     render(): JSX.Element;

@@ -1,5 +1,4 @@
 /// <reference path='./type/public.d.ts' />
-/// <reference path='./type/private.d.ts' />
 
 import React, {ReactElement} from 'react';
 import PropTypes from 'prop-types';
@@ -10,7 +9,7 @@ import createEventHandler from "./utility/create-event-handler";
 import Label from './component/label';
 import Panel from './component/panel';
 
-class ReactTabber extends React.Component<ReactTabberProps, ReactTabberState> {
+class ReactTabber extends React.Component<ReactTabber.Props, ReactTabber.State> {
 	static Label = Label;
 	static Panel = Panel;
 
@@ -45,7 +44,7 @@ class ReactTabber extends React.Component<ReactTabberProps, ReactTabberState> {
 		panelItemInactiveClassName: PropTypes.string
 	};
 
-	static defaultProps: ReactTabberProps = {
+	static defaultProps: ReactTabber.Props = {
 		tabs: [],
 
 		activeIndex: 0,
@@ -86,7 +85,7 @@ class ReactTabber extends React.Component<ReactTabberProps, ReactTabberState> {
 		};
 	}
 
-	componentWillReceiveProps(nextProps: ReactTabberProps) {
+	componentWillReceiveProps(nextProps: ReactTabber.Props) {
 		if (nextProps.activeIndex === undefined) {
 			return;
 		}
@@ -121,21 +120,27 @@ class ReactTabber extends React.Component<ReactTabberProps, ReactTabberState> {
 		return intIndex < 0 ? 0 : index;
 	}
 
-	private _getLabelContainer(tabs: ReactTabberEntry[], positionClassName: string) {
-		const props = this.props;
+	private _createLabelContainer(tabs: ReactTabber.Entry[], positionClassName: string) {
+		const {
+			labelContainerClassName,
+			labelItemClassName,
+			labelItemActiveClassName,
+			labelItemInactiveClassName,
+			delayTriggerLatency
+		} = this.props;
 
-		const labelContainer = <div className={props.labelContainerClassName + ' ' + positionClassName}>
+		const labelContainer = <div className={labelContainerClassName + ' ' + positionClassName}>
 			{tabs.map((tab, index) => {
 				const doSwitch = () => {
 					clearTimeout(this.delayTimeout);
 					this.switchTo(index);
 				};
 				let localDelayTimeout: number;
-				const delayDoSwitch = (props.delayTriggerLatency!) <= 0 ?
+				const delayDoSwitch = (delayTriggerLatency!) <= 0 ?
 					doSwitch :
 					() => {
 						clearTimeout(this.delayTimeout);
-						localDelayTimeout = this.delayTimeout = setTimeout(doSwitch, props.delayTriggerLatency);
+						localDelayTimeout = this.delayTimeout = setTimeout(doSwitch, delayTriggerLatency);
 					};
 				const cancelDelayDoSwitch = () => {
 					if (localDelayTimeout === this.delayTimeout) {
@@ -143,59 +148,67 @@ class ReactTabber extends React.Component<ReactTabberProps, ReactTabberState> {
 					}
 				};
 
-				const labelItemProps: JSXProps = Object.assign({}, tab.labelProps);
+				const {labelProps, key} = tab;
+				let labelDelayTriggerCancelProps;
+				let labelDelayTriggerProps;
 				if (this.delayTriggerEvents && this.delayTriggerEvents.length) {
-					Object.assign(
-						labelItemProps,
-						createEventHandler(this.delayTriggerCancelEvents, cancelDelayDoSwitch),
-						createEventHandler(this.delayTriggerEvents, delayDoSwitch)
-					);
+					labelDelayTriggerCancelProps = createEventHandler(this.delayTriggerCancelEvents, cancelDelayDoSwitch);
+					labelDelayTriggerProps = createEventHandler(this.delayTriggerEvents, delayDoSwitch);
 				}
-				Object.assign(
-					labelItemProps,
-					createEventHandler(this.triggerEvents, doSwitch),
-					{
-						key: tab.key ? 'key-' + tab.key : 'index-' + index,
-						className: props.labelItemClassName + ' ' + (index === this.currentIndex ? props.labelItemActiveClassName : props.labelItemInactiveClassName)
-					}
-				);
+				const labelTriggerProps = createEventHandler(this.triggerEvents, doSwitch);
 
-				return <div {...labelItemProps}>{tab.label}</div>;
+				return <div
+					{...labelProps}
+					{...labelDelayTriggerCancelProps}
+					{...labelDelayTriggerProps}
+					{...labelTriggerProps}
+					key={key ? 'key-' + key : 'index-' + index}
+					className={labelItemClassName + ' ' + (index === this.currentIndex ? labelItemActiveClassName : labelItemInactiveClassName)}
+				>{tab.label}</div>;
 			})}
 		</div>;
 		return labelContainer;
 	}
 
-	private getHeaderLabelContainer(tabs: ReactTabberEntry[]) {
-		return this._getLabelContainer(tabs, this.props.headerLabelContainerClassName!);
+	private createHeaderLabelContainer(tabs: ReactTabber.Entry[]) {
+		return this._createLabelContainer(tabs, this.props.headerLabelContainerClassName!);
 	}
 
-	private getFooterLabelContainer(tabs: ReactTabberEntry[]) {
-		return this._getLabelContainer(tabs, this.props.footerLabelContainerClassName!);
+	private createFooterLabelContainer(tabs: ReactTabber.Entry[]) {
+		return this._createLabelContainer(tabs, this.props.footerLabelContainerClassName!);
 	}
 
-	private getPanelContainer(tabs: ReactTabberEntry[]) {
-		const props = this.props;
+	private createPanelContainer(tabs: ReactTabber.Entry[]) {
+		const {
+			panelContainerClassName,
+			panelItemClassName,
+			panelItemActiveClassName,
+			panelItemInactiveClassName
+		} = this.props;
 
-		return <div className={props.panelContainerClassName}>
+		return <div className={panelContainerClassName}>
 			{tabs.map((tab, index) => {
-				const panelItemProps: JSXProps = Object.assign({}, tab.panelProps, {
-					key: tab.key ? 'key-' + tab.key : 'index-' + index,
-					className: props.panelItemClassName + ' ' + (index === this.currentIndex ? props.panelItemActiveClassName : props.panelItemInactiveClassName)
-				});
-
-				return <div {...panelItemProps}>{tab.panel}</div>
+				const {panelProps, key} = tab;
+				return <div
+					{...panelProps}
+					key={key ? 'key-' + key : 'index-' + index}
+					className={panelItemClassName + ' ' + (index === this.currentIndex ? panelItemActiveClassName : panelItemInactiveClassName)}
+				>{tab.panel}</div>
 			})}
 		</div>;
 	}
 
-	private getTabContainer(tabs: ReactTabberEntry[]) {
-		const props = this.props;
+	private createTabContainer(tabs: ReactTabber.Entry[]) {
+		const {
+			tabContainerClassName,
+			showHeaderLabelContainer,
+			showFooterLabelContainer
+		} = this.props;
 
-		return <div className={props.tabContainerClassName}>
-			{props.showHeaderLabelContainer ? this.getHeaderLabelContainer(tabs) : null}
-			{this.getPanelContainer(tabs)}
-			{props.showFooterLabelContainer ? this.getFooterLabelContainer(tabs) : null}
+		return <div className={tabContainerClassName}>
+			{showHeaderLabelContainer ? this.createHeaderLabelContainer(tabs) : null}
+			{this.createPanelContainer(tabs)}
+			{showFooterLabelContainer ? this.createFooterLabelContainer(tabs) : null}
 		</div>;
 	}
 
@@ -206,7 +219,7 @@ class ReactTabber extends React.Component<ReactTabberProps, ReactTabberState> {
 	}
 
 	private getTabEntries() {
-		const entries: ReactTabberEntry[] = [];
+		const entries: ReactTabber.Entry[] = [];
 		const props = this.props;
 
 		//props.tabs
@@ -217,24 +230,28 @@ class ReactTabber extends React.Component<ReactTabberProps, ReactTabberState> {
 		//props.children
 		if (props.children) {
 			let currentLabelProps = {};
-			let currentLabelItems: ReactTabberNode[] = [];
+			let currentLabelItems: React.ReactNode[] = [];
 			let currentPanelProps = {};
-			let currentPanelItems: ReactTabberNode[] = [];
+			let currentPanelItems: React.ReactNode[] = [];
 			let key: string | undefined;
+
+			const pushEntry = () => {
+				entries.push({
+					labelProps: currentLabelProps,
+					label: currentLabelItems.length === 1 ? currentLabelItems[0] : currentLabelItems,
+					panelProps: currentPanelProps,
+					panel: currentPanelItems.length === 1 ? currentPanelItems[0] : currentPanelItems,
+					key: key
+				});
+			};
 
 			React.Children.forEach(props.children, child => {
 				const element = child as ReactElement<any>;
 				if (element.type && element.type === Label) {
-					if (currentLabelItems.length) {
-						entries.push({
-							labelProps: currentLabelProps,
-							label: currentLabelItems.length === 1 ? currentLabelItems[0] : currentLabelItems,
-							panelProps: currentPanelProps,
-							panel: currentPanelItems.length === 1 ? currentPanelItems[0] : currentPanelItems,
-							key: key
-						});
+					if (currentLabelItems.length) { // end of previous entry
+						pushEntry();
 					}
-					currentLabelProps = Object.assign({}, element.props);
+					currentLabelProps = element.props;
 					currentLabelItems = [];
 					if (Array.isArray(element.props.children)) {
 						currentLabelItems.push(...element.props.children);
@@ -249,7 +266,7 @@ class ReactTabber extends React.Component<ReactTabberProps, ReactTabberState> {
 						currentLabelItems.push('');
 					}
 					if (element.type && element.type === Panel) {
-						Object.assign(currentPanelProps, element.props);
+						currentPanelProps = {...currentPanelProps, ...element.props};
 						if (Array.isArray(element.props.children)) {
 							currentPanelItems.push(...element.props.children);
 						} else {
@@ -262,13 +279,7 @@ class ReactTabber extends React.Component<ReactTabberProps, ReactTabberState> {
 			});
 
 			if (currentLabelItems.length) {
-				entries.push({
-					labelProps: currentLabelProps,
-					label: currentLabelItems.length === 1 ? currentLabelItems[0] : currentLabelItems,
-					panelProps: currentPanelProps,
-					panel: currentPanelItems.length === 1 ? currentPanelItems[0] : currentPanelItems,
-					key: key
-				});
+				pushEntry();
 			}
 		}
 
@@ -287,7 +298,7 @@ class ReactTabber extends React.Component<ReactTabberProps, ReactTabberState> {
 			props.onSwitching(oldIndex, newIndex);
 		}
 
-		return self.getTabContainer(tabEntries);
+		return self.createTabContainer(tabEntries);
 	}
 
 	private updateRenderedIndex() {

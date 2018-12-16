@@ -70,7 +70,6 @@
     }(React.Component));
 
     /// <reference path='./type/public.d.ts' />
-    /// <reference path='./type/private.d.ts' />
     var __extends$2 = (undefined && undefined.__extends) || (function () {
         var extendStatics = function (d, b) {
             extendStatics = Object.setPrototypeOf ||
@@ -137,61 +136,58 @@
             var intIndex = parseInt(index);
             return intIndex < 0 ? 0 : index;
         };
-        ReactTabber.prototype._getLabelContainer = function (tabs, positionClassName) {
+        ReactTabber.prototype._createLabelContainer = function (tabs, positionClassName) {
             var _this = this;
-            var props = this.props;
-            var labelContainer = React__default.createElement("div", { className: props.labelContainerClassName + ' ' + positionClassName }, tabs.map(function (tab, index) {
+            var _a = this.props, labelContainerClassName = _a.labelContainerClassName, labelItemClassName = _a.labelItemClassName, labelItemActiveClassName = _a.labelItemActiveClassName, labelItemInactiveClassName = _a.labelItemInactiveClassName, delayTriggerLatency = _a.delayTriggerLatency;
+            var labelContainer = React__default.createElement("div", { className: labelContainerClassName + ' ' + positionClassName }, tabs.map(function (tab, index) {
                 var doSwitch = function () {
                     clearTimeout(_this.delayTimeout);
                     _this.switchTo(index);
                 };
                 var localDelayTimeout;
-                var delayDoSwitch = (props.delayTriggerLatency) <= 0 ?
+                var delayDoSwitch = (delayTriggerLatency) <= 0 ?
                     doSwitch :
                     function () {
                         clearTimeout(_this.delayTimeout);
-                        localDelayTimeout = _this.delayTimeout = setTimeout(doSwitch, props.delayTriggerLatency);
+                        localDelayTimeout = _this.delayTimeout = setTimeout(doSwitch, delayTriggerLatency);
                     };
                 var cancelDelayDoSwitch = function () {
                     if (localDelayTimeout === _this.delayTimeout) {
                         clearTimeout(localDelayTimeout);
                     }
                 };
-                var labelItemProps = Object.assign({}, tab.labelProps);
+                var labelProps = tab.labelProps, key = tab.key;
+                var labelDelayTriggerCancelProps;
+                var labelDelayTriggerProps;
                 if (_this.delayTriggerEvents && _this.delayTriggerEvents.length) {
-                    Object.assign(labelItemProps, createEventHandler(_this.delayTriggerCancelEvents, cancelDelayDoSwitch), createEventHandler(_this.delayTriggerEvents, delayDoSwitch));
+                    labelDelayTriggerCancelProps = createEventHandler(_this.delayTriggerCancelEvents, cancelDelayDoSwitch);
+                    labelDelayTriggerProps = createEventHandler(_this.delayTriggerEvents, delayDoSwitch);
                 }
-                Object.assign(labelItemProps, createEventHandler(_this.triggerEvents, doSwitch), {
-                    key: tab.key ? 'key-' + tab.key : 'index-' + index,
-                    className: props.labelItemClassName + ' ' + (index === _this.currentIndex ? props.labelItemActiveClassName : props.labelItemInactiveClassName)
-                });
-                return React__default.createElement("div", __assign({}, labelItemProps), tab.label);
+                var labelTriggerProps = createEventHandler(_this.triggerEvents, doSwitch);
+                return React__default.createElement("div", __assign({}, labelProps, labelDelayTriggerCancelProps, labelDelayTriggerProps, labelTriggerProps, { key: key ? 'key-' + key : 'index-' + index, className: labelItemClassName + ' ' + (index === _this.currentIndex ? labelItemActiveClassName : labelItemInactiveClassName) }), tab.label);
             }));
             return labelContainer;
         };
-        ReactTabber.prototype.getHeaderLabelContainer = function (tabs) {
-            return this._getLabelContainer(tabs, this.props.headerLabelContainerClassName);
+        ReactTabber.prototype.createHeaderLabelContainer = function (tabs) {
+            return this._createLabelContainer(tabs, this.props.headerLabelContainerClassName);
         };
-        ReactTabber.prototype.getFooterLabelContainer = function (tabs) {
-            return this._getLabelContainer(tabs, this.props.footerLabelContainerClassName);
+        ReactTabber.prototype.createFooterLabelContainer = function (tabs) {
+            return this._createLabelContainer(tabs, this.props.footerLabelContainerClassName);
         };
-        ReactTabber.prototype.getPanelContainer = function (tabs) {
+        ReactTabber.prototype.createPanelContainer = function (tabs) {
             var _this = this;
-            var props = this.props;
-            return React__default.createElement("div", { className: props.panelContainerClassName }, tabs.map(function (tab, index) {
-                var panelItemProps = Object.assign({}, tab.panelProps, {
-                    key: tab.key ? 'key-' + tab.key : 'index-' + index,
-                    className: props.panelItemClassName + ' ' + (index === _this.currentIndex ? props.panelItemActiveClassName : props.panelItemInactiveClassName)
-                });
-                return React__default.createElement("div", __assign({}, panelItemProps), tab.panel);
+            var _a = this.props, panelContainerClassName = _a.panelContainerClassName, panelItemClassName = _a.panelItemClassName, panelItemActiveClassName = _a.panelItemActiveClassName, panelItemInactiveClassName = _a.panelItemInactiveClassName;
+            return React__default.createElement("div", { className: panelContainerClassName }, tabs.map(function (tab, index) {
+                var panelProps = tab.panelProps, key = tab.key;
+                return React__default.createElement("div", __assign({}, panelProps, { key: key ? 'key-' + key : 'index-' + index, className: panelItemClassName + ' ' + (index === _this.currentIndex ? panelItemActiveClassName : panelItemInactiveClassName) }), tab.panel);
             }));
         };
-        ReactTabber.prototype.getTabContainer = function (tabs) {
-            var props = this.props;
-            return React__default.createElement("div", { className: props.tabContainerClassName },
-                props.showHeaderLabelContainer ? this.getHeaderLabelContainer(tabs) : null,
-                this.getPanelContainer(tabs),
-                props.showFooterLabelContainer ? this.getFooterLabelContainer(tabs) : null);
+        ReactTabber.prototype.createTabContainer = function (tabs) {
+            var _a = this.props, tabContainerClassName = _a.tabContainerClassName, showHeaderLabelContainer = _a.showHeaderLabelContainer, showFooterLabelContainer = _a.showFooterLabelContainer;
+            return React__default.createElement("div", { className: tabContainerClassName },
+                showHeaderLabelContainer ? this.createHeaderLabelContainer(tabs) : null,
+                this.createPanelContainer(tabs),
+                showFooterLabelContainer ? this.createFooterLabelContainer(tabs) : null);
         };
         ReactTabber.prototype.switchTo = function (index) {
             this.setState({
@@ -212,19 +208,22 @@
                 var currentPanelProps_1 = {};
                 var currentPanelItems_1 = [];
                 var key_1;
+                var pushEntry_1 = function () {
+                    entries.push({
+                        labelProps: currentLabelProps_1,
+                        label: currentLabelItems_1.length === 1 ? currentLabelItems_1[0] : currentLabelItems_1,
+                        panelProps: currentPanelProps_1,
+                        panel: currentPanelItems_1.length === 1 ? currentPanelItems_1[0] : currentPanelItems_1,
+                        key: key_1
+                    });
+                };
                 React__default.Children.forEach(props.children, function (child) {
                     var element = child;
                     if (element.type && element.type === Label) {
-                        if (currentLabelItems_1.length) {
-                            entries.push({
-                                labelProps: currentLabelProps_1,
-                                label: currentLabelItems_1.length === 1 ? currentLabelItems_1[0] : currentLabelItems_1,
-                                panelProps: currentPanelProps_1,
-                                panel: currentPanelItems_1.length === 1 ? currentPanelItems_1[0] : currentPanelItems_1,
-                                key: key_1
-                            });
+                        if (currentLabelItems_1.length) { // end of previous entry
+                            pushEntry_1();
                         }
-                        currentLabelProps_1 = Object.assign({}, element.props);
+                        currentLabelProps_1 = element.props;
                         currentLabelItems_1 = [];
                         if (Array.isArray(element.props.children)) {
                             currentLabelItems_1.push.apply(currentLabelItems_1, element.props.children);
@@ -241,7 +240,7 @@
                             currentLabelItems_1.push('');
                         }
                         if (element.type && element.type === Panel) {
-                            Object.assign(currentPanelProps_1, element.props);
+                            currentPanelProps_1 = __assign({}, currentPanelProps_1, element.props);
                             if (Array.isArray(element.props.children)) {
                                 currentPanelItems_1.push.apply(currentPanelItems_1, element.props.children);
                             }
@@ -255,13 +254,7 @@
                     }
                 });
                 if (currentLabelItems_1.length) {
-                    entries.push({
-                        labelProps: currentLabelProps_1,
-                        label: currentLabelItems_1.length === 1 ? currentLabelItems_1[0] : currentLabelItems_1,
-                        panelProps: currentPanelProps_1,
-                        panel: currentPanelItems_1.length === 1 ? currentPanelItems_1[0] : currentPanelItems_1,
-                        key: key_1
-                    });
+                    pushEntry_1();
                 }
             }
             return entries;
@@ -276,7 +269,7 @@
             if (oldIndex !== newIndex && props.onSwitching) {
                 props.onSwitching(oldIndex, newIndex);
             }
-            return self.getTabContainer(tabEntries);
+            return self.createTabContainer(tabEntries);
         };
         ReactTabber.prototype.updateRenderedIndex = function () {
             var self = this;
