@@ -5,7 +5,7 @@ import React, {ReactElement} from 'react';
 import tabberPropTypes from './utility/tabber-prop-types';
 import tabberDefaultProps from './utility/tabber-default-props';
 
-import getValidIndex from './utility/get-valid-index';
+import getNumericIndex from './utility/get-numeric-index';
 import normalizeEvents from './utility/normalize-events';
 import createEventHandler from "./utility/create-event-handler";
 
@@ -19,7 +19,6 @@ class ReactTabber extends React.Component<ReactTabber.Props, ReactTabber.State> 
 	static propTypes = tabberPropTypes;
 	static defaultProps = tabberDefaultProps;
 
-	private activeIndex: number = -1;
 	private currentIndex: number = -1;
 	private renderedIndex: number = -1;
 	private triggerEvents?: string[];
@@ -29,33 +28,28 @@ class ReactTabber extends React.Component<ReactTabber.Props, ReactTabber.State> 
 
 	constructor(props: any) {
 		super(props);
+		const {activeIndex} = props;
 
-		this.activeIndex = getValidIndex(props.activeIndex);
 		this.state = {
-			targetIndex: this.activeIndex
+			prevActiveIndex: activeIndex,
+			targetIndex: activeIndex
 		};
-	}
 
-	componentWillReceiveProps(nextProps: ReactTabber.Props) {
-		if (nextProps.activeIndex === undefined) {
-			return;
-		}
-
-		const oldIndex = this.activeIndex;
-		const newIndex = getValidIndex(nextProps.activeIndex);
-		if (oldIndex !== newIndex) {
-			this.activeIndex = newIndex;
-			this.setState({
-				targetIndex: this.activeIndex
-			});
-		}
-	}
-
-	componentWillMount() {
-		const props = this.props;
 		this.triggerEvents = normalizeEvents(props.triggerEvents);
 		this.delayTriggerEvents = normalizeEvents(props.delayTriggerEvents);
 		this.delayTriggerCancelEvents = normalizeEvents(props.delayTriggerCancelEvents);
+	}
+
+	static getDerivedStateFromProps(props: ReactTabber.Props, state: ReactTabber.State) {
+		const activeIndex = getNumericIndex(props.activeIndex);
+		const {prevActiveIndex} = state;
+		if (activeIndex !== prevActiveIndex) {
+			return {
+				prevActiveIndex: activeIndex,
+				targetIndex: activeIndex
+			}
+		}
+		return null;
 	}
 
 	componentWillUnmount() {
@@ -156,7 +150,7 @@ class ReactTabber extends React.Component<ReactTabber.Props, ReactTabber.State> 
 
 	private switchTo(index: number) {
 		this.setState({
-			targetIndex: getValidIndex(index)
+			targetIndex: getNumericIndex(index)
 		});
 	}
 

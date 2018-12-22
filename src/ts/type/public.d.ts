@@ -43,6 +43,7 @@ declare namespace ReactTabber {
 	}
 
 	interface State {
+		prevActiveIndex: number;
 		targetIndex: number;
 	}
 }

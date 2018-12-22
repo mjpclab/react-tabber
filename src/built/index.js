@@ -24,8 +24,9 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 import React from 'react';
-import PropTypes from 'prop-types';
-import getValidIndex from './utility/get-valid-index';
+import tabberPropTypes from './utility/tabber-prop-types';
+import tabberDefaultProps from './utility/tabber-default-props';
+import getNumericIndex from './utility/get-numeric-index';
 import normalizeEvents from './utility/normalize-events';
 import createEventHandler from "./utility/create-event-handler";
 import Label from './component/label';
@@ -34,33 +35,28 @@ var ReactTabber = /** @class */ (function (_super) {
     __extends(ReactTabber, _super);
     function ReactTabber(props) {
         var _this = _super.call(this, props) || this;
-        _this.activeIndex = -1;
         _this.currentIndex = -1;
         _this.renderedIndex = -1;
-        _this.activeIndex = getValidIndex(props.activeIndex);
+        var activeIndex = props.activeIndex;
         _this.state = {
-            targetIndex: _this.activeIndex
+            prevActiveIndex: activeIndex,
+            targetIndex: activeIndex
         };
+        _this.triggerEvents = normalizeEvents(props.triggerEvents);
+        _this.delayTriggerEvents = normalizeEvents(props.delayTriggerEvents);
+        _this.delayTriggerCancelEvents = normalizeEvents(props.delayTriggerCancelEvents);
         return _this;
     }
-    ReactTabber.prototype.componentWillReceiveProps = function (nextProps) {
-        if (nextProps.activeIndex === undefined) {
-            return;
+    ReactTabber.getDerivedStateFromProps = function (props, state) {
+        var activeIndex = getNumericIndex(props.activeIndex);
+        var prevActiveIndex = state.prevActiveIndex;
+        if (activeIndex !== prevActiveIndex) {
+            return {
+                prevActiveIndex: activeIndex,
+                targetIndex: activeIndex
+            };
         }
-        var oldIndex = this.activeIndex;
-        var newIndex = getValidIndex(nextProps.activeIndex);
-        if (oldIndex !== newIndex) {
-            this.activeIndex = newIndex;
-            this.setState({
-                targetIndex: this.activeIndex
-            });
-        }
-    };
-    ReactTabber.prototype.componentWillMount = function () {
-        var props = this.props;
-        this.triggerEvents = normalizeEvents(props.triggerEvents);
-        this.delayTriggerEvents = normalizeEvents(props.delayTriggerEvents);
-        this.delayTriggerCancelEvents = normalizeEvents(props.delayTriggerCancelEvents);
+        return null;
     };
     ReactTabber.prototype.componentWillUnmount = function () {
         clearTimeout(this.delayTimeout);
@@ -120,7 +116,7 @@ var ReactTabber = /** @class */ (function (_super) {
     };
     ReactTabber.prototype.switchTo = function (index) {
         this.setState({
-            targetIndex: getValidIndex(index)
+            targetIndex: getNumericIndex(index)
         });
     };
     ReactTabber.prototype.getTabEntries = function () {
@@ -217,52 +213,8 @@ var ReactTabber = /** @class */ (function (_super) {
     };
     ReactTabber.Label = Label;
     ReactTabber.Panel = Panel;
-    ReactTabber.propTypes = {
-        tabs: PropTypes.arrayOf(PropTypes.shape({
-            label: PropTypes.node.isRequired,
-            panel: PropTypes.node.isRequired,
-            key: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-        })).isRequired,
-        triggerEvents: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]),
-        delayTriggerEvents: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]),
-        delayTriggerCancelEvents: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]),
-        delayTriggerLatency: PropTypes.number,
-        activeIndex: PropTypes.number,
-        onSwitching: PropTypes.func,
-        onSwitched: PropTypes.func,
-        tabContainerClassName: PropTypes.string,
-        labelContainerClassName: PropTypes.string,
-        showHeaderLabelContainer: PropTypes.bool,
-        showFooterLabelContainer: PropTypes.bool,
-        headerLabelContainerClassName: PropTypes.string,
-        footerLabelContainerClassName: PropTypes.string,
-        labelItemClassName: PropTypes.string,
-        labelItemActiveClassName: PropTypes.string,
-        labelItemInactiveClassName: PropTypes.string,
-        panelContainerClassName: PropTypes.string,
-        panelItemClassName: PropTypes.string,
-        panelItemActiveClassName: PropTypes.string,
-        panelItemInactiveClassName: PropTypes.string
-    };
-    ReactTabber.defaultProps = {
-        tabs: [],
-        activeIndex: 0,
-        triggerEvents: ['onClick'],
-        delayTriggerLatency: 200,
-        tabContainerClassName: 'tab-container',
-        labelContainerClassName: 'label-container',
-        showHeaderLabelContainer: true,
-        showFooterLabelContainer: false,
-        headerLabelContainerClassName: 'header-container',
-        footerLabelContainerClassName: 'footer-container',
-        labelItemClassName: 'label-item',
-        labelItemActiveClassName: 'label-active',
-        labelItemInactiveClassName: 'label-inactive',
-        panelContainerClassName: 'panel-container',
-        panelItemClassName: 'panel-item',
-        panelItemActiveClassName: 'panel-active',
-        panelItemInactiveClassName: 'panel-inactive'
-    };
+    ReactTabber.propTypes = tabberPropTypes;
+    ReactTabber.defaultProps = tabberDefaultProps;
     return ReactTabber;
 }(React.Component));
 export default ReactTabber;

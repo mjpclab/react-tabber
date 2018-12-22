@@ -1,40 +1,38 @@
 /// <reference path="../ts/type/public.d.ts" />
 import React from 'react';
-import PropTypes from 'prop-types';
 import Label from './component/label';
 import Panel from './component/panel';
 declare class ReactTabber extends React.Component<ReactTabber.Props, ReactTabber.State> {
     static Label: typeof Label;
     static Panel: typeof Panel;
     static propTypes: {
-        tabs: PropTypes.Validator<(PropTypes.InferProps<{
-            label: PropTypes.Validator<string | number | boolean | {} | PropTypes.ReactElementLike | PropTypes.ReactNodeArray>;
-            panel: PropTypes.Validator<string | number | boolean | {} | PropTypes.ReactElementLike | PropTypes.ReactNodeArray>;
-            key: PropTypes.Requireable<string | number>;
+        tabs: import("prop-types").Requireable<(import("prop-types").InferProps<{
+            label: import("prop-types").Validator<string | number | boolean | {} | import("prop-types").ReactElementLike | import("prop-types").ReactNodeArray>;
+            panel: import("prop-types").Validator<string | number | boolean | {} | import("prop-types").ReactElementLike | import("prop-types").ReactNodeArray>;
+            key: import("prop-types").Requireable<string | number>;
         }> | null)[]>;
-        triggerEvents: PropTypes.Requireable<string | (string | null)[]>;
-        delayTriggerEvents: PropTypes.Requireable<string | (string | null)[]>;
-        delayTriggerCancelEvents: PropTypes.Requireable<string | (string | null)[]>;
-        delayTriggerLatency: PropTypes.Requireable<number>;
-        activeIndex: PropTypes.Requireable<number>;
-        onSwitching: PropTypes.Requireable<(...args: any[]) => any>;
-        onSwitched: PropTypes.Requireable<(...args: any[]) => any>;
-        tabContainerClassName: PropTypes.Requireable<string>;
-        labelContainerClassName: PropTypes.Requireable<string>;
-        showHeaderLabelContainer: PropTypes.Requireable<boolean>;
-        showFooterLabelContainer: PropTypes.Requireable<boolean>;
-        headerLabelContainerClassName: PropTypes.Requireable<string>;
-        footerLabelContainerClassName: PropTypes.Requireable<string>;
-        labelItemClassName: PropTypes.Requireable<string>;
-        labelItemActiveClassName: PropTypes.Requireable<string>;
-        labelItemInactiveClassName: PropTypes.Requireable<string>;
-        panelContainerClassName: PropTypes.Requireable<string>;
-        panelItemClassName: PropTypes.Requireable<string>;
-        panelItemActiveClassName: PropTypes.Requireable<string>;
-        panelItemInactiveClassName: PropTypes.Requireable<string>;
+        triggerEvents: import("prop-types").Requireable<string | (string | null)[]>;
+        delayTriggerEvents: import("prop-types").Requireable<string | (string | null)[]>;
+        delayTriggerCancelEvents: import("prop-types").Requireable<string | (string | null)[]>;
+        delayTriggerLatency: import("prop-types").Requireable<number>;
+        activeIndex: import("prop-types").Requireable<number>;
+        onSwitching: import("prop-types").Requireable<(...args: any[]) => any>;
+        onSwitched: import("prop-types").Requireable<(...args: any[]) => any>;
+        tabContainerClassName: import("prop-types").Requireable<string>;
+        labelContainerClassName: import("prop-types").Requireable<string>;
+        showHeaderLabelContainer: import("prop-types").Requireable<boolean>;
+        showFooterLabelContainer: import("prop-types").Requireable<boolean>;
+        headerLabelContainerClassName: import("prop-types").Requireable<string>;
+        footerLabelContainerClassName: import("prop-types").Requireable<string>;
+        labelItemClassName: import("prop-types").Requireable<string>;
+        labelItemActiveClassName: import("prop-types").Requireable<string>;
+        labelItemInactiveClassName: import("prop-types").Requireable<string>;
+        panelContainerClassName: import("prop-types").Requireable<string>;
+        panelItemClassName: import("prop-types").Requireable<string>;
+        panelItemActiveClassName: import("prop-types").Requireable<string>;
+        panelItemInactiveClassName: import("prop-types").Requireable<string>;
     };
     static defaultProps: ReactTabber.Props;
-    private activeIndex;
     private currentIndex;
     private renderedIndex;
     private triggerEvents?;
@@ -42,8 +40,10 @@ declare class ReactTabber extends React.Component<ReactTabber.Props, ReactTabber
     private delayTriggerCancelEvents?;
     private delayTimeout?;
     constructor(props: any);
-    componentWillReceiveProps(nextProps: ReactTabber.Props): void;
-    componentWillMount(): void;
+    static getDerivedStateFromProps(props: ReactTabber.Props, state: ReactTabber.State): {
+        prevActiveIndex: number;
+        targetIndex: number;
+    } | null;
     componentWillUnmount(): void;
     private _createLabelContainer;
     private createHeaderLabelContainer;
