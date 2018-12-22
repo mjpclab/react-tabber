@@ -51,7 +51,6 @@ declare class ReactTabber extends React.Component<ReactTabber.Props, ReactTabber
     private createPanelContainer;
     private createTabContainer;
     private switchTo;
-    private getTabEntries;
     render(): JSX.Element;
     private updateRenderedIndex;
     componentDidMount(): void;

@@ -1,13 +1,15 @@
 /// <reference path='./type/public.d.ts' />
 
-import React, {ReactElement} from 'react';
-
-import tabberPropTypes from './utility/tabber-prop-types';
-import tabberDefaultProps from './utility/tabber-default-props';
+import React from 'react';
 
 import getNumericIndex from './utility/get-numeric-index';
 import normalizeEvents from './utility/normalize-events';
 import createEventHandler from "./utility/create-event-handler";
+
+import tabberPropTypes from './utility/tabber-prop-types';
+import tabberDefaultProps from './utility/tabber-default-props';
+
+import parseTabEntries from './feature/parse-tab-entries';
 
 import Label from './component/label';
 import Panel from './component/panel';
@@ -154,79 +156,11 @@ class ReactTabber extends React.Component<ReactTabber.Props, ReactTabber.State> 
 		});
 	}
 
-	private getTabEntries() {
-		const entries: ReactTabber.Entry[] = [];
-		const props = this.props;
-
-		//props.tabs
-		if (props.tabs!.length) {
-			entries.push.apply(entries, props.tabs!);
-		}
-
-		//props.children
-		if (props.children) {
-			let currentLabelProps = {};
-			let currentLabelItems: React.ReactNode[] = [];
-			let currentPanelProps = {};
-			let currentPanelItems: React.ReactNode[] = [];
-			let key: string | undefined;
-
-			const pushEntry = () => {
-				entries.push({
-					labelProps: currentLabelProps,
-					label: currentLabelItems.length === 1 ? currentLabelItems[0] : currentLabelItems,
-					panelProps: currentPanelProps,
-					panel: currentPanelItems.length === 1 ? currentPanelItems[0] : currentPanelItems,
-					key: key
-				});
-			};
-
-			React.Children.forEach(props.children, child => {
-				const element = child as ReactElement<any>;
-				if (element.type && element.type === Label) {
-					if (currentLabelItems.length) { // end of previous entry
-						pushEntry();
-					}
-					currentLabelProps = element.props;
-					currentLabelItems = [];
-					if (Array.isArray(element.props.children)) {
-						currentLabelItems.push(...element.props.children);
-					} else {
-						currentLabelItems.push(element.props.children);
-					}
-					currentPanelProps = {};
-					currentPanelItems = [];
-					key = element.key ? 'key-' + element.key : 'index-' + entries.length;
-				} else {
-					if (!currentLabelItems.length) {
-						currentLabelItems.push('');
-					}
-					if (element.type && element.type === Panel) {
-						currentPanelProps = {...currentPanelProps, ...element.props};
-						if (Array.isArray(element.props.children)) {
-							currentPanelItems.push(...element.props.children);
-						} else {
-							currentPanelItems.push(element.props.children);
-						}
-					} else if (element.type) {
-						currentPanelItems.push(element);
-					}
-				}
-			});
-
-			if (currentLabelItems.length) {
-				pushEntry();
-			}
-		}
-
-		return entries;
-	}
-
 	render() {
 		const self = this;
 		const props = self.props;
 		const state = self.state;
-		const tabEntries = self.getTabEntries();
+		const tabEntries = parseTabEntries(props, props.children);
 
 		const oldIndex = self.currentIndex;
 		const newIndex = self.currentIndex = state.targetIndex >= tabEntries.length ? tabEntries.length - 1 : state.targetIndex;
