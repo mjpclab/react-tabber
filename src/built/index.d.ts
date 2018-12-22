@@ -34,11 +34,11 @@ declare class ReactTabber extends React.Component<ReactTabber.Props, ReactTabber
     };
     static defaultProps: ReactTabber.Props;
     private currentIndex;
-    private renderedIndex;
+    private prevIndex;
+    private delayTimeout?;
     private triggerEvents?;
     private delayTriggerEvents?;
     private delayTriggerCancelEvents?;
-    private delayTimeout?;
     constructor(props: any);
     static getDerivedStateFromProps(props: ReactTabber.Props, state: ReactTabber.State): {
         prevActiveIndex: number;
@@ -52,7 +52,7 @@ declare class ReactTabber extends React.Component<ReactTabber.Props, ReactTabber
     private createTabContainer;
     private switchTo;
     render(): JSX.Element;
-    private updateRenderedIndex;
+    private handleIndexChange;
     componentDidMount(): void;
     componentDidUpdate(): void;
 }

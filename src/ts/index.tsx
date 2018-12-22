@@ -22,11 +22,12 @@ class ReactTabber extends React.Component<ReactTabber.Props, ReactTabber.State> 
 	static defaultProps = tabberDefaultProps;
 
 	private currentIndex: number = -1;
-	private renderedIndex: number = -1;
+	private prevIndex: number = -1;
+	private delayTimeout?: number;
+
 	private triggerEvents?: string[];
 	private delayTriggerEvents?: string[];
 	private delayTriggerCancelEvents?: string[];
-	private delayTimeout?: number;
 
 	constructor(props: any) {
 		super(props);
@@ -157,36 +158,31 @@ class ReactTabber extends React.Component<ReactTabber.Props, ReactTabber.State> 
 	}
 
 	render() {
-		const self = this;
-		const props = self.props;
-		const state = self.state;
+		const {props, state, prevIndex} = this;
 		const tabEntries = parseTabEntries(props, props.children);
 
-		const oldIndex = self.currentIndex;
-		const newIndex = self.currentIndex = state.targetIndex >= tabEntries.length ? tabEntries.length - 1 : state.targetIndex;
-		if (oldIndex !== newIndex && props.onSwitching) {
-			props.onSwitching(oldIndex, newIndex);
+		const currentIndex = this.currentIndex = Math.min(state.targetIndex, tabEntries.length - 1);
+		if (prevIndex !== currentIndex && props.onSwitching) {
+			props.onSwitching(prevIndex, currentIndex);
 		}
 
-		return self.createTabContainer(tabEntries);
+		return this.createTabContainer(tabEntries);
 	}
 
-	private updateRenderedIndex() {
-		const self = this;
-		const props = self.props;
-		const oldIndex = self.renderedIndex;
-		const newIndex = self.renderedIndex = self.currentIndex;
-		if (oldIndex !== newIndex && props.onSwitched) {
-			props.onSwitched(oldIndex, newIndex);
+	private handleIndexChange() {
+		const {props, prevIndex, currentIndex} = this;
+		if (prevIndex !== currentIndex && props.onSwitched) {
+			props.onSwitched(prevIndex, currentIndex);
 		}
+		this.prevIndex = currentIndex;
 	}
 
 	componentDidMount() {
-		this.updateRenderedIndex();
+		this.handleIndexChange();
 	}
 
 	componentDidUpdate() {
-		this.updateRenderedIndex();
+		this.handleIndexChange();
 	}
 }
 

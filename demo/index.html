@@ -24,23 +24,27 @@
 
 	function render() {
 		ReactDOM.render(
-				<div>
-					<ReactTabber tabs={tabs} onSwitching={onSwitching}>
-						<ReactTabber.Label>title <b>3</b></ReactTabber.Label>
-						<ReactTabber.Panel>content <b>3</b>. </ReactTabber.Panel>
-						<ReactTabber.Panel>another content <b>3</b>. </ReactTabber.Panel>
+			<div>
+				<ReactTabber tabs={tabs} onSwitching={onSwitching} onSwitched={onSwitched}>
+					<ReactTabber.Label>title <b>3</b></ReactTabber.Label>
+					<ReactTabber.Panel>content <b>3</b>. </ReactTabber.Panel>
+					<ReactTabber.Panel>another content <b>3</b>. </ReactTabber.Panel>
 
-						<ReactTabber.Label>title 4</ReactTabber.Label>
-						<ReactTabber.Panel>content 4</ReactTabber.Panel>
-						<p>another content 4. wrapped element in ReactTabberPanel can be omitted.</p>
-					</ReactTabber>
-				</div>,
+					<ReactTabber.Label>title 4</ReactTabber.Label>
+					<ReactTabber.Panel>content 4</ReactTabber.Panel>
+					<p>another content 4. wrapped element in ReactTabberPanel can be omitted.</p>
+				</ReactTabber>
+			</div>,
 			document.getElementById('container')
 		);
 	}
 
 	function onSwitching(oldIndex, newIndex) {
 		console.log('switching ' + oldIndex + ' ' + newIndex);
+	}
+
+	function onSwitched(oldIndex, newIndex) {
+		console.log('switched ' + oldIndex + ' ' + newIndex);
 	}
 
 	render();

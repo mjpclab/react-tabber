@@ -37,7 +37,7 @@ var ReactTabber = /** @class */ (function (_super) {
     function ReactTabber(props) {
         var _this = _super.call(this, props) || this;
         _this.currentIndex = -1;
-        _this.renderedIndex = -1;
+        _this.prevIndex = -1;
         var activeIndex = props.activeIndex;
         _this.state = {
             prevActiveIndex: activeIndex,
@@ -121,31 +121,26 @@ var ReactTabber = /** @class */ (function (_super) {
         });
     };
     ReactTabber.prototype.render = function () {
-        var self = this;
-        var props = self.props;
-        var state = self.state;
+        var _a = this, props = _a.props, state = _a.state, prevIndex = _a.prevIndex;
         var tabEntries = parseTabEntries(props, props.children);
-        var oldIndex = self.currentIndex;
-        var newIndex = self.currentIndex = state.targetIndex >= tabEntries.length ? tabEntries.length - 1 : state.targetIndex;
-        if (oldIndex !== newIndex && props.onSwitching) {
-            props.onSwitching(oldIndex, newIndex);
+        var currentIndex = this.currentIndex = Math.min(state.targetIndex, tabEntries.length - 1);
+        if (prevIndex !== currentIndex && props.onSwitching) {
+            props.onSwitching(prevIndex, currentIndex);
         }
-        return self.createTabContainer(tabEntries);
+        return this.createTabContainer(tabEntries);
     };
-    ReactTabber.prototype.updateRenderedIndex = function () {
-        var self = this;
-        var props = self.props;
-        var oldIndex = self.renderedIndex;
-        var newIndex = self.renderedIndex = self.currentIndex;
-        if (oldIndex !== newIndex && props.onSwitched) {
-            props.onSwitched(oldIndex, newIndex);
+    ReactTabber.prototype.handleIndexChange = function () {
+        var _a = this, props = _a.props, prevIndex = _a.prevIndex, currentIndex = _a.currentIndex;
+        if (prevIndex !== currentIndex && props.onSwitched) {
+            props.onSwitched(prevIndex, currentIndex);
         }
+        this.prevIndex = currentIndex;
     };
     ReactTabber.prototype.componentDidMount = function () {
-        this.updateRenderedIndex();
+        this.handleIndexChange();
     };
     ReactTabber.prototype.componentDidUpdate = function () {
-        this.updateRenderedIndex();
+        this.handleIndexChange();
     };
     ReactTabber.Label = Label;
     ReactTabber.Panel = Panel;
