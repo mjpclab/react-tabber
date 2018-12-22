@@ -1,7 +1,9 @@
 /// <reference path='./type/public.d.ts' />
 
 import React, {ReactElement} from 'react';
-import PropTypes from 'prop-types';
+
+import tabberPropTypes from './utility/tabber-prop-types';
+import tabberDefaultProps from './utility/tabber-default-props';
 
 import getValidIndex from './utility/get-valid-index';
 import normalizeEvents from './utility/normalize-events';
@@ -14,60 +16,8 @@ class ReactTabber extends React.Component<ReactTabber.Props, ReactTabber.State> 
 	static Label = Label;
 	static Panel = Panel;
 
-	static propTypes = {
-		tabs: PropTypes.arrayOf(PropTypes.shape({
-			label: PropTypes.node.isRequired,
-			panel: PropTypes.node.isRequired,
-			key: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-		})).isRequired,
-		triggerEvents: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]),
-		delayTriggerEvents: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]),
-		delayTriggerCancelEvents: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]),
-		delayTriggerLatency: PropTypes.number,
-		activeIndex: PropTypes.number,
-		onSwitching: PropTypes.func,
-		onSwitched: PropTypes.func,
-
-		tabContainerClassName: PropTypes.string,
-
-		labelContainerClassName: PropTypes.string,
-		showHeaderLabelContainer: PropTypes.bool,
-		showFooterLabelContainer: PropTypes.bool,
-		headerLabelContainerClassName: PropTypes.string,
-		footerLabelContainerClassName: PropTypes.string,
-		labelItemClassName: PropTypes.string,
-		labelItemActiveClassName: PropTypes.string,
-		labelItemInactiveClassName: PropTypes.string,
-
-		panelContainerClassName: PropTypes.string,
-		panelItemClassName: PropTypes.string,
-		panelItemActiveClassName: PropTypes.string,
-		panelItemInactiveClassName: PropTypes.string
-	};
-
-	static defaultProps: ReactTabber.Props = {
-		tabs: [],
-
-		activeIndex: 0,
-		triggerEvents: ['onClick'],
-		delayTriggerLatency: 200,
-
-		tabContainerClassName: 'tab-container',
-
-		labelContainerClassName: 'label-container',
-		showHeaderLabelContainer: true,
-		showFooterLabelContainer: false,
-		headerLabelContainerClassName: 'header-container',
-		footerLabelContainerClassName: 'footer-container',
-		labelItemClassName: 'label-item',
-		labelItemActiveClassName: 'label-active',
-		labelItemInactiveClassName: 'label-inactive',
-
-		panelContainerClassName: 'panel-container',
-		panelItemClassName: 'panel-item',
-		panelItemActiveClassName: 'panel-active',
-		panelItemInactiveClassName: 'panel-inactive'
-	};
+	static propTypes = tabberPropTypes;
+	static defaultProps = tabberDefaultProps;
 
 	private activeIndex: number = -1;
 	private currentIndex: number = -1;
