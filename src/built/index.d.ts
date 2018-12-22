@@ -34,14 +34,8 @@ declare class ReactTabber extends React.Component<ReactTabber.Props, ReactTabber
     };
     static defaultProps: ReactTabber.Props;
     private tabContext;
-    private triggerEvents?;
-    private delayTriggerEvents?;
-    private delayTriggerCancelEvents?;
     constructor(props: any);
-    static getDerivedStateFromProps(props: ReactTabber.Props, state: ReactTabber.State): {
-        prevActiveIndex: number;
-        targetIndex: number;
-    } | null;
+    static getDerivedStateFromProps(props: ReactTabber.Props, state: ReactTabber.State): Partial<ReactTabber.State>;
     componentWillUnmount(): void;
     private _createLabelContainer;
     private createHeaderLabelContainer;

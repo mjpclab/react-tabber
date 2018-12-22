@@ -241,31 +241,32 @@
             var activeIndex = props.activeIndex;
             _this.state = {
                 prevActiveIndex: activeIndex,
-                targetIndex: activeIndex
+                targetIndex: activeIndex,
             };
-            _this.triggerEvents = normalizeEvents(props.triggerEvents);
-            _this.delayTriggerEvents = normalizeEvents(props.delayTriggerEvents);
-            _this.delayTriggerCancelEvents = normalizeEvents(props.delayTriggerCancelEvents);
             return _this;
         }
         ReactTabber.getDerivedStateFromProps = function (props, state) {
+            var triggerEvents = props.triggerEvents, delayTriggerEvents = props.delayTriggerEvents, delayTriggerCancelEvents = props.delayTriggerCancelEvents;
+            var result = {
+                triggerEvents: normalizeEvents(triggerEvents),
+                delayTriggerEvents: normalizeEvents(delayTriggerEvents),
+                delayTriggerCancelEvents: normalizeEvents(delayTriggerCancelEvents)
+            };
             var activeIndex = getNumericIndex(props.activeIndex);
             var prevActiveIndex = state.prevActiveIndex;
             if (activeIndex !== prevActiveIndex) {
-                return {
-                    prevActiveIndex: activeIndex,
-                    targetIndex: activeIndex
-                };
+                result = __assign$1({}, result, { prevActiveIndex: activeIndex, targetIndex: activeIndex });
             }
-            return null;
+            return result;
         };
         ReactTabber.prototype.componentWillUnmount = function () {
             clearTimeout(this.tabContext.delayTimeout);
         };
         ReactTabber.prototype._createLabelContainer = function (tabs, positionClassName) {
             var _this = this;
-            var _a = this, tabContext = _a.tabContext, triggerEvents = _a.triggerEvents, delayTriggerEvents = _a.delayTriggerEvents, delayTriggerCancelEvents = _a.delayTriggerCancelEvents;
-            var _b = this.props, labelContainerClassName = _b.labelContainerClassName, labelItemClassName = _b.labelItemClassName, labelItemActiveClassName = _b.labelItemActiveClassName, labelItemInactiveClassName = _b.labelItemInactiveClassName, delayTriggerLatency = _b.delayTriggerLatency;
+            var tabContext = this.tabContext;
+            var _a = this.props, labelContainerClassName = _a.labelContainerClassName, labelItemClassName = _a.labelItemClassName, labelItemActiveClassName = _a.labelItemActiveClassName, labelItemInactiveClassName = _a.labelItemInactiveClassName, delayTriggerLatency = _a.delayTriggerLatency;
+            var _b = this.state, triggerEvents = _b.triggerEvents, delayTriggerEvents = _b.delayTriggerEvents, delayTriggerCancelEvents = _b.delayTriggerCancelEvents;
             var labelContainer = React__default.createElement("div", { className: labelContainerClassName + ' ' + positionClassName }, tabs.map(function (tab, index) {
                 var doSwitch = function () {
                     clearTimeout(tabContext.delayTimeout);

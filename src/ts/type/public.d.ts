@@ -41,9 +41,4 @@ declare namespace ReactTabber {
 
 	interface Props extends Partial<NecessaryProps> {
 	}
-
-	interface State {
-		prevActiveIndex: number;
-		targetIndex: number;
-	}
 }

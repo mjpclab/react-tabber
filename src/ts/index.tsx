@@ -27,34 +27,36 @@ class ReactTabber extends React.Component<ReactTabber.Props, ReactTabber.State> 
 		delayTimeout: 0
 	};
 
-	private triggerEvents?: string[];
-	private delayTriggerEvents?: string[];
-	private delayTriggerCancelEvents?: string[];
-
 	constructor(props: any) {
 		super(props);
 		const {activeIndex} = props;
 
 		this.state = {
 			prevActiveIndex: activeIndex,
-			targetIndex: activeIndex
+			targetIndex: activeIndex,
 		};
-
-		this.triggerEvents = normalizeEvents(props.triggerEvents);
-		this.delayTriggerEvents = normalizeEvents(props.delayTriggerEvents);
-		this.delayTriggerCancelEvents = normalizeEvents(props.delayTriggerCancelEvents);
 	}
 
 	static getDerivedStateFromProps(props: ReactTabber.Props, state: ReactTabber.State) {
+		const {triggerEvents, delayTriggerEvents, delayTriggerCancelEvents} = props;
+
+		let result: Partial<ReactTabber.State> = {
+			triggerEvents: normalizeEvents(triggerEvents),
+			delayTriggerEvents: normalizeEvents(delayTriggerEvents),
+			delayTriggerCancelEvents: normalizeEvents(delayTriggerCancelEvents)
+		};
+
 		const activeIndex = getNumericIndex(props.activeIndex);
 		const {prevActiveIndex} = state;
 		if (activeIndex !== prevActiveIndex) {
-			return {
+			result = {
+				...result,
 				prevActiveIndex: activeIndex,
 				targetIndex: activeIndex
 			}
 		}
-		return null;
+
+		return result;
 	}
 
 	componentWillUnmount() {
@@ -62,7 +64,7 @@ class ReactTabber extends React.Component<ReactTabber.Props, ReactTabber.State> 
 	}
 
 	private _createLabelContainer(tabs: ReactTabber.Entry[], positionClassName: string) {
-		const {tabContext, triggerEvents, delayTriggerEvents, delayTriggerCancelEvents} = this;
+		const {tabContext} = this;
 		const {
 			labelContainerClassName,
 			labelItemClassName,
@@ -70,6 +72,7 @@ class ReactTabber extends React.Component<ReactTabber.Props, ReactTabber.State> 
 			labelItemInactiveClassName,
 			delayTriggerLatency
 		} = this.props;
+		const {triggerEvents, delayTriggerEvents, delayTriggerCancelEvents} = this.state;
 
 		const labelContainer = <div className={labelContainerClassName + ' ' + positionClassName}>
 			{tabs.map((tab, index) => {
