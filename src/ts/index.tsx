@@ -21,9 +21,11 @@ class ReactTabber extends React.Component<ReactTabber.Props, ReactTabber.State> 
 	static propTypes = tabberPropTypes;
 	static defaultProps = tabberDefaultProps;
 
-	private currentIndex: number = -1;
-	private prevIndex: number = -1;
-	private delayTimeout?: number;
+	private tabContext: ReactTabber.Context = {
+		prevIndex: -1,
+		currentIndex: -1,
+		delayTimeout: 0
+	};
 
 	private triggerEvents?: string[];
 	private delayTriggerEvents?: string[];
@@ -56,10 +58,11 @@ class ReactTabber extends React.Component<ReactTabber.Props, ReactTabber.State> 
 	}
 
 	componentWillUnmount() {
-		clearTimeout(this.delayTimeout);
+		clearTimeout(this.tabContext.delayTimeout);
 	}
 
 	private _createLabelContainer(tabs: ReactTabber.Entry[], positionClassName: string) {
+		const {tabContext, triggerEvents, delayTriggerEvents, delayTriggerCancelEvents} = this;
 		const {
 			labelContainerClassName,
 			labelItemClassName,
@@ -71,18 +74,18 @@ class ReactTabber extends React.Component<ReactTabber.Props, ReactTabber.State> 
 		const labelContainer = <div className={labelContainerClassName + ' ' + positionClassName}>
 			{tabs.map((tab, index) => {
 				const doSwitch = () => {
-					clearTimeout(this.delayTimeout);
+					clearTimeout(tabContext.delayTimeout);
 					this.switchTo(index);
 				};
-				let localDelayTimeout: number;
+				let localDelayTimeout: any;
 				const delayDoSwitch = (delayTriggerLatency!) <= 0 ?
 					doSwitch :
 					() => {
-						clearTimeout(this.delayTimeout);
-						localDelayTimeout = this.delayTimeout = setTimeout(doSwitch, delayTriggerLatency);
+						clearTimeout(tabContext.delayTimeout);
+						localDelayTimeout = tabContext.delayTimeout = setTimeout(doSwitch, delayTriggerLatency);
 					};
 				const cancelDelayDoSwitch = () => {
-					if (localDelayTimeout === this.delayTimeout) {
+					if (localDelayTimeout === tabContext.delayTimeout) {
 						clearTimeout(localDelayTimeout);
 					}
 				};
@@ -90,11 +93,11 @@ class ReactTabber extends React.Component<ReactTabber.Props, ReactTabber.State> 
 				const {labelProps, key} = tab;
 				let labelDelayTriggerCancelProps;
 				let labelDelayTriggerProps;
-				if (this.delayTriggerEvents && this.delayTriggerEvents.length) {
-					labelDelayTriggerCancelProps = createEventHandler(this.delayTriggerCancelEvents, cancelDelayDoSwitch);
-					labelDelayTriggerProps = createEventHandler(this.delayTriggerEvents, delayDoSwitch);
+				if (delayTriggerEvents && delayTriggerEvents.length) {
+					labelDelayTriggerCancelProps = createEventHandler(delayTriggerCancelEvents, cancelDelayDoSwitch);
+					labelDelayTriggerProps = createEventHandler(delayTriggerEvents, delayDoSwitch);
 				}
-				const labelTriggerProps = createEventHandler(this.triggerEvents, doSwitch);
+				const labelTriggerProps = createEventHandler(triggerEvents, doSwitch);
 
 				return <div
 					{...labelProps}
@@ -102,7 +105,7 @@ class ReactTabber extends React.Component<ReactTabber.Props, ReactTabber.State> 
 					{...labelDelayTriggerProps}
 					{...labelTriggerProps}
 					key={key ? 'key-' + key : 'index-' + index}
-					className={labelItemClassName + ' ' + (index === this.currentIndex ? labelItemActiveClassName : labelItemInactiveClassName)}
+					className={labelItemClassName + ' ' + (index === tabContext.currentIndex ? labelItemActiveClassName : labelItemInactiveClassName)}
 				>{tab.label}</div>;
 			})}
 		</div>;
@@ -131,7 +134,7 @@ class ReactTabber extends React.Component<ReactTabber.Props, ReactTabber.State> 
 				return <div
 					{...panelProps}
 					key={key ? 'key-' + key : 'index-' + index}
-					className={panelItemClassName + ' ' + (index === this.currentIndex ? panelItemActiveClassName : panelItemInactiveClassName)}
+					className={panelItemClassName + ' ' + (index === this.tabContext.currentIndex ? panelItemActiveClassName : panelItemInactiveClassName)}
 				>{tab.panel}</div>
 			})}
 		</div>;
@@ -158,10 +161,11 @@ class ReactTabber extends React.Component<ReactTabber.Props, ReactTabber.State> 
 	}
 
 	render() {
-		const {props, state, prevIndex} = this;
+		const {props, state, tabContext} = this;
+		const {prevIndex} = tabContext;
 		const tabEntries = parseTabEntries(props, props.children);
 
-		const currentIndex = this.currentIndex = Math.min(state.targetIndex, tabEntries.length - 1);
+		const currentIndex = tabContext.currentIndex = Math.min(state.targetIndex, tabEntries.length - 1);
 		if (prevIndex !== currentIndex && props.onSwitching) {
 			props.onSwitching(prevIndex, currentIndex);
 		}
@@ -170,11 +174,12 @@ class ReactTabber extends React.Component<ReactTabber.Props, ReactTabber.State> 
 	}
 
 	private handleIndexChange() {
-		const {props, prevIndex, currentIndex} = this;
+		const {props, tabContext} = this;
+		const {prevIndex, currentIndex} = tabContext;
 		if (prevIndex !== currentIndex && props.onSwitched) {
 			props.onSwitched(prevIndex, currentIndex);
 		}
-		this.prevIndex = currentIndex;
+		tabContext.prevIndex = currentIndex;
 	}
 
 	componentDidMount() {

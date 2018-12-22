@@ -33,9 +33,7 @@ declare class ReactTabber extends React.Component<ReactTabber.Props, ReactTabber
         panelItemInactiveClassName: import("prop-types").Requireable<string>;
     };
     static defaultProps: ReactTabber.Props;
-    private currentIndex;
-    private prevIndex;
-    private delayTimeout?;
+    private tabContext;
     private triggerEvents?;
     private delayTriggerEvents?;
     private delayTriggerCancelEvents?;
