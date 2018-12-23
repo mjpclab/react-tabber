@@ -8,6 +8,7 @@ import createEventHandler from "./utility/create-event-handler";
 
 import tabberPropTypes from './utility/tabber-prop-types';
 import tabberDefaultProps from './utility/tabber-default-props';
+import classNameSuffix from './utility/class-name-suffix';
 
 import parseTabEntries from './feature/parse-tab-entries';
 
@@ -63,18 +64,21 @@ class ReactTabber extends React.Component<ReactTabber.Props, ReactTabber.State> 
 		clearTimeout(this.tabContext.delayTimeout);
 	}
 
-	private _createLabelContainer(tabs: ReactTabber.Entry[], positionClassName: string) {
+	private createLabelContainer(tabs: ReactTabber.Entry[], position: string) {
 		const {tabContext} = this;
 		const {
 			labelContainerClassName,
 			labelItemClassName,
-			labelItemActiveClassName,
-			labelItemInactiveClassName,
 			delayTriggerLatency
 		} = this.props;
 		const {triggerEvents, delayTriggerEvents, delayTriggerCancelEvents} = this.state;
 
-		const labelContainer = <div className={labelContainerClassName + ' ' + positionClassName}>
+		const labelContainerLocationClassName = labelContainerClassName + position;
+
+		const labelItemActiveClassName = labelItemClassName + classNameSuffix.active;
+		const labelItemInactiveClassName = labelItemClassName + classNameSuffix.inactive;
+
+		const labelContainer = <div className={labelContainerClassName + ' ' + labelContainerLocationClassName}>
 			{tabs.map((tab, index) => {
 				const doSwitch = () => {
 					clearTimeout(tabContext.delayTimeout);
@@ -102,42 +106,38 @@ class ReactTabber extends React.Component<ReactTabber.Props, ReactTabber.State> 
 				}
 				const labelTriggerProps = createEventHandler(triggerEvents, doSwitch);
 
+				const labelItemStatusClassName = (index === tabContext.currentIndex ? labelItemActiveClassName : labelItemInactiveClassName);
+
 				return <div
 					{...labelProps}
 					{...labelDelayTriggerCancelProps}
 					{...labelDelayTriggerProps}
 					{...labelTriggerProps}
 					key={key ? 'key-' + key : 'index-' + index}
-					className={labelItemClassName + ' ' + (index === tabContext.currentIndex ? labelItemActiveClassName : labelItemInactiveClassName)}
+					className={labelItemClassName + ' ' + labelItemStatusClassName}
 				>{tab.label}</div>;
 			})}
 		</div>;
 		return labelContainer;
 	}
 
-	private createHeaderLabelContainer(tabs: ReactTabber.Entry[]) {
-		return this._createLabelContainer(tabs, this.props.headerLabelContainerClassName!);
-	}
-
-	private createFooterLabelContainer(tabs: ReactTabber.Entry[]) {
-		return this._createLabelContainer(tabs, this.props.footerLabelContainerClassName!);
-	}
-
 	private createPanelContainer(tabs: ReactTabber.Entry[]) {
 		const {
 			panelContainerClassName,
 			panelItemClassName,
-			panelItemActiveClassName,
-			panelItemInactiveClassName
 		} = this.props;
+
+		const panelItemActiveClassName = panelItemClassName + classNameSuffix.active;
+		const panelItemInactiveClassName = panelItemClassName + classNameSuffix.inactive;
 
 		return <div className={panelContainerClassName}>
 			{tabs.map((tab, index) => {
 				const {panelProps, key} = tab;
+				const panelItemStatusClassName = index === this.tabContext.currentIndex ? panelItemActiveClassName : panelItemInactiveClassName;
 				return <div
 					{...panelProps}
 					key={key ? 'key-' + key : 'index-' + index}
-					className={panelItemClassName + ' ' + (index === this.tabContext.currentIndex ? panelItemActiveClassName : panelItemInactiveClassName)}
+					className={panelItemClassName + ' ' + panelItemStatusClassName}
 				>{tab.panel}</div>
 			})}
 		</div>;
@@ -151,9 +151,9 @@ class ReactTabber extends React.Component<ReactTabber.Props, ReactTabber.State> 
 		} = this.props;
 
 		return <div className={tabContainerClassName}>
-			{showHeaderLabelContainer ? this.createHeaderLabelContainer(tabs) : null}
+			{showHeaderLabelContainer ? this.createLabelContainer(tabs, classNameSuffix.header) : null}
 			{this.createPanelContainer(tabs)}
-			{showFooterLabelContainer ? this.createFooterLabelContainer(tabs) : null}
+			{showFooterLabelContainer ? this.createLabelContainer(tabs, classNameSuffix.footer) : null}
 		</div>;
 	}
 

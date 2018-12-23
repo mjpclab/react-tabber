@@ -2,8 +2,8 @@
   "name": "react-tabber",
   "version": "0.0.27",
   "description": "A React tab sheet component",
-  "main": "index.js",
-  "types": "src/ts/react-tabber.d.ts",
+  "main": "src/built/index.js",
+  "types": "src/built/index.d.ts",
   "scripts": {
     "build": "bash build.sh"
   },
@@ -20,14 +20,14 @@
   },
   "dependencies": {
     "@types/prop-types": "^15.5.8",
-    "@types/react": "^16.7.17",
+    "@types/react": "^16.7.18",
     "@types/react-dom": "^16.0.11",
     "prop-types": "^15.6.2",
-    "react": "^16.6.3",
-    "react-dom": "^16.6.3"
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0"
   },
   "devDependencies": {
-    "rollup": "^0.68.0",
+    "rollup": "^0.68.1",
     "rollup-plugin-commonjs": "^9.2.0",
     "rollup-plugin-node-resolve": "^4.0.0",
     "rollup-plugin-uglify": "^6.0.0",

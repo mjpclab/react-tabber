@@ -144,20 +144,8 @@ If show label container before tab panel. Default value is true.
 `showFooterLabelContainer`  
 If show label container after tab panel. Default value is false.
 
-`headerLabelContainerClassName`  
-Header label container element's class name. Default value is 'header-container'.
-
-`footerLabelContainerClassName`  
-Footer label container element's class name. Default value is 'footer-container'.
-
 `labelItemClassName`  
 Label item element's class name. Default value is 'label-item'.
-
-`labelItemActiveClassName`  
-The active(switched) label item element's class name. Default value is 'label-active'.
-
-`labelItemInactiveClassName`  
-Non-active label item element's class name. Default value is 'label-inactive'.
 
 ### Panel
 `panelContainerClassName`  
@@ -165,9 +153,3 @@ Panel container element's class name. Default value is 'panel-container'.
 
 `panelItemClassName`  
 Panel item element's class name. Default value is 'panel-item'.
-
-`panelItemActiveClassName`  
-The active(switched) panel item element's class name. Default value is 'panel-active'.
-
-`panelItemInactiveClassName`  
-Non-active panel item element's class name. Default value is 'panel-inactive'.

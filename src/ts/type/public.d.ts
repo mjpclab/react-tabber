@@ -27,16 +27,10 @@ declare namespace ReactTabber {
 		labelContainerClassName: string;
 		showHeaderLabelContainer: boolean;
 		showFooterLabelContainer: boolean;
-		headerLabelContainerClassName: string;
-		footerLabelContainerClassName: string;
 		labelItemClassName: string;
-		labelItemActiveClassName: string;
-		labelItemInactiveClassName: string;
 
 		panelContainerClassName: string;
 		panelItemClassName: string;
-		panelItemActiveClassName: string;
-		panelItemInactiveClassName: string;
 	}
 
 	interface Props extends Partial<NecessaryProps> {

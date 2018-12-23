@@ -16,14 +16,8 @@ var tabberPropTypes = {
     labelContainerClassName: PropTypes.string,
     showHeaderLabelContainer: PropTypes.bool,
     showFooterLabelContainer: PropTypes.bool,
-    headerLabelContainerClassName: PropTypes.string,
-    footerLabelContainerClassName: PropTypes.string,
     labelItemClassName: PropTypes.string,
-    labelItemActiveClassName: PropTypes.string,
-    labelItemInactiveClassName: PropTypes.string,
     panelContainerClassName: PropTypes.string,
     panelItemClassName: PropTypes.string,
-    panelItemActiveClassName: PropTypes.string,
-    panelItemInactiveClassName: PropTypes.string
 };
 export default tabberPropTypes;

@@ -16,14 +16,8 @@ declare const tabberPropTypes: {
     labelContainerClassName: PropTypes.Requireable<string>;
     showHeaderLabelContainer: PropTypes.Requireable<boolean>;
     showFooterLabelContainer: PropTypes.Requireable<boolean>;
-    headerLabelContainerClassName: PropTypes.Requireable<string>;
-    footerLabelContainerClassName: PropTypes.Requireable<string>;
     labelItemClassName: PropTypes.Requireable<string>;
-    labelItemActiveClassName: PropTypes.Requireable<string>;
-    labelItemInactiveClassName: PropTypes.Requireable<string>;
     panelContainerClassName: PropTypes.Requireable<string>;
     panelItemClassName: PropTypes.Requireable<string>;
-    panelItemActiveClassName: PropTypes.Requireable<string>;
-    panelItemInactiveClassName: PropTypes.Requireable<string>;
 };
 export default tabberPropTypes;
