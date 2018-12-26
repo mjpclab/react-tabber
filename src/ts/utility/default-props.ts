@@ -1,4 +1,4 @@
-const tabberDefaultProps: ReactTabber.Props = {
+const defaultProps: ReactTabber.Props = {
 	tabs: [],
 
 	activeIndex: 0,
@@ -16,4 +16,4 @@ const tabberDefaultProps: ReactTabber.Props = {
 	panelItemClassName: 'panel-item',
 };
 
-export default tabberDefaultProps;
+export default defaultProps;

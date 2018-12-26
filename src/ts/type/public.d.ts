@@ -14,9 +14,6 @@ declare namespace ReactTabber {
 	interface NecessaryProps {
 		tabs: Entry[];
 
-		triggerEvents?: string | string[];
-		delayTriggerEvents?: string | string[];
-		delayTriggerCancelEvents?: string | string[];
 		delayTriggerLatency: number;
 		activeIndex: number;
 		onSwitching?: (oldIndex: number, newIndex: number) => void;
@@ -33,6 +30,20 @@ declare namespace ReactTabber {
 		panelItemClassName: string;
 	}
 
-	interface Props extends Partial<NecessaryProps> {
+	interface EventProps {
+		triggerEvents?: string | string[];
+		delayTriggerEvents?: string | string[];
+		delayTriggerCancelEvents?: string | string[];
+	}
+
+	type NormalizedEventProps = {
+		[P in keyof EventProps]: string[]
+	}
+
+	interface Props extends Partial<NecessaryProps>, Partial<EventProps> {
+	}
+
+	type PropTypes = {
+		[P in keyof Props]: any
 	}
 }

@@ -3,15 +3,20 @@ declare function clearTimeout(handle?: number): void;
 declare function parseInt(value: string | number): number;
 
 declare namespace ReactTabber {
-	interface State {
-		prevActiveIndex: number;
-		targetIndex: number;
-		triggerEvents?: string[];
-		delayTriggerEvents?: string[];
-		delayTriggerCancelEvents?: string[];
+	interface TabProps extends NecessaryProps, NormalizedEventProps {
+
 	}
 
-	interface Context {
+	type TabPropTypes = {
+		[P in keyof TabProps]: any
+	}
+
+	interface TabState {
+		prevActiveIndex: number;
+		targetIndex: number;
+	}
+
+	interface TabContext {
 		prevIndex: number;
 		currentIndex: number;
 		delayTimeout: any;

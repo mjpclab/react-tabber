@@ -23,138 +23,37 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
+var __rest = (this && this.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) if (e.indexOf(p[i]) < 0)
+            t[p[i]] = s[p[i]];
+    return t;
+};
 import React from 'react';
-import getNumericIndex from './utility/get-numeric-index';
+import { propTypes } from './utility/prop-types';
+import defaultProps from './utility/default-props';
 import normalizeEvents from './utility/normalize-events';
-import createEventHandler from "./utility/create-event-handler";
-import tabberPropTypes from './utility/tabber-prop-types';
-import tabberDefaultProps from './utility/tabber-default-props';
-import classNameSuffix from './utility/class-name-suffix';
 import parseTabEntries from './feature/parse-tab-entries';
+import Tab from './component/tab';
 import Label from './component/label';
 import Panel from './component/panel';
 var ReactTabber = /** @class */ (function (_super) {
     __extends(ReactTabber, _super);
-    function ReactTabber(props) {
-        var _this = _super.call(this, props) || this;
-        _this.tabContext = {
-            prevIndex: -1,
-            currentIndex: -1,
-            delayTimeout: 0
-        };
-        var activeIndex = props.activeIndex;
-        _this.state = {
-            prevActiveIndex: activeIndex,
-            targetIndex: activeIndex,
-        };
-        return _this;
+    function ReactTabber() {
+        return _super !== null && _super.apply(this, arguments) || this;
     }
-    ReactTabber.getDerivedStateFromProps = function (props, state) {
-        var triggerEvents = props.triggerEvents, delayTriggerEvents = props.delayTriggerEvents, delayTriggerCancelEvents = props.delayTriggerCancelEvents;
-        var result = {
-            triggerEvents: normalizeEvents(triggerEvents),
-            delayTriggerEvents: normalizeEvents(delayTriggerEvents),
-            delayTriggerCancelEvents: normalizeEvents(delayTriggerCancelEvents)
-        };
-        var activeIndex = getNumericIndex(props.activeIndex);
-        var prevActiveIndex = state.prevActiveIndex;
-        if (activeIndex !== prevActiveIndex) {
-            result = __assign({}, result, { prevActiveIndex: activeIndex, targetIndex: activeIndex });
-        }
-        return result;
-    };
-    ReactTabber.prototype.componentWillUnmount = function () {
-        clearTimeout(this.tabContext.delayTimeout);
-    };
-    ReactTabber.prototype.createLabelContainer = function (tabs, position) {
-        var _this = this;
-        var tabContext = this.tabContext;
-        var _a = this.props, labelContainerClassName = _a.labelContainerClassName, labelItemClassName = _a.labelItemClassName, delayTriggerLatency = _a.delayTriggerLatency;
-        var _b = this.state, triggerEvents = _b.triggerEvents, delayTriggerEvents = _b.delayTriggerEvents, delayTriggerCancelEvents = _b.delayTriggerCancelEvents;
-        var labelContainerLocationClassName = labelContainerClassName + position;
-        var labelItemActiveClassName = labelItemClassName + classNameSuffix.active;
-        var labelItemInactiveClassName = labelItemClassName + classNameSuffix.inactive;
-        var labelContainer = React.createElement("div", { className: labelContainerClassName + ' ' + labelContainerLocationClassName }, tabs.map(function (tab, index) {
-            var doSwitch = function () {
-                clearTimeout(tabContext.delayTimeout);
-                _this.switchTo(index);
-            };
-            var localDelayTimeout;
-            var delayDoSwitch = (delayTriggerLatency) <= 0 ?
-                doSwitch :
-                function () {
-                    clearTimeout(tabContext.delayTimeout);
-                    localDelayTimeout = tabContext.delayTimeout = setTimeout(doSwitch, delayTriggerLatency);
-                };
-            var cancelDelayDoSwitch = function () {
-                if (localDelayTimeout === tabContext.delayTimeout) {
-                    clearTimeout(localDelayTimeout);
-                }
-            };
-            var labelProps = tab.labelProps, key = tab.key;
-            var labelDelayTriggerCancelProps;
-            var labelDelayTriggerProps;
-            if (delayTriggerEvents && delayTriggerEvents.length) {
-                labelDelayTriggerCancelProps = createEventHandler(delayTriggerCancelEvents, cancelDelayDoSwitch);
-                labelDelayTriggerProps = createEventHandler(delayTriggerEvents, delayDoSwitch);
-            }
-            var labelTriggerProps = createEventHandler(triggerEvents, doSwitch);
-            var labelItemStatusClassName = (index === tabContext.currentIndex ? labelItemActiveClassName : labelItemInactiveClassName);
-            return React.createElement("div", __assign({}, labelProps, labelDelayTriggerCancelProps, labelDelayTriggerProps, labelTriggerProps, { key: key ? 'key-' + key : 'index-' + index, className: labelItemClassName + ' ' + labelItemStatusClassName }), tab.label);
-        }));
-        return labelContainer;
-    };
-    ReactTabber.prototype.createPanelContainer = function (tabs) {
-        var _this = this;
-        var _a = this.props, panelContainerClassName = _a.panelContainerClassName, panelItemClassName = _a.panelItemClassName;
-        var panelItemActiveClassName = panelItemClassName + classNameSuffix.active;
-        var panelItemInactiveClassName = panelItemClassName + classNameSuffix.inactive;
-        return React.createElement("div", { className: panelContainerClassName }, tabs.map(function (tab, index) {
-            var panelProps = tab.panelProps, key = tab.key;
-            var panelItemStatusClassName = index === _this.tabContext.currentIndex ? panelItemActiveClassName : panelItemInactiveClassName;
-            return React.createElement("div", __assign({}, panelProps, { key: key ? 'key-' + key : 'index-' + index, className: panelItemClassName + ' ' + panelItemStatusClassName }), tab.panel);
-        }));
-    };
-    ReactTabber.prototype.createTabContainer = function (tabs) {
-        var _a = this.props, tabContainerClassName = _a.tabContainerClassName, showHeaderLabelContainer = _a.showHeaderLabelContainer, showFooterLabelContainer = _a.showFooterLabelContainer;
-        return React.createElement("div", { className: tabContainerClassName },
-            showHeaderLabelContainer ? this.createLabelContainer(tabs, classNameSuffix.header) : null,
-            this.createPanelContainer(tabs),
-            showFooterLabelContainer ? this.createLabelContainer(tabs, classNameSuffix.footer) : null);
-    };
-    ReactTabber.prototype.switchTo = function (index) {
-        this.setState({
-            targetIndex: getNumericIndex(index)
-        });
-    };
     ReactTabber.prototype.render = function () {
-        var _a = this, props = _a.props, state = _a.state, tabContext = _a.tabContext;
-        var prevIndex = tabContext.prevIndex;
-        var tabEntries = parseTabEntries(props, props.children);
-        var currentIndex = tabContext.currentIndex = Math.min(state.targetIndex, tabEntries.length - 1);
-        if (prevIndex !== currentIndex && props.onSwitching) {
-            props.onSwitching(prevIndex, currentIndex);
-        }
-        return this.createTabContainer(tabEntries);
-    };
-    ReactTabber.prototype.handleIndexChange = function () {
-        var _a = this, props = _a.props, tabContext = _a.tabContext;
-        var prevIndex = tabContext.prevIndex, currentIndex = tabContext.currentIndex;
-        if (prevIndex !== currentIndex && props.onSwitched) {
-            props.onSwitched(prevIndex, currentIndex);
-        }
-        tabContext.prevIndex = currentIndex;
-    };
-    ReactTabber.prototype.componentDidMount = function () {
-        this.handleIndexChange();
-    };
-    ReactTabber.prototype.componentDidUpdate = function () {
-        this.handleIndexChange();
+        var _a = this.props, triggerEvents = _a.triggerEvents, delayTriggerEvents = _a.delayTriggerEvents, delayTriggerCancelEvents = _a.delayTriggerCancelEvents, props = __rest(_a, ["triggerEvents", "delayTriggerEvents", "delayTriggerCancelEvents"]);
+        var tabs = parseTabEntries(this.props, this.props.children);
+        return React.createElement(Tab, __assign({}, props, { triggerEvents: normalizeEvents(triggerEvents), delayTriggerEvents: normalizeEvents(delayTriggerEvents), delayTriggerCancelEvents: normalizeEvents(delayTriggerCancelEvents), tabs: tabs }));
     };
     ReactTabber.Label = Label;
     ReactTabber.Panel = Panel;
-    ReactTabber.propTypes = tabberPropTypes;
-    ReactTabber.defaultProps = tabberDefaultProps;
+    ReactTabber.propTypes = propTypes;
+    ReactTabber.defaultProps = defaultProps;
     return ReactTabber;
 }(React.Component));
 export default ReactTabber;
