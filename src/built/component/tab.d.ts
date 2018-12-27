@@ -5,8 +5,8 @@ declare class Tab extends React.Component<ReactTabber.TabProps, ReactTabber.TabS
     private tabContext;
     constructor(props: ReactTabber.TabProps);
     static getDerivedStateFromProps(props: ReactTabber.TabProps, state: ReactTabber.TabState): {
-        prevActiveIndex: number;
-        targetIndex: number;
+        prevActivePosition: string | number | undefined;
+        targetPosition: string | number | undefined;
     } | null;
     componentWillUnmount(): void;
     private switchTo;

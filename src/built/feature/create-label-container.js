@@ -19,6 +19,7 @@ function createLabelContainer(props, context, entries, sideSuffix, fnSwitchTo) {
     var labelContainerLocationModeClassName = labelContainerClassName + sideSuffix + '-' + mode;
     var labelItemActiveClassName = labelItemClassName + classNameSuffix.active;
     var labelItemInactiveClassName = labelItemClassName + classNameSuffix.inactive;
+    var currentIndex = context.currentPosition.index;
     var labelContainer = React.createElement("div", { className: labelContainerClassName + ' ' + labelContainerLocationClassName + ' ' + labelContainerModeClassName + ' ' + labelContainerLocationModeClassName }, entries.map(function (entry, index) {
         var doSwitch = function () {
             clearTimeout(context.delayTimeout);
@@ -44,7 +45,7 @@ function createLabelContainer(props, context, entries, sideSuffix, fnSwitchTo) {
             labelDelayTriggerProps = createEventHandler(delayTriggerEvents, delayDoSwitch);
         }
         var labelTriggerProps = createEventHandler(triggerEvents, doSwitch);
-        var labelItemStatusClassName = (index === context.currentIndex ? labelItemActiveClassName : labelItemInactiveClassName);
+        var labelItemStatusClassName = (index === currentIndex ? labelItemActiveClassName : labelItemInactiveClassName);
         return React.createElement("div", __assign({}, labelProps, labelDelayTriggerCancelProps, labelDelayTriggerProps, labelTriggerProps, { key: key ? 'key-' + key : 'index-' + index, className: labelItemClassName + ' ' + labelItemStatusClassName }), entry.label);
     }));
     return labelContainer;

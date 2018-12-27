@@ -39,12 +39,12 @@
 		);
 	}
 
-	function onSwitching(oldIndex, newIndex) {
-		console.log('switching ' + oldIndex + ' ' + newIndex);
+	function onSwitching(from, to) {
+		console.log('switching ', from, to);
 	}
 
-	function onSwitched(oldIndex, newIndex) {
-		console.log('switched ' + oldIndex + ' ' + newIndex);
+	function onSwitched(from, to) {
+		console.log('switched ', from, to);
 	}
 
 	render();

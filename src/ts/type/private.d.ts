@@ -2,6 +2,8 @@ declare function clearTimeout(handle?: number): void;
 
 declare function parseInt(value: string | number): number;
 
+declare function isFinite(number: string): boolean;
+
 declare namespace ReactTabber {
 	interface TabProps extends NecessaryProps, NormalizedEventProps {
 
@@ -12,15 +14,15 @@ declare namespace ReactTabber {
 	}
 
 	interface TabState {
-		prevActiveIndex: number;
-		targetIndex: number;
+		prevActivePosition: ReactTabber.TabItemPosition
+		targetPosition: ReactTabber.TabItemPosition;
 	}
 
 	interface TabContext {
-		prevIndex: number;
-		currentIndex: number;
+		prevPosition: ReactTabber.NormalizedTabItemPosition;
+		currentPosition: ReactTabber.NormalizedTabItemPosition;
 		delayTimeout: any;
 	}
 
-	type FnSwitchTo = (index: number) => void;
+	type FnSwitchTo = (position: ReactTabber.TabItemPosition) => void;
 }

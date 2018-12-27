@@ -27,6 +27,8 @@ function createLabelContainer(
 	const labelItemActiveClassName = labelItemClassName + classNameSuffix.active;
 	const labelItemInactiveClassName = labelItemClassName + classNameSuffix.inactive;
 
+	const {index: currentIndex} = context.currentPosition;
+
 	const labelContainer =
 		<div className={labelContainerClassName + ' ' + labelContainerLocationClassName + ' ' + labelContainerModeClassName + ' ' + labelContainerLocationModeClassName}>
 			{entries.map((entry, index) => {
@@ -56,7 +58,7 @@ function createLabelContainer(
 				}
 				const labelTriggerProps = createEventHandler(triggerEvents, doSwitch);
 
-				const labelItemStatusClassName = (index === context.currentIndex ? labelItemActiveClassName : labelItemInactiveClassName);
+				const labelItemStatusClassName = (index === currentIndex ? labelItemActiveClassName : labelItemInactiveClassName);
 
 				return <div
 					{...labelProps}

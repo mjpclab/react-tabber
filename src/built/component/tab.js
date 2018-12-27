@@ -12,7 +12,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 import React from 'react';
-import getNumericIndex from '../utility/get-numeric-index';
+import { invalidNormalizedPosition, getNormalizedPosition } from '../utility/normalized-position';
 import { tabPropTypes } from '../utility/prop-types';
 import defaultProps from '../utility/default-props';
 import createTabContainer from '../feature/create-tab-container';
@@ -21,25 +21,24 @@ var Tab = /** @class */ (function (_super) {
     function Tab(props) {
         var _this = _super.call(this, props) || this;
         _this.tabContext = {
-            prevIndex: -1,
-            currentIndex: -1,
+            prevPosition: invalidNormalizedPosition,
+            currentPosition: invalidNormalizedPosition,
             delayTimeout: 0
         };
-        var activeIndex = props.activeIndex;
         _this.switchTo = _this.switchTo.bind(_this);
         _this.state = {
-            prevActiveIndex: activeIndex,
-            targetIndex: activeIndex,
+            prevActivePosition: -1,
+            targetPosition: -1,
         };
         return _this;
     }
     Tab.getDerivedStateFromProps = function (props, state) {
-        var activeIndex = getNumericIndex(props.activeIndex);
-        var prevActiveIndex = state.prevActiveIndex;
-        if (activeIndex !== prevActiveIndex) {
+        var activePosition = props.activePosition;
+        var prevActivePosition = state.prevActivePosition;
+        if (activePosition !== prevActivePosition) {
             return {
-                prevActiveIndex: activeIndex,
-                targetIndex: activeIndex
+                prevActivePosition: activePosition,
+                targetPosition: activePosition
             };
         }
         return null;
@@ -47,28 +46,46 @@ var Tab = /** @class */ (function (_super) {
     Tab.prototype.componentWillUnmount = function () {
         clearTimeout(this.tabContext.delayTimeout);
     };
-    Tab.prototype.switchTo = function (index) {
+    Tab.prototype.switchTo = function (position) {
         this.setState({
-            targetIndex: getNumericIndex(index)
+            targetPosition: position
         });
     };
     Tab.prototype.render = function () {
         var _a = this, props = _a.props, state = _a.state, tabContext = _a.tabContext;
-        var prevIndex = tabContext.prevIndex;
+        var targetPosition = state.targetPosition;
+        var normalizedPrevPosition = tabContext.prevPosition;
+        var prevIndex = normalizedPrevPosition.index;
         var tabs = props.tabs;
-        var currentIndex = tabContext.currentIndex = Math.min(state.targetIndex, tabs.length - 1);
+        var normalizedTargetPosition = getNormalizedPosition(tabs, targetPosition);
+        var targetIndex = normalizedTargetPosition.index;
+        var entryCount = tabs.length;
+        var currentIndex;
+        if (targetIndex === -1) {
+            currentIndex = entryCount > 0 ? 0 : -1;
+            tabContext.currentPosition = getNormalizedPosition(tabs, currentIndex);
+        }
+        else if (targetIndex < entryCount) {
+            currentIndex = targetIndex;
+            tabContext.currentPosition = normalizedTargetPosition;
+        }
+        else {
+            currentIndex = entryCount - 1;
+            tabContext.currentPosition = getNormalizedPosition(tabs, currentIndex);
+        }
         if (prevIndex !== currentIndex && props.onSwitching) {
-            props.onSwitching(prevIndex, currentIndex);
+            props.onSwitching(normalizedPrevPosition, tabContext.currentPosition);
         }
         return createTabContainer(props, tabContext, tabs, this.switchTo);
     };
     Tab.prototype.handleIndexChange = function () {
         var _a = this, props = _a.props, tabContext = _a.tabContext;
-        var prevIndex = tabContext.prevIndex, currentIndex = tabContext.currentIndex;
-        if (prevIndex !== currentIndex && props.onSwitched) {
-            props.onSwitched(prevIndex, currentIndex);
+        var onSwitched = props.onSwitched;
+        var prevPosition = tabContext.prevPosition, currentPosition = tabContext.currentPosition;
+        if (prevPosition.index !== currentPosition.index && onSwitched) {
+            onSwitched(prevPosition, currentPosition);
         }
-        tabContext.prevIndex = currentIndex;
+        tabContext.prevPosition = currentPosition;
     };
     Tab.prototype.componentDidMount = function () {
         this.handleIndexChange();

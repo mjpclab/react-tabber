@@ -26,7 +26,7 @@
         })),
         mode: PropTypes.string,
         delayTriggerLatency: PropTypes.number,
-        activeIndex: PropTypes.number,
+        activePosition: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
         onSwitching: PropTypes.func,
         onSwitched: PropTypes.func,
         tabContainerClassName: PropTypes.string,
@@ -43,7 +43,7 @@
     var defaultProps = {
         tabs: [],
         mode: "horizontal" /* Horizontal */,
-        activeIndex: 0,
+        activePosition: 0,
         triggerEvents: ['onClick'],
         delayTriggerLatency: 200,
         tabContainerClassName: 'tab-container',
@@ -124,7 +124,13 @@
         var entries = [];
         // tabs
         if (props.tabs && props.tabs.length) {
-            entries.push.apply(entries, props.tabs);
+            entries.push.apply(entries, props.tabs.map(function (_entry) {
+                var entry = __assign$1({}, _entry);
+                if (entry.key === undefined) {
+                    entry.key = null;
+                }
+                return entry;
+            }));
         }
         // children
         if (children) {
@@ -185,15 +191,41 @@
         return entries;
     }
 
-    function getNumericIndex(index) {
-        if (index === '' || !isFinite(index) || isNaN(index)) {
-            return -1;
+    var invalidNormalizedPosition = {
+        index: -1,
+        key: undefined
+    };
+    function getNormalizedPosition(entries, position) {
+        if (typeof position === 'number') {
+            return {
+                index: position,
+                key: entries[position] && entries[position].key
+            };
         }
-        var intIndex = parseInt(index);
-        if (intIndex < -1) {
-            intIndex = -1;
+        else if (isFinite(position)) {
+            var index = parseInt(position);
+            return {
+                index: index,
+                key: entries[index].key
+            };
         }
-        return intIndex;
+        else if (position) {
+            var result_1 = undefined;
+            entries.some(function (entry, i) {
+                if (entry.key === position) {
+                    result_1 = {
+                        index: i,
+                        key: entry.key
+                    };
+                    return true;
+                }
+                return false;
+            });
+            return result_1 || invalidNormalizedPosition;
+        }
+        else {
+            return invalidNormalizedPosition;
+        }
     }
 
     var classNameSuffix = {
@@ -229,6 +261,7 @@
         var labelContainerLocationModeClassName = labelContainerClassName + sideSuffix + '-' + mode;
         var labelItemActiveClassName = labelItemClassName + classNameSuffix.active;
         var labelItemInactiveClassName = labelItemClassName + classNameSuffix.inactive;
+        var currentIndex = context.currentPosition.index;
         var labelContainer = React__default.createElement("div", { className: labelContainerClassName + ' ' + labelContainerLocationClassName + ' ' + labelContainerModeClassName + ' ' + labelContainerLocationModeClassName }, entries.map(function (entry, index) {
             var doSwitch = function () {
                 clearTimeout(context.delayTimeout);
@@ -254,7 +287,7 @@
                 labelDelayTriggerProps = createEventHandler(delayTriggerEvents, delayDoSwitch);
             }
             var labelTriggerProps = createEventHandler(triggerEvents, doSwitch);
-            var labelItemStatusClassName = (index === context.currentIndex ? labelItemActiveClassName : labelItemInactiveClassName);
+            var labelItemStatusClassName = (index === currentIndex ? labelItemActiveClassName : labelItemInactiveClassName);
             return React__default.createElement("div", __assign$2({}, labelProps, labelDelayTriggerCancelProps, labelDelayTriggerProps, labelTriggerProps, { key: key ? 'key-' + key : 'index-' + index, className: labelItemClassName + ' ' + labelItemStatusClassName }), entry.label);
         }));
         return labelContainer;
@@ -273,7 +306,7 @@
     };
     function createPanelContainer(props, context, entries) {
         var mode = props.mode, panelContainerClassName = props.panelContainerClassName, panelItemClassName = props.panelItemClassName;
-        var currentIndex = context.currentIndex;
+        var currentIndex = context.currentPosition.index;
         var panelContainerModeClassName = panelContainerClassName + '-' + mode;
         var panelItemActiveClassName = panelItemClassName + classNameSuffix.active;
         var panelItemInactiveClassName = panelItemClassName + classNameSuffix.inactive;
@@ -315,25 +348,24 @@
         function Tab(props) {
             var _this = _super.call(this, props) || this;
             _this.tabContext = {
-                prevIndex: -1,
-                currentIndex: -1,
+                prevPosition: invalidNormalizedPosition,
+                currentPosition: invalidNormalizedPosition,
                 delayTimeout: 0
             };
-            var activeIndex = props.activeIndex;
             _this.switchTo = _this.switchTo.bind(_this);
             _this.state = {
-                prevActiveIndex: activeIndex,
-                targetIndex: activeIndex,
+                prevActivePosition: -1,
+                targetPosition: -1,
             };
             return _this;
         }
         Tab.getDerivedStateFromProps = function (props, state) {
-            var activeIndex = getNumericIndex(props.activeIndex);
-            var prevActiveIndex = state.prevActiveIndex;
-            if (activeIndex !== prevActiveIndex) {
+            var activePosition = props.activePosition;
+            var prevActivePosition = state.prevActivePosition;
+            if (activePosition !== prevActivePosition) {
                 return {
-                    prevActiveIndex: activeIndex,
-                    targetIndex: activeIndex
+                    prevActivePosition: activePosition,
+                    targetPosition: activePosition
                 };
             }
             return null;
@@ -341,28 +373,46 @@
         Tab.prototype.componentWillUnmount = function () {
             clearTimeout(this.tabContext.delayTimeout);
         };
-        Tab.prototype.switchTo = function (index) {
+        Tab.prototype.switchTo = function (position) {
             this.setState({
-                targetIndex: getNumericIndex(index)
+                targetPosition: position
             });
         };
         Tab.prototype.render = function () {
             var _a = this, props = _a.props, state = _a.state, tabContext = _a.tabContext;
-            var prevIndex = tabContext.prevIndex;
+            var targetPosition = state.targetPosition;
+            var normalizedPrevPosition = tabContext.prevPosition;
+            var prevIndex = normalizedPrevPosition.index;
             var tabs = props.tabs;
-            var currentIndex = tabContext.currentIndex = Math.min(state.targetIndex, tabs.length - 1);
+            var normalizedTargetPosition = getNormalizedPosition(tabs, targetPosition);
+            var targetIndex = normalizedTargetPosition.index;
+            var entryCount = tabs.length;
+            var currentIndex;
+            if (targetIndex === -1) {
+                currentIndex = entryCount > 0 ? 0 : -1;
+                tabContext.currentPosition = getNormalizedPosition(tabs, currentIndex);
+            }
+            else if (targetIndex < entryCount) {
+                currentIndex = targetIndex;
+                tabContext.currentPosition = normalizedTargetPosition;
+            }
+            else {
+                currentIndex = entryCount - 1;
+                tabContext.currentPosition = getNormalizedPosition(tabs, currentIndex);
+            }
             if (prevIndex !== currentIndex && props.onSwitching) {
-                props.onSwitching(prevIndex, currentIndex);
+                props.onSwitching(normalizedPrevPosition, tabContext.currentPosition);
             }
             return createTabContainer(props, tabContext, tabs, this.switchTo);
         };
         Tab.prototype.handleIndexChange = function () {
             var _a = this, props = _a.props, tabContext = _a.tabContext;
-            var prevIndex = tabContext.prevIndex, currentIndex = tabContext.currentIndex;
-            if (prevIndex !== currentIndex && props.onSwitched) {
-                props.onSwitched(prevIndex, currentIndex);
+            var onSwitched = props.onSwitched;
+            var prevPosition = tabContext.prevPosition, currentPosition = tabContext.currentPosition;
+            if (prevPosition.index !== currentPosition.index && onSwitched) {
+                onSwitched(prevPosition, currentPosition);
             }
-            tabContext.prevIndex = currentIndex;
+            tabContext.prevPosition = currentPosition;
         };
         Tab.prototype.componentDidMount = function () {
             this.handleIndexChange();

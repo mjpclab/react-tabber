@@ -18,7 +18,7 @@ var sharedPropTypes = {
     })),
     mode: PropTypes.string,
     delayTriggerLatency: PropTypes.number,
-    activeIndex: PropTypes.number,
+    activePosition: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     onSwitching: PropTypes.func,
     onSwitched: PropTypes.func,
     tabContainerClassName: PropTypes.string,

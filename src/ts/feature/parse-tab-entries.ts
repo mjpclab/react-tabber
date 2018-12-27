@@ -7,7 +7,13 @@ function parseTabEntries(props: ReactTabber.Props, children: React.ReactNode) {
 
 	// tabs
 	if (props.tabs && props.tabs.length) {
-		entries.push.apply(entries, props.tabs);
+		entries.push(...props.tabs.map(_entry => {
+			const entry: ReactTabber.Entry = {..._entry};
+			if (entry.key === undefined) {
+				entry.key = null
+			}
+			return entry;
+		}));
 	}
 
 	// children

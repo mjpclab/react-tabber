@@ -1,6 +1,6 @@
 import React from 'react';
 
-import getNumericIndex from '../utility/get-numeric-index';
+import {invalidNormalizedPosition, getNormalizedPosition} from '../utility/normalized-position';
 import {tabPropTypes} from '../utility/prop-types';
 import defaultProps from '../utility/default-props';
 
@@ -11,30 +11,29 @@ class Tab extends React.Component<ReactTabber.TabProps, ReactTabber.TabState> {
 	static defaultProps = defaultProps;
 
 	private tabContext: ReactTabber.TabContext = {
-		prevIndex: -1,
-		currentIndex: -1,
+		prevPosition: invalidNormalizedPosition,
+		currentPosition: invalidNormalizedPosition,
 		delayTimeout: 0
 	};
 
 	constructor(props: ReactTabber.TabProps) {
 		super(props);
-		const {activeIndex} = props;
 
 		this.switchTo = this.switchTo.bind(this);
 
 		this.state = {
-			prevActiveIndex: activeIndex,
-			targetIndex: activeIndex,
+			prevActivePosition: -1,
+			targetPosition: -1,
 		};
 	}
 
 	static getDerivedStateFromProps(props: ReactTabber.TabProps, state: ReactTabber.TabState) {
-		const activeIndex = getNumericIndex(props.activeIndex);
-		const {prevActiveIndex} = state;
-		if (activeIndex !== prevActiveIndex) {
+		const {activePosition} = props;
+		const {prevActivePosition} = state;
+		if (activePosition !== prevActivePosition) {
 			return {
-				prevActiveIndex: activeIndex,
-				targetIndex: activeIndex
+				prevActivePosition: activePosition,
+				targetPosition: activePosition
 			}
 		}
 
@@ -45,20 +44,37 @@ class Tab extends React.Component<ReactTabber.TabProps, ReactTabber.TabState> {
 		clearTimeout(this.tabContext.delayTimeout);
 	}
 
-	private switchTo(index: number) {
+	private switchTo(position: ReactTabber.TabItemPosition) {
 		this.setState({
-			targetIndex: getNumericIndex(index)
+			targetPosition: position
 		});
 	}
 
 	render() {
 		const {props, state, tabContext} = this;
-		const {prevIndex} = tabContext;
+		const {targetPosition} = state;
+		const {prevPosition: normalizedPrevPosition} = tabContext;
+		const {index: prevIndex} = normalizedPrevPosition;
 		const {tabs} = props;
 
-		const currentIndex = tabContext.currentIndex = Math.min(state.targetIndex, tabs.length - 1);
+		const normalizedTargetPosition = getNormalizedPosition(tabs, targetPosition);
+		const {index: targetIndex} = normalizedTargetPosition;
+
+		const entryCount = tabs.length;
+		let currentIndex: number;
+		if (targetIndex === -1) {
+			currentIndex = entryCount > 0 ? 0 : -1;
+			tabContext.currentPosition = getNormalizedPosition(tabs, currentIndex);
+		} else if (targetIndex < entryCount) {
+			currentIndex = targetIndex;
+			tabContext.currentPosition = normalizedTargetPosition;
+		} else {
+			currentIndex = entryCount - 1;
+			tabContext.currentPosition = getNormalizedPosition(tabs, currentIndex);
+		}
+
 		if (prevIndex !== currentIndex && props.onSwitching) {
-			props.onSwitching(prevIndex, currentIndex);
+			props.onSwitching(normalizedPrevPosition, tabContext.currentPosition);
 		}
 
 		return createTabContainer(props, tabContext, tabs, this.switchTo);
@@ -66,11 +82,13 @@ class Tab extends React.Component<ReactTabber.TabProps, ReactTabber.TabState> {
 
 	private handleIndexChange() {
 		const {props, tabContext} = this;
-		const {prevIndex, currentIndex} = tabContext;
-		if (prevIndex !== currentIndex && props.onSwitched) {
-			props.onSwitched(prevIndex, currentIndex);
+		const {onSwitched} = props;
+		const {prevPosition, currentPosition} = tabContext;
+
+		if (prevPosition.index !== currentPosition.index && onSwitched) {
+			onSwitched(prevPosition, currentPosition);
 		}
-		tabContext.prevIndex = currentIndex;
+		tabContext.prevPosition = currentPosition;
 	}
 
 	componentDidMount() {

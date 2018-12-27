@@ -20,24 +20,10 @@ A React Tab sheet component.
 
 # Usage
 ## Import ReactTabber module
-*Import in ES6 module environment*  
 ```javascript
 import ReactTabber from 'react-tabber';
 ```
 
-*Import in commonjs environment*  
-```javascript
-var ReactTabber = require('react-tabber');
-```
-
-*Import in AMD environment*  
-```javascript
-require(['react-tabber'], function(ReactTabber) {
-  //you got ReactTabber component
-});
-```
-
-*Using global variable mode*  
 if you are using React and ReactTabber in global variable mode, which means there is no module loader environment, `ReactTabber` will be a property of global scope.
 
 ## Prepare tabs array and render
@@ -116,17 +102,17 @@ Specify events on label-item that will cancel delay switching.
 `delayTriggerLatency`  
 Specify how long (in milliseconds) need to wait before trigger the delayed switching events.
 
-`activeIndex`  
-Specify the active(switched) tab index. Starting from 0.
+`activePosition`  
+Specify the active(switched) tab position. Could be an numeric index starting from 0, or a `key` prop specified to label item.
 When this property is changed, will switch to the specified tab.
 If this property is not changed during re-rendering, will remain its last state, which may already be switched to another one by user.
 Subscribe event `switched` to get informed.
 
-`onSwitching(oldIndex, newIndex)`  
+`onSwitching(from:{index, key}, to:{index, key})`  
 A callback will be invoked when start switching tab, current active index is `oldIndex`, and target index is `newIndex`.
 Subscribe this event if you want to know a switching is performed as early as possible.
 
-`onSwitched(oldIndex, newIndex)`  
+`onSwitched(from:{index, key}, to:{index, key})`  
 A callback will be invoked when finish switching tab, previous active index is `oldIndex`, and current index is `newIndex`.
 Subscribe this event if you want to do some work based on result of switching(e.g. get the height of the component).
 

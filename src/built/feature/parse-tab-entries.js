@@ -16,7 +16,13 @@ function parseTabEntries(props, children) {
     var entries = [];
     // tabs
     if (props.tabs && props.tabs.length) {
-        entries.push.apply(entries, props.tabs);
+        entries.push.apply(entries, props.tabs.map(function (_entry) {
+            var entry = __assign({}, _entry);
+            if (entry.key === undefined) {
+                entry.key = null;
+            }
+            return entry;
+        }));
     }
     // children
     if (children) {

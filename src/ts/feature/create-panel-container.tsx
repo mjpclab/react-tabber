@@ -13,7 +13,7 @@ function createPanelContainer(
 		panelItemClassName,
 	} = props;
 
-	const {currentIndex} = context;
+	const {currentPosition: {index: currentIndex}} = context;
 
 	const panelContainerModeClassName = panelContainerClassName + '-' + mode;
 

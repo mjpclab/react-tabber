@@ -13,7 +13,7 @@ import React from 'react';
 import classNameSuffix from '../utility/class-name-suffix';
 function createPanelContainer(props, context, entries) {
     var mode = props.mode, panelContainerClassName = props.panelContainerClassName, panelItemClassName = props.panelItemClassName;
-    var currentIndex = context.currentIndex;
+    var currentIndex = context.currentPosition.index;
     var panelContainerModeClassName = panelContainerClassName + '-' + mode;
     var panelItemActiveClassName = panelItemClassName + classNameSuffix.active;
     var panelItemInactiveClassName = panelItemClassName + classNameSuffix.inactive;

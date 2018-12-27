@@ -16,14 +16,21 @@ declare namespace ReactTabber {
 		Vertical = 'vertical',
 	}
 
+	type TabItemPosition = string | number ;
+
+	interface NormalizedTabItemPosition {
+		index: number;
+		key?: string | number | null;
+	}
+
 	interface NecessaryProps {
 		tabs: Entry[];
 		mode: Mode;
 
 		delayTriggerLatency: number;
-		activeIndex: number;
-		onSwitching?: (oldIndex: number, newIndex: number) => void;
-		onSwitched?: (oldIndex: number, newIndex: number) => void;
+		activePosition?: TabItemPosition;
+		onSwitching?: (from: NormalizedTabItemPosition, to: NormalizedTabItemPosition) => void;
+		onSwitched?: (from: NormalizedTabItemPosition, to: NormalizedTabItemPosition) => void;
 
 		tabContainerClassName: string;
 

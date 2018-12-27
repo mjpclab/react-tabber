@@ -22,7 +22,7 @@
 			super(props);
 
 			this.state = {
-				activeIndex: 0,
+				targetIndex: 0,
 				tabs: [
 					{label: 'title1', panel: <div>content1</div>},
 					{label: <span>title2</span>, panel: <div>content2</div>}
@@ -36,8 +36,12 @@
 			this.nextTab = this.nextTab.bind(this);
 		}
 
-		onSwitching(oldIndex, newIndex) {
-			console.log('switching ' + oldIndex + ' ' + newIndex);
+
+		onSwitching(from, to) {
+			console.log('switching ', from, to);
+			this.setState({
+				targetIndex: to.index
+			})
 		}
 
 		addTab() {
@@ -64,24 +68,33 @@
 		}
 
 		prevTab() {
-			const tabCount = this.state.tabs.length;
-			const newIndex = (this.state.activeIndex - 1 + tabCount) % tabCount;
+			const tabs = this.state.tabs;
+			const targetIndex = this.state.targetIndex;
+
+			const tabCount = tabs.length;
+			const newIndex = (targetIndex - 1 + tabCount) % tabCount;
 			this.setState({
-				activeIndex: newIndex
+				targetIndex: newIndex
 			});
 		}
 
 		nextTab() {
-			const tabCount = this.state.tabs.length;
-			const newIndex = (this.state.activeIndex + 1) % tabCount;
+			const tabs = this.state.tabs;
+			const targetIndex = this.state.targetIndex;
+
+			const tabCount = tabs.length;
+			const newIndex = (targetIndex + 1) % tabCount;
 			this.setState({
-				activeIndex: newIndex
+				targetIndex: newIndex
 			});
 		}
 
 		render() {
+			const tabs = this.state.tabs;
+			const targetIndex = this.state.targetIndex;
+
 			return <div>
-				<ReactTabber activeIndex={this.state.activeIndex} tabs={this.state.tabs} onSwitching={this.onSwitching}/>
+				<ReactTabber activePosition={targetIndex} tabs={tabs} onSwitching={this.onSwitching}/>
 				<button onClick={this.addTab}>Add Tab</button>
 				<button onClick={this.removeTab}>Remove Tab</button>
 				<br/>
