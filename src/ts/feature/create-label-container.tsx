@@ -6,8 +6,8 @@ import classNameSuffix from '../utility/class-name-suffix';
 function createLabelContainer(
 	props: ReactTabber.TabProps,
 	context: ReactTabber.TabContext,
-	tabs: ReactTabber.Entry[],
-	positionSuffix: string,
+	entries: ReactTabber.Entry[],
+	sideSuffix: string,
 	fnSwitchTo: ReactTabber.FnSwitchTo
 ) {
 	const {
@@ -20,16 +20,16 @@ function createLabelContainer(
 		delayTriggerLatency
 	} = props;
 
-	const labelContainerLocationClassName = labelContainerClassName + positionSuffix;
+	const labelContainerLocationClassName = labelContainerClassName + sideSuffix;
 	const labelContainerModeClassName = labelContainerClassName + '-' + mode;
-	const labelContainerLocationModeClassName = labelContainerClassName + positionSuffix + '-' + mode;
+	const labelContainerLocationModeClassName = labelContainerClassName + sideSuffix + '-' + mode;
 
 	const labelItemActiveClassName = labelItemClassName + classNameSuffix.active;
 	const labelItemInactiveClassName = labelItemClassName + classNameSuffix.inactive;
 
 	const labelContainer =
 		<div className={labelContainerClassName + ' ' + labelContainerLocationClassName + ' ' + labelContainerModeClassName + ' ' + labelContainerLocationModeClassName}>
-			{tabs.map((tab, index) => {
+			{entries.map((entry, index) => {
 				const doSwitch = () => {
 					clearTimeout(context.delayTimeout);
 					fnSwitchTo(index);
@@ -47,7 +47,7 @@ function createLabelContainer(
 					}
 				};
 
-				const {labelProps, key} = tab;
+				const {labelProps, key} = entry;
 				let labelDelayTriggerCancelProps;
 				let labelDelayTriggerProps;
 				if (delayTriggerEvents && delayTriggerEvents.length) {
@@ -65,7 +65,7 @@ function createLabelContainer(
 					{...labelTriggerProps}
 					key={key ? 'key-' + key : 'index-' + index}
 					className={labelItemClassName + ' ' + labelItemStatusClassName}
-				>{tab.label}</div>;
+				>{entry.label}</div>;
 			})}
 		</div>;
 	return labelContainer;

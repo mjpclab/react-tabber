@@ -158,7 +158,7 @@
                     }
                     currentPanelProps_1 = {};
                     currentPanelItems_1 = [];
-                    key_1 = element.key ? 'key-' + element.key : 'index-' + entries.length;
+                    key_1 = typeof element.key !== 'undefined' ? element.key : entries.length;
                 }
                 else {
                     if (!currentLabelItems_1.length) {
@@ -222,14 +222,14 @@
         };
         return __assign$2.apply(this, arguments);
     };
-    function createLabelContainer(props, context, tabs, positionSuffix, fnSwitchTo) {
+    function createLabelContainer(props, context, entries, sideSuffix, fnSwitchTo) {
         var mode = props.mode, labelContainerClassName = props.labelContainerClassName, labelItemClassName = props.labelItemClassName, triggerEvents = props.triggerEvents, delayTriggerEvents = props.delayTriggerEvents, delayTriggerCancelEvents = props.delayTriggerCancelEvents, delayTriggerLatency = props.delayTriggerLatency;
-        var labelContainerLocationClassName = labelContainerClassName + positionSuffix;
+        var labelContainerLocationClassName = labelContainerClassName + sideSuffix;
         var labelContainerModeClassName = labelContainerClassName + '-' + mode;
-        var labelContainerLocationModeClassName = labelContainerClassName + positionSuffix + '-' + mode;
+        var labelContainerLocationModeClassName = labelContainerClassName + sideSuffix + '-' + mode;
         var labelItemActiveClassName = labelItemClassName + classNameSuffix.active;
         var labelItemInactiveClassName = labelItemClassName + classNameSuffix.inactive;
-        var labelContainer = React__default.createElement("div", { className: labelContainerClassName + ' ' + labelContainerLocationClassName + ' ' + labelContainerModeClassName + ' ' + labelContainerLocationModeClassName }, tabs.map(function (tab, index) {
+        var labelContainer = React__default.createElement("div", { className: labelContainerClassName + ' ' + labelContainerLocationClassName + ' ' + labelContainerModeClassName + ' ' + labelContainerLocationModeClassName }, entries.map(function (entry, index) {
             var doSwitch = function () {
                 clearTimeout(context.delayTimeout);
                 fnSwitchTo(index);
@@ -246,7 +246,7 @@
                     clearTimeout(localDelayTimeout);
                 }
             };
-            var labelProps = tab.labelProps, key = tab.key;
+            var labelProps = entry.labelProps, key = entry.key;
             var labelDelayTriggerCancelProps;
             var labelDelayTriggerProps;
             if (delayTriggerEvents && delayTriggerEvents.length) {
@@ -255,7 +255,7 @@
             }
             var labelTriggerProps = createEventHandler(triggerEvents, doSwitch);
             var labelItemStatusClassName = (index === context.currentIndex ? labelItemActiveClassName : labelItemInactiveClassName);
-            return React__default.createElement("div", __assign$2({}, labelProps, labelDelayTriggerCancelProps, labelDelayTriggerProps, labelTriggerProps, { key: key ? 'key-' + key : 'index-' + index, className: labelItemClassName + ' ' + labelItemStatusClassName }), tab.label);
+            return React__default.createElement("div", __assign$2({}, labelProps, labelDelayTriggerCancelProps, labelDelayTriggerProps, labelTriggerProps, { key: key ? 'key-' + key : 'index-' + index, className: labelItemClassName + ' ' + labelItemStatusClassName }), entry.label);
         }));
         return labelContainer;
     }
@@ -271,29 +271,29 @@
         };
         return __assign$3.apply(this, arguments);
     };
-    function createPanelContainer(props, context, tabs) {
+    function createPanelContainer(props, context, entries) {
         var mode = props.mode, panelContainerClassName = props.panelContainerClassName, panelItemClassName = props.panelItemClassName;
         var currentIndex = context.currentIndex;
         var panelContainerModeClassName = panelContainerClassName + '-' + mode;
         var panelItemActiveClassName = panelItemClassName + classNameSuffix.active;
         var panelItemInactiveClassName = panelItemClassName + classNameSuffix.inactive;
-        return React__default.createElement("div", { className: panelContainerClassName + ' ' + panelContainerModeClassName }, tabs.map(function (tab, index) {
-            var panelProps = tab.panelProps, key = tab.key;
+        return React__default.createElement("div", { className: panelContainerClassName + ' ' + panelContainerModeClassName }, entries.map(function (entry, index) {
+            var panelProps = entry.panelProps, key = entry.key;
             var panelItemStatusClassName = index === currentIndex ? panelItemActiveClassName : panelItemInactiveClassName;
-            return React__default.createElement("div", __assign$3({}, panelProps, { key: key ? 'key-' + key : 'index-' + index, className: panelItemClassName + ' ' + panelItemStatusClassName }), tab.panel);
+            return React__default.createElement("div", __assign$3({}, panelProps, { key: key ? 'key-' + key : 'index-' + index, className: panelItemClassName + ' ' + panelItemStatusClassName }), entry.panel);
         }));
     }
 
-    function createTabContainer(props, context, tabs, fnSwitchTo) {
+    function createTabContainer(props, context, entries, fnSwitchTo) {
         var mode = props.mode, tabContainerClassName = props.tabContainerClassName, showHeaderLabelContainer = props.showHeaderLabelContainer, showFooterLabelContainer = props.showFooterLabelContainer;
         var tabContainerModeClassName = tabContainerClassName + '-' + mode;
         return React__default.createElement("div", { className: tabContainerClassName + ' ' + tabContainerModeClassName },
             showHeaderLabelContainer ?
-                createLabelContainer(props, context, tabs, classNameSuffix.header, fnSwitchTo) :
+                createLabelContainer(props, context, entries, classNameSuffix.header, fnSwitchTo) :
                 null,
-            createPanelContainer(props, context, tabs),
+            createPanelContainer(props, context, entries),
             showFooterLabelContainer ?
-                createLabelContainer(props, context, tabs, classNameSuffix.header, fnSwitchTo)
+                createLabelContainer(props, context, entries, classNameSuffix.header, fnSwitchTo)
                 : null);
     }
 

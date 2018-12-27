@@ -8,7 +8,7 @@ declare namespace ReactTabber {
 		label: React.ReactNode | React.ReactNode[];
 		panelProps?: JSXProps
 		panel: React.ReactNode | React.ReactNode[];
-		key?: string | number;
+		key?: string | number | null;
 	}
 
 	const enum Mode {

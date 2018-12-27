@@ -7,7 +7,7 @@ import createPanelContainer from './create-panel-container';
 function createTabContainer(
 	props: ReactTabber.TabProps,
 	context: ReactTabber.TabContext,
-	tabs: ReactTabber.Entry[],
+	entries: ReactTabber.Entry[],
 	fnSwitchTo: ReactTabber.FnSwitchTo
 ) {
 	const {
@@ -22,13 +22,13 @@ function createTabContainer(
 	return <div className={tabContainerClassName + ' ' + tabContainerModeClassName}>
 		{
 			showHeaderLabelContainer ?
-				createLabelContainer(props, context, tabs, classNameSuffix.header, fnSwitchTo) :
+				createLabelContainer(props, context, entries, classNameSuffix.header, fnSwitchTo) :
 				null
 		}
-		{createPanelContainer(props, context, tabs)}
+		{createPanelContainer(props, context, entries)}
 		{
 			showFooterLabelContainer ?
-				createLabelContainer(props, context, tabs, classNameSuffix.header, fnSwitchTo)
+				createLabelContainer(props, context, entries, classNameSuffix.header, fnSwitchTo)
 				: null
 		}
 	</div>;

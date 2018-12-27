@@ -16,7 +16,7 @@ function parseTabEntries(props: ReactTabber.Props, children: React.ReactNode) {
 		let currentLabelItems: React.ReactNode[] = [];
 		let currentPanelProps = {};
 		let currentPanelItems: React.ReactNode[] = [];
-		let key: string | undefined;
+		let key: string | number | null;
 
 		const pushEntry = () => {
 			entries.push({
@@ -43,7 +43,7 @@ function parseTabEntries(props: ReactTabber.Props, children: React.ReactNode) {
 				}
 				currentPanelProps = {};
 				currentPanelItems = [];
-				key = element.key ? 'key-' + element.key : 'index-' + entries.length;
+				key = typeof element.key !== 'undefined' ? element.key : entries.length;
 			} else {
 				if (!currentLabelItems.length) {
 					currentLabelItems.push('');

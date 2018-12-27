@@ -50,7 +50,7 @@ function parseTabEntries(props, children) {
                 }
                 currentPanelProps_1 = {};
                 currentPanelItems_1 = [];
-                key_1 = element.key ? 'key-' + element.key : 'index-' + entries.length;
+                key_1 = typeof element.key !== 'undefined' ? element.key : entries.length;
             }
             else {
                 if (!currentLabelItems_1.length) {

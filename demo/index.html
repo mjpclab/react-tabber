@@ -18,19 +18,19 @@
 <script type="text/javascript" src="../dist/react-tabber.js"></script>
 <script type="text/babel">
 	const tabs = [
-		{label: 'title1', panel: <div>content1</div>},
-		{label: <span>title2</span>, panel: <div>content2</div>}
+		{label: 'title1', panel: <div>content1</div>, key: 'topic1'},
+		{label: <span>title2</span>, panel: <div>content2</div>, key: 'topic2'}
 	];
 
 	function render() {
 		ReactDOM.render(
 			<div>
 				<ReactTabber tabs={tabs} onSwitching={onSwitching} onSwitched={onSwitched}>
-					<ReactTabber.Label>title <b>3</b></ReactTabber.Label>
+					<ReactTabber.Label key="topic3">title <b>3</b></ReactTabber.Label>
 					<ReactTabber.Panel>content <b>3</b>. </ReactTabber.Panel>
 					<ReactTabber.Panel>another content <b>3</b>. </ReactTabber.Panel>
 
-					<ReactTabber.Label>title 4</ReactTabber.Label>
+					<ReactTabber.Label key="topic4">title 4</ReactTabber.Label>
 					<ReactTabber.Panel>content 4</ReactTabber.Panel>
 					<p>another content 4. wrapped element in ReactTabber.Panel can be omitted.</p>
 				</ReactTabber>
