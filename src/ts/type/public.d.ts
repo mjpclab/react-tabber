@@ -11,8 +11,14 @@ declare namespace ReactTabber {
 		key?: string | number;
 	}
 
+	const enum Mode {
+		Horizontal = 'horizontal',
+		Vertical = 'vertical',
+	}
+
 	interface NecessaryProps {
 		tabs: Entry[];
+		mode: Mode;
 
 		delayTriggerLatency: number;
 		activeIndex: number;

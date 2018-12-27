@@ -11,12 +11,15 @@ function createTabContainer(
 	fnSwitchTo: ReactTabber.FnSwitchTo
 ) {
 	const {
+		mode,
 		tabContainerClassName,
 		showHeaderLabelContainer,
 		showFooterLabelContainer
 	} = props;
 
-	return <div className={tabContainerClassName}>
+	const tabContainerModeClassName = tabContainerClassName + '-' + mode;
+
+	return <div className={tabContainerClassName + ' ' + tabContainerModeClassName}>
 		{
 			showHeaderLabelContainer ?
 				createLabelContainer(props, context, tabs, classNameSuffix.header, fnSwitchTo) :

@@ -1,37 +1,41 @@
-.tab-container > .panel-container,
-.tab-container-vert > .panel-container {
+.tab-container .panel-container {
 	border-color: #ccc;
 	background: #fff;
 }
 
-.tab-container > .label-container > .label-item,
-.tab-container-vert > .label-container > .label-item {
-	border-color: #ccc;
-	background: #fff;
-}
-
-.tab-container > .label-container > .label-item-inactive,
-.tab-container-vert > .label-container > .label-item-inactive {
+.tab-container .label-container .label-item {
 	color: #aaa;
+	border-color: #ccc;
+	background: #fff;
+	outline: 0;
 }
 
-.tab-container > .label-container > .label-item-active,
-.tab-container-vert > .label-container > .label-item-active {
+.tab-container .label-container .label-item-active {
 	color: #000;
 }
 
-.tab-container > .label-container-header > .label-item-active {
+.tab-container .label-container-header-horizontal .label-item-active {
 	border-bottom-color: #fff;
 }
 
-.tab-container > .label-container.footer-container > .label-item-active {
+.tab-container .label-container-footer-horizontal .label-item-active {
 	border-top-color: #fff;
 }
 
-.tab-container-vert > .label-container-header > .label-item-active {
+.tab-container .label-container-header-vertical .label-item-active {
 	border-right-color: #fff;
 }
 
-.tab-container-vert > .label-container.footer-container > .label-item-active {
+.tab-container .label-container-footer-vertical .label-item-active {
 	border-left-color: #fff;
+}
+
+.tab-container .label-container .label-item-disabled {
+	color: #ddd;
+	cursor: default;
+	opacity: 0.7;
+}
+
+.tab-container .label-container .label-item-hidden {
+	display: none;
 }

@@ -1,5 +1,6 @@
 var defaultProps = {
     tabs: [],
+    mode: "horizontal" /* Horizontal */,
     activeIndex: 0,
     triggerEvents: ['onClick'],
     delayTriggerLatency: 200,

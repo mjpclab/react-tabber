@@ -16,6 +16,7 @@ var sharedPropTypes = {
         panel: PropTypes.node.isRequired,
         key: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
     })),
+    mode: PropTypes.string,
     delayTriggerLatency: PropTypes.number,
     activeIndex: PropTypes.number,
     onSwitching: PropTypes.func,

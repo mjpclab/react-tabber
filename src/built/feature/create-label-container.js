@@ -12,12 +12,14 @@ var __assign = (this && this.__assign) || function () {
 import React from 'react';
 import createEventHandler from '../utility/create-event-handler';
 import classNameSuffix from '../utility/class-name-suffix';
-function createLabelContainer(props, context, tabs, position, fnSwitchTo) {
-    var labelContainerClassName = props.labelContainerClassName, labelItemClassName = props.labelItemClassName, triggerEvents = props.triggerEvents, delayTriggerEvents = props.delayTriggerEvents, delayTriggerCancelEvents = props.delayTriggerCancelEvents, delayTriggerLatency = props.delayTriggerLatency;
-    var labelContainerLocationClassName = labelContainerClassName + position;
+function createLabelContainer(props, context, tabs, positionSuffix, fnSwitchTo) {
+    var mode = props.mode, labelContainerClassName = props.labelContainerClassName, labelItemClassName = props.labelItemClassName, triggerEvents = props.triggerEvents, delayTriggerEvents = props.delayTriggerEvents, delayTriggerCancelEvents = props.delayTriggerCancelEvents, delayTriggerLatency = props.delayTriggerLatency;
+    var labelContainerLocationClassName = labelContainerClassName + positionSuffix;
+    var labelContainerModeClassName = labelContainerClassName + '-' + mode;
+    var labelContainerLocationModeClassName = labelContainerClassName + positionSuffix + '-' + mode;
     var labelItemActiveClassName = labelItemClassName + classNameSuffix.active;
     var labelItemInactiveClassName = labelItemClassName + classNameSuffix.inactive;
-    var labelContainer = React.createElement("div", { className: labelContainerClassName + ' ' + labelContainerLocationClassName }, tabs.map(function (tab, index) {
+    var labelContainer = React.createElement("div", { className: labelContainerClassName + ' ' + labelContainerLocationClassName + ' ' + labelContainerModeClassName + ' ' + labelContainerLocationModeClassName }, tabs.map(function (tab, index) {
         var doSwitch = function () {
             clearTimeout(context.delayTimeout);
             fnSwitchTo(index);

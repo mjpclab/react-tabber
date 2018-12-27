@@ -78,17 +78,18 @@ react-tabber provides default CSS styles if you don't want to make from scratch.
 
 ## Importing by module
 ```javascript
-import 'react-tabber/src/built/theme/gray'
+import 'react-tabber/src/built/theme/gray';
+import 'react-tabber/src/built/theme/effect/fade'; // optional fade effect when switching, must load after theme
 ```
 
 ## Use standalone CSS file
 Copying or referencing CSS files from `dist/theme/` directory.
 
 ## Vertical labels
-To use vertical labels style from default CSS, set `tabContainerClassName` to 'tab-container-vert'.
-Notice that this style is implemented by CSS flex features, which means old browsers like IE10-, Chrome 20- and Firefox 27- are not supported.
+To use vertical labels, specify property `mode` to "vertical".  
+Notice that vertical style is implemented by CSS flex features, which means old browsers like IE10-, Chrome 20- and Firefox 27- are not supported.
 ```jsx
-ReactDOM.render(<ReactTabber tabs={tabs} tabContainerClassName="tab-container-vert"/>, document.getElementById('container'));
+<ReactTabber mode="vertical" />
 ```
 
 # Properties
@@ -131,6 +132,9 @@ Subscribe this event if you want to do some work based on result of switching(e.
 
 ## UI Properties
 ### Tab
+`mode`  
+Specify label container layout. Can be `horizontal` (default) or `vertical`.
+
 `tabContainerClassName`  
 Tab container element's class name. Default value is 'tab-container'.
 
