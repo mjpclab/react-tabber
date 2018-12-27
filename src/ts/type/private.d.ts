@@ -21,4 +21,6 @@ declare namespace ReactTabber {
 		currentIndex: number;
 		delayTimeout: any;
 	}
+
+	type FnSwitchTo = (index: number) => void;
 }

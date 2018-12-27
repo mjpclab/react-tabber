@@ -11,23 +11,11 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
 import React from 'react';
 import getNumericIndex from '../utility/get-numeric-index';
-import createEventHandler from '../utility/create-event-handler';
 import { tabPropTypes } from '../utility/prop-types';
 import defaultProps from '../utility/default-props';
-import classNameSuffix from '../utility/class-name-suffix';
+import createTabContainer from '../feature/create-tab-container';
 var Tab = /** @class */ (function (_super) {
     __extends(Tab, _super);
     function Tab(props) {
@@ -38,6 +26,7 @@ var Tab = /** @class */ (function (_super) {
             delayTimeout: 0
         };
         var activeIndex = props.activeIndex;
+        _this.switchTo = _this.switchTo.bind(_this);
         _this.state = {
             prevActiveIndex: activeIndex,
             targetIndex: activeIndex,
@@ -58,61 +47,6 @@ var Tab = /** @class */ (function (_super) {
     Tab.prototype.componentWillUnmount = function () {
         clearTimeout(this.tabContext.delayTimeout);
     };
-    Tab.prototype.createLabelContainer = function (tabs, position) {
-        var _this = this;
-        var tabContext = this.tabContext;
-        var _a = this.props, labelContainerClassName = _a.labelContainerClassName, labelItemClassName = _a.labelItemClassName, triggerEvents = _a.triggerEvents, delayTriggerEvents = _a.delayTriggerEvents, delayTriggerCancelEvents = _a.delayTriggerCancelEvents, delayTriggerLatency = _a.delayTriggerLatency;
-        var labelContainerLocationClassName = labelContainerClassName + position;
-        var labelItemActiveClassName = labelItemClassName + classNameSuffix.active;
-        var labelItemInactiveClassName = labelItemClassName + classNameSuffix.inactive;
-        var labelContainer = React.createElement("div", { className: labelContainerClassName + ' ' + labelContainerLocationClassName }, tabs.map(function (tab, index) {
-            var doSwitch = function () {
-                clearTimeout(tabContext.delayTimeout);
-                _this.switchTo(index);
-            };
-            var localDelayTimeout;
-            var delayDoSwitch = (delayTriggerLatency) <= 0 ?
-                doSwitch :
-                function () {
-                    clearTimeout(tabContext.delayTimeout);
-                    localDelayTimeout = tabContext.delayTimeout = setTimeout(doSwitch, delayTriggerLatency);
-                };
-            var cancelDelayDoSwitch = function () {
-                if (localDelayTimeout === tabContext.delayTimeout) {
-                    clearTimeout(localDelayTimeout);
-                }
-            };
-            var labelProps = tab.labelProps, key = tab.key;
-            var labelDelayTriggerCancelProps;
-            var labelDelayTriggerProps;
-            if (delayTriggerEvents && delayTriggerEvents.length) {
-                labelDelayTriggerCancelProps = createEventHandler(delayTriggerCancelEvents, cancelDelayDoSwitch);
-                labelDelayTriggerProps = createEventHandler(delayTriggerEvents, delayDoSwitch);
-            }
-            var labelTriggerProps = createEventHandler(triggerEvents, doSwitch);
-            var labelItemStatusClassName = (index === tabContext.currentIndex ? labelItemActiveClassName : labelItemInactiveClassName);
-            return React.createElement("div", __assign({}, labelProps, labelDelayTriggerCancelProps, labelDelayTriggerProps, labelTriggerProps, { key: key ? 'key-' + key : 'index-' + index, className: labelItemClassName + ' ' + labelItemStatusClassName }), tab.label);
-        }));
-        return labelContainer;
-    };
-    Tab.prototype.createPanelContainer = function (tabs) {
-        var _this = this;
-        var _a = this.props, panelContainerClassName = _a.panelContainerClassName, panelItemClassName = _a.panelItemClassName;
-        var panelItemActiveClassName = panelItemClassName + classNameSuffix.active;
-        var panelItemInactiveClassName = panelItemClassName + classNameSuffix.inactive;
-        return React.createElement("div", { className: panelContainerClassName }, tabs.map(function (tab, index) {
-            var panelProps = tab.panelProps, key = tab.key;
-            var panelItemStatusClassName = index === _this.tabContext.currentIndex ? panelItemActiveClassName : panelItemInactiveClassName;
-            return React.createElement("div", __assign({}, panelProps, { key: key ? 'key-' + key : 'index-' + index, className: panelItemClassName + ' ' + panelItemStatusClassName }), tab.panel);
-        }));
-    };
-    Tab.prototype.createTabContainer = function (tabs) {
-        var _a = this.props, tabContainerClassName = _a.tabContainerClassName, showHeaderLabelContainer = _a.showHeaderLabelContainer, showFooterLabelContainer = _a.showFooterLabelContainer;
-        return React.createElement("div", { className: tabContainerClassName },
-            showHeaderLabelContainer ? this.createLabelContainer(tabs, classNameSuffix.header) : null,
-            this.createPanelContainer(tabs),
-            showFooterLabelContainer ? this.createLabelContainer(tabs, classNameSuffix.footer) : null);
-    };
     Tab.prototype.switchTo = function (index) {
         this.setState({
             targetIndex: getNumericIndex(index)
@@ -126,7 +60,7 @@ var Tab = /** @class */ (function (_super) {
         if (prevIndex !== currentIndex && props.onSwitching) {
             props.onSwitching(prevIndex, currentIndex);
         }
-        return this.createTabContainer(tabs);
+        return createTabContainer(props, tabContext, tabs, this.switchTo);
     };
     Tab.prototype.handleIndexChange = function () {
         var _a = this, props = _a.props, tabContext = _a.tabContext;

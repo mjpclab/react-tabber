@@ -9,9 +9,6 @@ declare class Tab extends React.Component<ReactTabber.TabProps, ReactTabber.TabS
         targetIndex: number;
     } | null;
     componentWillUnmount(): void;
-    private createLabelContainer;
-    private createPanelContainer;
-    private createTabContainer;
     private switchTo;
     render(): JSX.Element;
     private handleIndexChange;
