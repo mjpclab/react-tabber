@@ -12,8 +12,7 @@ const getConfig = function (isMinify) {
 				react: 'React',
 				'prop-types': 'PropTypes'
 			},
-			dir: 'dist',
-			file: `react-tabber${isMinify ? '.min' : ''}.js`,
+			file: `dist/react-tabber${isMinify ? '.min' : ''}.js`,
 		},
 		external: ['react', 'prop-types'],
 		plugins: [
