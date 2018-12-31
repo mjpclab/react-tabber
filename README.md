@@ -26,11 +26,11 @@ import ReactTabber from 'react-tabber';
 
 if you are using React and ReactTabber in global variable mode, which means there is no module loader environment, `ReactTabber` will be a property of global scope.
 
-## Prepare tabs array and render
+## Prepare tab entries to render
 ### By data structure
 You need to collect all components that want to put into tabs array.
 Each array item has property `label` and `panel`, which can be a string, a number, a native DOM element, another React component, or array of these types of item.
-It also has an optional property `key` for the item which can improve performance if tabs array are changed dynamically and trigger render by it's parent component.
+It also has an optional property `key` for the item which can improve performance and use it from some callbacks besides index value.
 Here is the example of tabs array:
 ```jsx
 let tabs = [
@@ -54,10 +54,24 @@ ReactDOM.render(
 
 		<ReactTabber.Label key="tab2">label2</ReactTabber.Label>
 		<ReactTabber.Panel>content 2</ReactTabber.Panel>
+		<p>another content 2</p>
 	</ReactTabber>,
 	document.getElementById('container')
 );
 ```
+
+## Controlling the active tab item
+There are 2 ways to control the active tab item.
+
+### Controlled by tabber component itself
+The active tab item position is managed by tabber component itself.
+Not specifying prop `activePosition` or its value is `undefined` or `null` will go this way. 
+
+### Controlled by outside component
+The active tab item position is managed by outside component.
+Specifying a value which is not `undefined` or `null` to prop `activePosition`. if the tabber component wish to change it,
+for example the end user clicked another tab item, prop `onUpdateActivePosition({index, key})` will be invoked to request
+a change of active position.
 
 # Including CSS
 react-tabber provides default CSS styles if you don't want to make from scratch. Make sure CSS class name options are not customized.
@@ -103,10 +117,13 @@ Specify events on label-item that will cancel delay switching.
 Specify how long (in milliseconds) need to wait before trigger the delayed switching events.
 
 `activePosition`  
-Specify the active(switched) tab position. Could be an numeric index starting from 0, or a `key` prop specified to label item.
-When this property is changed, will switch to the specified tab.
-If this property is not changed during re-rendering, will remain its last state, which may already be switched to another one by user.
-Subscribe event `switched` to get informed.
+Specify the active(switched) tab position. Could be an numeric index starting from 0, or a `key` prop specified to tab item.
+Subscribe `onUpdateActivePosition` to get informed that tabber component request to change the active position, e.g. when user
+clicked another tab item and wish to switch to it. 
+If this prop is not specified, or its value is `null` or `undefined`, the active position is managed by tabber component itself.
+
+`onUpdateActivePosition({index, key})`  
+A callback will be invoked when `activePosition` is controlled by outside component, and request to change it.
 
 `onSwitching(from:{index, key}, to:{index, key})`  
 A callback will be invoked when start switching tab, current active index is `oldIndex`, and target index is `newIndex`.

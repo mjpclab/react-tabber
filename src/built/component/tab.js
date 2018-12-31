@@ -27,29 +27,37 @@ var Tab = /** @class */ (function (_super) {
         };
         _this.switchTo = _this.switchTo.bind(_this);
         _this.state = {
-            prevActivePosition: -1,
+            manageActiveIndex: true,
             targetPosition: -1,
         };
         return _this;
     }
     Tab.getDerivedStateFromProps = function (props, state) {
         var activePosition = props.activePosition;
-        var prevActivePosition = state.prevActivePosition;
-        if (activePosition !== prevActivePosition) {
+        if (activePosition === undefined || activePosition === null || (typeof activePosition === 'number' && !isFinite(activePosition))) {
             return {
-                prevActivePosition: activePosition,
-                targetPosition: activePosition
+                manageActiveIndex: true
             };
         }
-        return null;
+        return {
+            manageActiveIndex: false,
+            targetPosition: activePosition
+        };
     };
     Tab.prototype.componentWillUnmount = function () {
         clearTimeout(this.tabContext.delayTimeout);
     };
     Tab.prototype.switchTo = function (position) {
-        this.setState({
-            targetPosition: position
-        });
+        var manageActiveIndex = this.state.manageActiveIndex;
+        var onUpdateActivePosition = this.props.onUpdateActivePosition;
+        if (manageActiveIndex) {
+            this.setState({
+                targetPosition: position.index
+            });
+        }
+        else if (onUpdateActivePosition) {
+            onUpdateActivePosition(position);
+        }
     };
     Tab.prototype.render = function () {
         var _a = this, props = _a.props, state = _a.state, tabContext = _a.tabContext;

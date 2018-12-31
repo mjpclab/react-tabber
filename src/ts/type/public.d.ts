@@ -29,6 +29,7 @@ declare namespace ReactTabber {
 
 		delayTriggerLatency: number;
 		activePosition?: TabItemPosition;
+		onUpdateActivePosition?: (position: NormalizedTabItemPosition) => void;
 		onSwitching?: (from: NormalizedTabItemPosition, to: NormalizedTabItemPosition) => void;
 		onSwitched?: (from: NormalizedTabItemPosition, to: NormalizedTabItemPosition) => void;
 

@@ -43,7 +43,6 @@
     var defaultProps = {
         tabs: [],
         mode: "horizontal" /* Horizontal */,
-        activePosition: 0,
         triggerEvents: ['onClick'],
         delayTriggerLatency: 200,
         tabContainerClassName: 'tab-container',
@@ -263,9 +262,10 @@
         var labelItemInactiveClassName = labelItemClassName + classNameSuffix.inactive;
         var currentIndex = context.currentPosition.index;
         var labelContainer = React__default.createElement("div", { className: labelContainerClassName + ' ' + labelContainerLocationClassName + ' ' + labelContainerModeClassName + ' ' + labelContainerLocationModeClassName }, entries.map(function (entry, index) {
+            var labelProps = entry.labelProps, key = entry.key;
             var doSwitch = function () {
                 clearTimeout(context.delayTimeout);
-                fnSwitchTo(index);
+                fnSwitchTo({ index: index, key: key });
             };
             var localDelayTimeout;
             var delayDoSwitch = (delayTriggerLatency) <= 0 ?
@@ -279,7 +279,6 @@
                     clearTimeout(localDelayTimeout);
                 }
             };
-            var labelProps = entry.labelProps, key = entry.key;
             var labelDelayTriggerCancelProps;
             var labelDelayTriggerProps;
             if (delayTriggerEvents && delayTriggerEvents.length) {
@@ -354,29 +353,37 @@
             };
             _this.switchTo = _this.switchTo.bind(_this);
             _this.state = {
-                prevActivePosition: -1,
+                manageActiveIndex: true,
                 targetPosition: -1,
             };
             return _this;
         }
         Tab.getDerivedStateFromProps = function (props, state) {
             var activePosition = props.activePosition;
-            var prevActivePosition = state.prevActivePosition;
-            if (activePosition !== prevActivePosition) {
+            if (activePosition === undefined || activePosition === null || (typeof activePosition === 'number' && !isFinite(activePosition))) {
                 return {
-                    prevActivePosition: activePosition,
-                    targetPosition: activePosition
+                    manageActiveIndex: true
                 };
             }
-            return null;
+            return {
+                manageActiveIndex: false,
+                targetPosition: activePosition
+            };
         };
         Tab.prototype.componentWillUnmount = function () {
             clearTimeout(this.tabContext.delayTimeout);
         };
         Tab.prototype.switchTo = function (position) {
-            this.setState({
-                targetPosition: position
-            });
+            var manageActiveIndex = this.state.manageActiveIndex;
+            var onUpdateActivePosition = this.props.onUpdateActivePosition;
+            if (manageActiveIndex) {
+                this.setState({
+                    targetPosition: position.index
+                });
+            }
+            else if (onUpdateActivePosition) {
+                onUpdateActivePosition(position);
+            }
         };
         Tab.prototype.render = function () {
             var _a = this, props = _a.props, state = _a.state, tabContext = _a.tabContext;

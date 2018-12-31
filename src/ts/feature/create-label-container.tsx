@@ -32,9 +32,11 @@ function createLabelContainer(
 	const labelContainer =
 		<div className={labelContainerClassName + ' ' + labelContainerLocationClassName + ' ' + labelContainerModeClassName + ' ' + labelContainerLocationModeClassName}>
 			{entries.map((entry, index) => {
+				const {labelProps, key} = entry;
+
 				const doSwitch = () => {
 					clearTimeout(context.delayTimeout);
-					fnSwitchTo(index);
+					fnSwitchTo({index, key});
 				};
 				let localDelayTimeout: any;
 				const delayDoSwitch = (delayTriggerLatency!) <= 0 ?
@@ -49,7 +51,6 @@ function createLabelContainer(
 					}
 				};
 
-				const {labelProps, key} = entry;
 				let labelDelayTriggerCancelProps;
 				let labelDelayTriggerProps;
 				if (delayTriggerEvents && delayTriggerEvents.length) {

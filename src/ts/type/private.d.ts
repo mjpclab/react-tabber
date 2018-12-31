@@ -6,7 +6,6 @@ declare function isFinite(number: string): boolean;
 
 declare namespace ReactTabber {
 	interface TabProps extends NecessaryProps, NormalizedEventProps {
-
 	}
 
 	type TabPropTypes = {
@@ -14,15 +13,15 @@ declare namespace ReactTabber {
 	}
 
 	interface TabState {
-		prevActivePosition: ReactTabber.TabItemPosition
-		targetPosition: ReactTabber.TabItemPosition;
+		manageActiveIndex: boolean;
+		targetPosition: TabItemPosition;
 	}
 
 	interface TabContext {
-		prevPosition: ReactTabber.NormalizedTabItemPosition;
-		currentPosition: ReactTabber.NormalizedTabItemPosition;
+		prevPosition: NormalizedTabItemPosition;
+		currentPosition: NormalizedTabItemPosition;
 		delayTimeout: any;
 	}
 
-	type FnSwitchTo = (position: ReactTabber.TabItemPosition) => void;
+	type FnSwitchTo = (position: NormalizedTabItemPosition) => void;
 }

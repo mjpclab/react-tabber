@@ -22,32 +22,41 @@ class Tab extends React.Component<ReactTabber.TabProps, ReactTabber.TabState> {
 		this.switchTo = this.switchTo.bind(this);
 
 		this.state = {
-			prevActivePosition: -1,
+			manageActiveIndex: true,
 			targetPosition: -1,
 		};
 	}
 
 	static getDerivedStateFromProps(props: ReactTabber.TabProps, state: ReactTabber.TabState) {
 		const {activePosition} = props;
-		const {prevActivePosition} = state;
-		if (activePosition !== prevActivePosition) {
+
+		if (activePosition === undefined || activePosition === null || (typeof activePosition === 'number' && !isFinite(activePosition))) {
 			return {
-				prevActivePosition: activePosition,
-				targetPosition: activePosition
+				manageActiveIndex: true
 			}
 		}
 
-		return null;
+		return {
+			manageActiveIndex: false,
+			targetPosition: activePosition
+		}
 	}
 
 	componentWillUnmount() {
 		clearTimeout(this.tabContext.delayTimeout);
 	}
 
-	private switchTo(position: ReactTabber.TabItemPosition) {
-		this.setState({
-			targetPosition: position
-		});
+	private switchTo(position: ReactTabber.NormalizedTabItemPosition) {
+		const {manageActiveIndex} = this.state;
+		const {onUpdateActivePosition} = this.props;
+
+		if (manageActiveIndex) {
+			this.setState({
+				targetPosition: position.index
+			});
+		} else if (onUpdateActivePosition) {
+			onUpdateActivePosition(position);
+		}
 	}
 
 	render() {

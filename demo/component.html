@@ -29,6 +29,7 @@
 				]
 			};
 
+			this.onUpdateActivePosition = this.onUpdateActivePosition.bind(this);
 			this.onSwitching = this.onSwitching.bind(this);
 			this.addTab = this.addTab.bind(this);
 			this.removeTab = this.removeTab.bind(this);
@@ -36,12 +37,14 @@
 			this.nextTab = this.nextTab.bind(this);
 		}
 
+		onUpdateActivePosition(pos) {
+			this.setState({
+				targetIndex: pos.index
+			})
+		}
 
 		onSwitching(from, to) {
 			console.log('switching ', from, to);
-			this.setState({
-				targetIndex: to.index
-			})
 		}
 
 		addTab() {
@@ -94,7 +97,7 @@
 			const targetIndex = this.state.targetIndex;
 
 			return <div>
-				<ReactTabber activePosition={targetIndex} tabs={tabs} onSwitching={this.onSwitching}/>
+				<ReactTabber activePosition={targetIndex} tabs={tabs} onUpdateActivePosition={this.onUpdateActivePosition} onSwitching={this.onSwitching}/>
 				<button onClick={this.addTab}>Add Tab</button>
 				<button onClick={this.removeTab}>Remove Tab</button>
 				<br/>
