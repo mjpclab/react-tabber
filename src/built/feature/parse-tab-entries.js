@@ -12,11 +12,11 @@ var __assign = (this && this.__assign) || function () {
 import React from "react";
 import Label from "../component/label";
 import Panel from "../component/panel";
-function parseTabEntries(props, children) {
+function parseTabEntries(propTabs, children) {
     var entries = [];
-    // tabs
-    if (props.tabs && props.tabs.length) {
-        entries.push.apply(entries, props.tabs.map(function (_entry) {
+    // prop entries
+    if (propTabs && propTabs.length) {
+        entries.push.apply(entries, propTabs.map(function (_entry) {
             var entry = __assign({}, _entry);
             if (entry.key === undefined) {
                 entry.key = null;

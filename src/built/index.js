@@ -46,9 +46,9 @@ var ReactTabber = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     ReactTabber.prototype.render = function () {
-        var _a = this.props, triggerEvents = _a.triggerEvents, delayTriggerEvents = _a.delayTriggerEvents, delayTriggerCancelEvents = _a.delayTriggerCancelEvents, props = __rest(_a, ["triggerEvents", "delayTriggerEvents", "delayTriggerCancelEvents"]);
-        var tabs = parseTabEntries(this.props, this.props.children);
-        return React.createElement(Tab, __assign({}, props, { triggerEvents: normalizeEvents(triggerEvents), delayTriggerEvents: normalizeEvents(delayTriggerEvents), delayTriggerCancelEvents: normalizeEvents(delayTriggerCancelEvents), tabs: tabs }));
+        var _a = this.props, tabs = _a.tabs, children = _a.children, triggerEvents = _a.triggerEvents, delayTriggerEvents = _a.delayTriggerEvents, delayTriggerCancelEvents = _a.delayTriggerCancelEvents, props = __rest(_a, ["tabs", "children", "triggerEvents", "delayTriggerEvents", "delayTriggerCancelEvents"]);
+        var allTabs = parseTabEntries(tabs, children);
+        return React.createElement(Tab, __assign({}, props, { triggerEvents: normalizeEvents(triggerEvents), delayTriggerEvents: normalizeEvents(delayTriggerEvents), delayTriggerCancelEvents: normalizeEvents(delayTriggerCancelEvents), tabs: allTabs }));
     };
     ReactTabber.Label = Label;
     ReactTabber.Panel = Panel;

@@ -20,15 +20,15 @@ class ReactTabber extends React.Component<ReactTabber.Props> {
 	static defaultProps = defaultProps;
 
 	render() {
-		const {triggerEvents, delayTriggerEvents, delayTriggerCancelEvents, ...props} = this.props;
-		const tabs = parseTabEntries(this.props, this.props.children);
+		const {tabs, children, triggerEvents, delayTriggerEvents, delayTriggerCancelEvents, ...props} = this.props;
+		const allTabs = parseTabEntries(tabs, children);
 
 		return <Tab
 			{...props}
 			triggerEvents={normalizeEvents(triggerEvents)}
 			delayTriggerEvents={normalizeEvents(delayTriggerEvents)}
 			delayTriggerCancelEvents={normalizeEvents(delayTriggerCancelEvents)}
-			tabs={tabs}
+			tabs={allTabs}
 		/>;
 	}
 }

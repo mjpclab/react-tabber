@@ -2,12 +2,12 @@ import React, {ReactElement} from "react";
 import Label from "../component/label";
 import Panel from "../component/panel";
 
-function parseTabEntries(props: ReactTabber.Props, children: React.ReactNode) {
+function parseTabEntries(propTabs: ReactTabber.Entry[] | undefined, children: React.ReactNode) {
 	const entries: ReactTabber.Entry[] = [];
 
-	// tabs
-	if (props.tabs && props.tabs.length) {
-		entries.push(...props.tabs.map(_entry => {
+	// prop entries
+	if (propTabs && propTabs.length) {
+		entries.push(...propTabs.map(_entry => {
 			const entry: ReactTabber.Entry = {..._entry};
 			if (entry.key === undefined) {
 				entry.key = null

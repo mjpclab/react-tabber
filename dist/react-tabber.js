@@ -120,11 +120,11 @@
         };
         return __assign$1.apply(this, arguments);
     };
-    function parseTabEntries(props, children) {
+    function parseTabEntries(propTabs, children) {
         var entries = [];
-        // tabs
-        if (props.tabs && props.tabs.length) {
-            entries.push.apply(entries, props.tabs.map(function (_entry) {
+        // prop entries
+        if (propTabs && propTabs.length) {
+            entries.push.apply(entries, propTabs.map(function (_entry) {
                 var entry = __assign$1({}, _entry);
                 if (entry.key === undefined) {
                     entry.key = null;
@@ -465,9 +465,9 @@
             return _super !== null && _super.apply(this, arguments) || this;
         }
         ReactTabber.prototype.render = function () {
-            var _a = this.props, triggerEvents = _a.triggerEvents, delayTriggerEvents = _a.delayTriggerEvents, delayTriggerCancelEvents = _a.delayTriggerCancelEvents, props = __rest(_a, ["triggerEvents", "delayTriggerEvents", "delayTriggerCancelEvents"]);
-            var tabs = parseTabEntries(this.props, this.props.children);
-            return React__default.createElement(Tab, __assign$4({}, props, { triggerEvents: normalizeEvents(triggerEvents), delayTriggerEvents: normalizeEvents(delayTriggerEvents), delayTriggerCancelEvents: normalizeEvents(delayTriggerCancelEvents), tabs: tabs }));
+            var _a = this.props, tabs = _a.tabs, children = _a.children, triggerEvents = _a.triggerEvents, delayTriggerEvents = _a.delayTriggerEvents, delayTriggerCancelEvents = _a.delayTriggerCancelEvents, props = __rest(_a, ["tabs", "children", "triggerEvents", "delayTriggerEvents", "delayTriggerCancelEvents"]);
+            var allTabs = parseTabEntries(tabs, children);
+            return React__default.createElement(Tab, __assign$4({}, props, { triggerEvents: normalizeEvents(triggerEvents), delayTriggerEvents: normalizeEvents(delayTriggerEvents), delayTriggerCancelEvents: normalizeEvents(delayTriggerCancelEvents), tabs: allTabs }));
         };
         ReactTabber.Label = Label;
         ReactTabber.Panel = Panel;
