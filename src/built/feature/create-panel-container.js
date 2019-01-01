@@ -11,16 +11,18 @@ var __assign = (this && this.__assign) || function () {
 };
 import React from 'react';
 import classNameSuffix from '../utility/class-name-suffix';
-function createPanelContainer(props, context, entries) {
+import { getLabelItemId, getPanelItemId } from "../utility/get-id";
+function createPanelContainer(props, context, entries, refLabelSide) {
     var mode = props.mode, panelContainerClassName = props.panelContainerClassName, panelItemClassName = props.panelItemClassName;
-    var currentIndex = context.currentPosition.index;
+    var tabberId = context.tabberId, currentIndex = context.currentPosition.index;
     var panelContainerModeClassName = panelContainerClassName + '-' + mode;
-    var panelItemActiveClassName = panelItemClassName + classNameSuffix.active;
-    var panelItemInactiveClassName = panelItemClassName + classNameSuffix.inactive;
+    var panelItemActiveClassName = panelItemClassName + '-' + classNameSuffix.active;
+    var panelItemInactiveClassName = panelItemClassName + '-' + classNameSuffix.inactive;
     return React.createElement("div", { className: panelContainerClassName + ' ' + panelContainerModeClassName }, entries.map(function (entry, index) {
         var panelProps = entry.panelProps, key = entry.key;
-        var panelItemStatusClassName = index === currentIndex ? panelItemActiveClassName : panelItemInactiveClassName;
-        return React.createElement("div", __assign({}, panelProps, { key: key ? 'key-' + key : 'index-' + index, className: panelItemClassName + ' ' + panelItemStatusClassName }), entry.panel);
+        var isActive = index === currentIndex;
+        var panelItemStatusClassName = isActive ? panelItemActiveClassName : panelItemInactiveClassName;
+        return React.createElement("div", __assign({}, panelProps, { className: panelItemClassName + ' ' + panelItemStatusClassName, id: getPanelItemId(tabberId, index), role: "tabpanel", "aria-labelledby": getLabelItemId(tabberId, refLabelSide, index), "aria-hidden": !isActive, key: key ? 'key-' + key : 'index-' + index }), entry.panel);
     }));
 }
 export default createPanelContainer;

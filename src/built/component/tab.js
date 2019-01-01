@@ -16,11 +16,13 @@ import { invalidNormalizedPosition, getNormalizedPosition } from '../utility/nor
 import { tabPropTypes } from '../utility/prop-types';
 import defaultProps from '../utility/default-props';
 import createTabContainer from '../feature/create-tab-container';
+var nextTabberId = 0;
 var Tab = /** @class */ (function (_super) {
     __extends(Tab, _super);
     function Tab(props) {
         var _this = _super.call(this, props) || this;
         _this.tabContext = {
+            tabberId: nextTabberId++,
             prevPosition: invalidNormalizedPosition,
             currentPosition: invalidNormalizedPosition,
             delayTimeout: 0

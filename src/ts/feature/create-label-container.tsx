@@ -2,12 +2,13 @@ import React from 'react';
 
 import createEventHandler from '../utility/create-event-handler';
 import classNameSuffix from '../utility/class-name-suffix';
+import {getLabelItemId, getPanelItemId} from "../utility/get-id";
 
 function createLabelContainer(
 	props: ReactTabber.TabProps,
 	context: ReactTabber.TabContext,
 	entries: ReactTabber.Entry[],
-	sideSuffix: string,
+	side: string,
 	fnSwitchTo: ReactTabber.FnSwitchTo
 ) {
 	const {
@@ -20,17 +21,17 @@ function createLabelContainer(
 		delayTriggerLatency
 	} = props;
 
-	const labelContainerLocationClassName = labelContainerClassName + sideSuffix;
+	const labelContainerLocationClassName = labelContainerClassName + '-' + side;
 	const labelContainerModeClassName = labelContainerClassName + '-' + mode;
-	const labelContainerLocationModeClassName = labelContainerClassName + sideSuffix + '-' + mode;
+	const labelContainerLocationModeClassName = labelContainerClassName + '-' + side + '-' + mode;
 
-	const labelItemActiveClassName = labelItemClassName + classNameSuffix.active;
-	const labelItemInactiveClassName = labelItemClassName + classNameSuffix.inactive;
+	const labelItemActiveClassName = labelItemClassName + '-' + classNameSuffix.active;
+	const labelItemInactiveClassName = labelItemClassName + '-' + classNameSuffix.inactive;
 
-	const {index: currentIndex} = context.currentPosition;
+	const {tabberId, currentPosition: {index: currentIndex}} = context;
 
 	const labelContainer =
-		<div className={labelContainerClassName + ' ' + labelContainerLocationClassName + ' ' + labelContainerModeClassName + ' ' + labelContainerLocationModeClassName}>
+		<div className={labelContainerClassName + ' ' + labelContainerLocationClassName + ' ' + labelContainerModeClassName + ' ' + labelContainerLocationModeClassName} role="tablist">
 			{entries.map((entry, index) => {
 				const {labelProps, key} = entry;
 
@@ -59,16 +60,23 @@ function createLabelContainer(
 				}
 				const labelTriggerProps = createEventHandler(triggerEvents, doSwitch);
 
-				const labelItemStatusClassName = (index === currentIndex ? labelItemActiveClassName : labelItemInactiveClassName);
+				const isActive = index === currentIndex;
+				const labelItemStatusClassName = isActive ? labelItemActiveClassName : labelItemInactiveClassName;
 
-				return <div
+				return <label
 					{...labelProps}
 					{...labelDelayTriggerCancelProps}
 					{...labelDelayTriggerProps}
 					{...labelTriggerProps}
-					key={key ? 'key-' + key : 'index-' + index}
 					className={labelItemClassName + ' ' + labelItemStatusClassName}
-				>{entry.label}</div>;
+					tabIndex={0}
+					id={getLabelItemId(tabberId, side, index)}
+					role="tab"
+					aria-controls={getPanelItemId(tabberId, index)}
+					aria-selected={isActive}
+					aria-expanded={isActive}
+					key={key ? 'key-' + key : 'index-' + index}
+				>{entry.label}</label>;
 			})}
 		</div>;
 	return labelContainer;

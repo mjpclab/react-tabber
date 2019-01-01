@@ -18,6 +18,7 @@ declare namespace ReactTabber {
 	}
 
 	interface TabContext {
+		tabberId: number;
 		prevPosition: NormalizedTabItemPosition;
 		currentPosition: NormalizedTabItemPosition;
 		delayTimeout: any;

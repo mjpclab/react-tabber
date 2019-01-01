@@ -17,18 +17,20 @@ function createTabContainer(
 		showFooterLabelContainer
 	} = props;
 
+	const {header, footer} = classNameSuffix;
+
 	const tabContainerModeClassName = tabContainerClassName + '-' + mode;
 
 	return <div className={tabContainerClassName + ' ' + tabContainerModeClassName}>
 		{
 			showHeaderLabelContainer ?
-				createLabelContainer(props, context, entries, classNameSuffix.header, fnSwitchTo) :
+				createLabelContainer(props, context, entries, header, fnSwitchTo) :
 				null
 		}
-		{createPanelContainer(props, context, entries)}
+		{createPanelContainer(props, context, entries, showHeaderLabelContainer || !showFooterLabelContainer ? header : footer)}
 		{
 			showFooterLabelContainer ?
-				createLabelContainer(props, context, entries, classNameSuffix.header, fnSwitchTo)
+				createLabelContainer(props, context, entries, footer, fnSwitchTo)
 				: null
 		}
 	</div>;

@@ -12,15 +12,16 @@ var __assign = (this && this.__assign) || function () {
 import React from 'react';
 import createEventHandler from '../utility/create-event-handler';
 import classNameSuffix from '../utility/class-name-suffix';
-function createLabelContainer(props, context, entries, sideSuffix, fnSwitchTo) {
+import { getLabelItemId, getPanelItemId } from "../utility/get-id";
+function createLabelContainer(props, context, entries, side, fnSwitchTo) {
     var mode = props.mode, labelContainerClassName = props.labelContainerClassName, labelItemClassName = props.labelItemClassName, triggerEvents = props.triggerEvents, delayTriggerEvents = props.delayTriggerEvents, delayTriggerCancelEvents = props.delayTriggerCancelEvents, delayTriggerLatency = props.delayTriggerLatency;
-    var labelContainerLocationClassName = labelContainerClassName + sideSuffix;
+    var labelContainerLocationClassName = labelContainerClassName + '-' + side;
     var labelContainerModeClassName = labelContainerClassName + '-' + mode;
-    var labelContainerLocationModeClassName = labelContainerClassName + sideSuffix + '-' + mode;
-    var labelItemActiveClassName = labelItemClassName + classNameSuffix.active;
-    var labelItemInactiveClassName = labelItemClassName + classNameSuffix.inactive;
-    var currentIndex = context.currentPosition.index;
-    var labelContainer = React.createElement("div", { className: labelContainerClassName + ' ' + labelContainerLocationClassName + ' ' + labelContainerModeClassName + ' ' + labelContainerLocationModeClassName }, entries.map(function (entry, index) {
+    var labelContainerLocationModeClassName = labelContainerClassName + '-' + side + '-' + mode;
+    var labelItemActiveClassName = labelItemClassName + '-' + classNameSuffix.active;
+    var labelItemInactiveClassName = labelItemClassName + '-' + classNameSuffix.inactive;
+    var tabberId = context.tabberId, currentIndex = context.currentPosition.index;
+    var labelContainer = React.createElement("div", { className: labelContainerClassName + ' ' + labelContainerLocationClassName + ' ' + labelContainerModeClassName + ' ' + labelContainerLocationModeClassName, role: "tablist" }, entries.map(function (entry, index) {
         var labelProps = entry.labelProps, key = entry.key;
         var doSwitch = function () {
             clearTimeout(context.delayTimeout);
@@ -45,8 +46,9 @@ function createLabelContainer(props, context, entries, sideSuffix, fnSwitchTo) {
             labelDelayTriggerProps = createEventHandler(delayTriggerEvents, delayDoSwitch);
         }
         var labelTriggerProps = createEventHandler(triggerEvents, doSwitch);
-        var labelItemStatusClassName = (index === currentIndex ? labelItemActiveClassName : labelItemInactiveClassName);
-        return React.createElement("div", __assign({}, labelProps, labelDelayTriggerCancelProps, labelDelayTriggerProps, labelTriggerProps, { key: key ? 'key-' + key : 'index-' + index, className: labelItemClassName + ' ' + labelItemStatusClassName }), entry.label);
+        var isActive = index === currentIndex;
+        var labelItemStatusClassName = isActive ? labelItemActiveClassName : labelItemInactiveClassName;
+        return React.createElement("label", __assign({}, labelProps, labelDelayTriggerCancelProps, labelDelayTriggerProps, labelTriggerProps, { className: labelItemClassName + ' ' + labelItemStatusClassName, tabIndex: 0, id: getLabelItemId(tabberId, side, index), role: "tab", "aria-controls": getPanelItemId(tabberId, index), "aria-selected": isActive, "aria-expanded": isActive, key: key ? 'key-' + key : 'index-' + index }), entry.label);
     }));
     return labelContainer;
 }

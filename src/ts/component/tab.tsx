@@ -6,11 +6,14 @@ import defaultProps from '../utility/default-props';
 
 import createTabContainer from '../feature/create-tab-container';
 
+let nextTabberId = 0;
+
 class Tab extends React.Component<ReactTabber.TabProps, ReactTabber.TabState> {
 	static propTypes = tabPropTypes;
 	static defaultProps = defaultProps;
 
 	private tabContext: ReactTabber.TabContext = {
+		tabberId: nextTabberId++,
 		prevPosition: invalidNormalizedPosition,
 		currentPosition: invalidNormalizedPosition,
 		delayTimeout: 0
