@@ -9,6 +9,8 @@ declare namespace ReactTabber {
 		panelProps?: JSXProps
 		panel: React.ReactNode | React.ReactNode[];
 		key?: string | number | null;
+		disabled?: boolean;
+		hidden?: boolean;
 	}
 
 	const enum Mode {
@@ -60,4 +62,14 @@ declare namespace ReactTabber {
 	type PropTypes = {
 		[P in keyof Props]: any
 	}
+
+	// Label
+	interface LabelProps {
+		disabled?: boolean;
+		hidden?: boolean;
+	}
+
+	type LabelPropTypes = {
+		[P in keyof LabelProps]: any
+	};
 }

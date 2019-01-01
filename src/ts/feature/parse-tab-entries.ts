@@ -22,7 +22,9 @@ function parseTabEntries(propTabs: ReactTabber.Entry[] | undefined, children: Re
 		let currentLabelItems: React.ReactNode[] = [];
 		let currentPanelProps = {};
 		let currentPanelItems: React.ReactNode[] = [];
-		let key: string | number | null;
+		let key: string | number | null | undefined;
+		let disabled: boolean | undefined;
+		let hidden: boolean | undefined;
 
 		const pushEntry = () => {
 			entries.push({
@@ -30,7 +32,9 @@ function parseTabEntries(propTabs: ReactTabber.Entry[] | undefined, children: Re
 				label: currentLabelItems,
 				panelProps: currentPanelProps,
 				panel: currentPanelItems,
-				key: key
+				key,
+				disabled,
+				hidden
 			});
 		};
 
@@ -40,7 +44,8 @@ function parseTabEntries(propTabs: ReactTabber.Entry[] | undefined, children: Re
 				if (currentLabelItems.length) { // end of previous entry
 					pushEntry();
 				}
-				currentLabelProps = element.props;
+				const {disabled: itemDisabled, hidden: itemHidden, ...restLabelProps} = element.props;
+				currentLabelProps = restLabelProps;
 				currentLabelItems = [];
 				if (Array.isArray(element.props.children)) {
 					currentLabelItems.push(...element.props.children);
@@ -50,6 +55,8 @@ function parseTabEntries(propTabs: ReactTabber.Entry[] | undefined, children: Re
 				currentPanelProps = {};
 				currentPanelItems = [];
 				key = typeof element.key !== 'undefined' ? element.key : entries.length;
+				disabled = itemDisabled;
+				hidden = itemHidden;
 			} else {
 				if (!currentLabelItems.length) {
 					currentLabelItems.push('');

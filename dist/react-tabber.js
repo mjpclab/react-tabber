@@ -84,6 +84,10 @@
         function Label() {
             return _super !== null && _super.apply(this, arguments) || this;
         }
+        Label.propTypes = {
+            disabled: PropTypes.bool,
+            hidden: PropTypes.bool
+        };
         return Label;
     }(React.Component));
 
@@ -119,6 +123,15 @@
         };
         return __assign$1.apply(this, arguments);
     };
+    var __rest = (undefined && undefined.__rest) || function (s, e) {
+        var t = {};
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+            t[p] = s[p];
+        if (s != null && typeof Object.getOwnPropertySymbols === "function")
+            for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) if (e.indexOf(p[i]) < 0)
+                t[p[i]] = s[p[i]];
+        return t;
+    };
     function parseTabEntries(propTabs, children) {
         var entries = [];
         // prop entries
@@ -138,13 +151,17 @@
             var currentPanelProps_1 = {};
             var currentPanelItems_1 = [];
             var key_1;
+            var disabled_1;
+            var hidden_1;
             var pushEntry_1 = function () {
                 entries.push({
                     labelProps: currentLabelProps_1,
                     label: currentLabelItems_1,
                     panelProps: currentPanelProps_1,
                     panel: currentPanelItems_1,
-                    key: key_1
+                    key: key_1,
+                    disabled: disabled_1,
+                    hidden: hidden_1
                 });
             };
             React__default.Children.forEach(children, function (child) {
@@ -153,7 +170,8 @@
                     if (currentLabelItems_1.length) { // end of previous entry
                         pushEntry_1();
                     }
-                    currentLabelProps_1 = element.props;
+                    var _a = element.props, itemDisabled = _a.disabled, itemHidden = _a.hidden, restLabelProps = __rest(_a, ["disabled", "hidden"]);
+                    currentLabelProps_1 = restLabelProps;
                     currentLabelItems_1 = [];
                     if (Array.isArray(element.props.children)) {
                         currentLabelItems_1.push.apply(currentLabelItems_1, element.props.children);
@@ -164,6 +182,8 @@
                     currentPanelProps_1 = {};
                     currentPanelItems_1 = [];
                     key_1 = typeof element.key !== 'undefined' ? element.key : entries.length;
+                    disabled_1 = itemDisabled;
+                    hidden_1 = itemHidden;
                 }
                 else {
                     if (!currentLabelItems_1.length) {
@@ -230,6 +250,8 @@
     var classNameSuffix = {
         active: 'active',
         inactive: 'inactive',
+        disabled: 'disabled',
+        hidden: 'hidden',
         header: 'header',
         footer: 'footer'
     };
@@ -268,35 +290,47 @@
         var labelContainerLocationModeClassName = labelContainerClassName + '-' + side + '-' + mode;
         var labelItemActiveClassName = labelItemClassName + '-' + classNameSuffix.active;
         var labelItemInactiveClassName = labelItemClassName + '-' + classNameSuffix.inactive;
+        var labelItemDisabledClassName = labelItemClassName + '-' + classNameSuffix.disabled;
+        var labelItemHiddenClassName = labelItemClassName + '-' + classNameSuffix.hidden;
         var tabberId = context.tabberId, currentIndex = context.currentPosition.index;
         var labelContainer = React__default.createElement("div", { className: labelContainerClassName + ' ' + labelContainerLocationClassName + ' ' + labelContainerModeClassName + ' ' + labelContainerLocationModeClassName, role: "tablist" }, entries.map(function (entry, index) {
-            var labelProps = entry.labelProps, key = entry.key;
-            var doSwitch = function () {
-                clearTimeout(context.delayTimeout);
-                fnSwitchTo({ index: index, key: key });
-            };
-            var localDelayTimeout;
-            var delayDoSwitch = (delayTriggerLatency) <= 0 ?
-                doSwitch :
-                function () {
-                    clearTimeout(context.delayTimeout);
-                    localDelayTimeout = context.delayTimeout = setTimeout(doSwitch, delayTriggerLatency);
-                };
-            var cancelDelayDoSwitch = function () {
-                if (localDelayTimeout === context.delayTimeout) {
-                    clearTimeout(localDelayTimeout);
-                }
-            };
+            var labelProps = entry.labelProps, key = entry.key, disabled = entry.disabled, hidden = entry.hidden;
             var labelDelayTriggerCancelProps;
             var labelDelayTriggerProps;
-            if (delayTriggerEvents && delayTriggerEvents.length) {
-                labelDelayTriggerCancelProps = createEventHandler(delayTriggerCancelEvents, cancelDelayDoSwitch);
-                labelDelayTriggerProps = createEventHandler(delayTriggerEvents, delayDoSwitch);
+            var labelTriggerProps;
+            if (!disabled && !hidden) {
+                var doSwitch_1 = function () {
+                    clearTimeout(context.delayTimeout);
+                    fnSwitchTo({ index: index, key: key });
+                };
+                var localDelayTimeout_1;
+                var delayDoSwitch = (delayTriggerLatency) <= 0 ?
+                    doSwitch_1 :
+                    function () {
+                        clearTimeout(context.delayTimeout);
+                        localDelayTimeout_1 = context.delayTimeout = setTimeout(doSwitch_1, delayTriggerLatency);
+                    };
+                var cancelDelayDoSwitch = function () {
+                    if (localDelayTimeout_1 === context.delayTimeout) {
+                        clearTimeout(localDelayTimeout_1);
+                    }
+                };
+                if (delayTriggerEvents && delayTriggerEvents.length) {
+                    labelDelayTriggerCancelProps = createEventHandler(delayTriggerCancelEvents, cancelDelayDoSwitch);
+                    labelDelayTriggerProps = createEventHandler(delayTriggerEvents, delayDoSwitch);
+                }
+                labelTriggerProps = createEventHandler(triggerEvents, doSwitch_1);
             }
-            var labelTriggerProps = createEventHandler(triggerEvents, doSwitch);
             var isActive = index === currentIndex;
             var labelItemStatusClassName = isActive ? labelItemActiveClassName : labelItemInactiveClassName;
-            return React__default.createElement("label", __assign$2({}, labelProps, labelDelayTriggerCancelProps, labelDelayTriggerProps, labelTriggerProps, { className: labelItemClassName + ' ' + labelItemStatusClassName, tabIndex: 0, id: getLabelItemId(tabberId, side, index), role: "tab", "aria-controls": getPanelItemId(tabberId, index), "aria-selected": isActive, "aria-expanded": isActive, key: key ? 'key-' + key : 'index-' + index }), entry.label);
+            var labelItemAllClassName = labelItemClassName + ' ' + labelItemStatusClassName;
+            if (disabled) {
+                labelItemAllClassName += ' ' + labelItemDisabledClassName;
+            }
+            if (hidden) {
+                labelItemAllClassName += ' ' + labelItemHiddenClassName;
+            }
+            return React__default.createElement("label", __assign$2({}, labelProps, labelDelayTriggerCancelProps, labelDelayTriggerProps, labelTriggerProps, { className: labelItemAllClassName, tabIndex: 0, id: getLabelItemId(tabberId, side, index), role: "tab", "aria-controls": getPanelItemId(tabberId, index), "aria-selected": isActive, "aria-expanded": isActive, key: key ? 'key-' + key : 'index-' + index }), entry.label);
         }));
         return labelContainer;
     }
@@ -318,11 +352,20 @@
         var panelContainerModeClassName = panelContainerClassName + '-' + mode;
         var panelItemActiveClassName = panelItemClassName + '-' + classNameSuffix.active;
         var panelItemInactiveClassName = panelItemClassName + '-' + classNameSuffix.inactive;
+        var panelItemDisabledClassName = panelItemClassName + '-' + classNameSuffix.disabled;
+        var panelItemHiddenClassName = panelItemClassName + '-' + classNameSuffix.hidden;
         return React__default.createElement("div", { className: panelContainerClassName + ' ' + panelContainerModeClassName }, entries.map(function (entry, index) {
-            var panelProps = entry.panelProps, key = entry.key;
+            var panelProps = entry.panelProps, key = entry.key, disabled = entry.disabled, hidden = entry.hidden;
             var isActive = index === currentIndex;
             var panelItemStatusClassName = isActive ? panelItemActiveClassName : panelItemInactiveClassName;
-            return React__default.createElement("div", __assign$3({}, panelProps, { className: panelItemClassName + ' ' + panelItemStatusClassName, id: getPanelItemId(tabberId, index), role: "tabpanel", "aria-labelledby": getLabelItemId(tabberId, refLabelSide, index), "aria-hidden": !isActive, key: key ? 'key-' + key : 'index-' + index }), entry.panel);
+            var panelItemAllClassName = panelItemClassName + ' ' + panelItemStatusClassName;
+            if (disabled) {
+                panelItemAllClassName += ' ' + panelItemDisabledClassName;
+            }
+            if (hidden) {
+                panelItemAllClassName += ' ' + panelItemHiddenClassName;
+            }
+            return React__default.createElement("div", __assign$3({}, panelProps, { className: panelItemAllClassName, id: getPanelItemId(tabberId, index), role: "tabpanel", "aria-labelledby": getLabelItemId(tabberId, refLabelSide, index), "aria-hidden": !isActive, key: key ? 'key-' + key : 'index-' + index }), entry.panel);
         }));
     }
 
@@ -470,7 +513,7 @@
         };
         return __assign$4.apply(this, arguments);
     };
-    var __rest = (undefined && undefined.__rest) || function (s, e) {
+    var __rest$1 = (undefined && undefined.__rest) || function (s, e) {
         var t = {};
         for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
             t[p] = s[p];
@@ -485,7 +528,7 @@
             return _super !== null && _super.apply(this, arguments) || this;
         }
         ReactTabber.prototype.render = function () {
-            var _a = this.props, tabs = _a.tabs, children = _a.children, triggerEvents = _a.triggerEvents, delayTriggerEvents = _a.delayTriggerEvents, delayTriggerCancelEvents = _a.delayTriggerCancelEvents, props = __rest(_a, ["tabs", "children", "triggerEvents", "delayTriggerEvents", "delayTriggerCancelEvents"]);
+            var _a = this.props, tabs = _a.tabs, children = _a.children, triggerEvents = _a.triggerEvents, delayTriggerEvents = _a.delayTriggerEvents, delayTriggerCancelEvents = _a.delayTriggerCancelEvents, props = __rest$1(_a, ["tabs", "children", "triggerEvents", "delayTriggerEvents", "delayTriggerCancelEvents"]);
             var allTabs = parseTabEntries(tabs, children);
             return React__default.createElement(Tab, __assign$4({}, props, { triggerEvents: normalizeEvents(triggerEvents), delayTriggerEvents: normalizeEvents(delayTriggerEvents), delayTriggerCancelEvents: normalizeEvents(delayTriggerCancelEvents), tabs: allTabs }));
         };

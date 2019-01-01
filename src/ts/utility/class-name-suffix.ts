@@ -1,6 +1,8 @@
 const classNameSuffix = {
 	active: 'active',
 	inactive: 'inactive',
+	disabled: 'disabled',
+	hidden: 'hidden',
 	header: 'header',
 	footer: 'footer'
 };

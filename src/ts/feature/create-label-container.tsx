@@ -27,48 +27,61 @@ function createLabelContainer(
 
 	const labelItemActiveClassName = labelItemClassName + '-' + classNameSuffix.active;
 	const labelItemInactiveClassName = labelItemClassName + '-' + classNameSuffix.inactive;
+	const labelItemDisabledClassName = labelItemClassName + '-' + classNameSuffix.disabled;
+	const labelItemHiddenClassName = labelItemClassName + '-' + classNameSuffix.hidden;
 
 	const {tabberId, currentPosition: {index: currentIndex}} = context;
 
 	const labelContainer =
 		<div className={labelContainerClassName + ' ' + labelContainerLocationClassName + ' ' + labelContainerModeClassName + ' ' + labelContainerLocationModeClassName} role="tablist">
 			{entries.map((entry, index) => {
-				const {labelProps, key} = entry;
-
-				const doSwitch = () => {
-					clearTimeout(context.delayTimeout);
-					fnSwitchTo({index, key});
-				};
-				let localDelayTimeout: any;
-				const delayDoSwitch = (delayTriggerLatency!) <= 0 ?
-					doSwitch :
-					() => {
-						clearTimeout(context.delayTimeout);
-						localDelayTimeout = context.delayTimeout = setTimeout(doSwitch, delayTriggerLatency);
-					};
-				const cancelDelayDoSwitch = () => {
-					if (localDelayTimeout === context.delayTimeout) {
-						clearTimeout(localDelayTimeout);
-					}
-				};
+				const {labelProps, key, disabled, hidden} = entry;
 
 				let labelDelayTriggerCancelProps;
 				let labelDelayTriggerProps;
-				if (delayTriggerEvents && delayTriggerEvents.length) {
-					labelDelayTriggerCancelProps = createEventHandler(delayTriggerCancelEvents, cancelDelayDoSwitch);
-					labelDelayTriggerProps = createEventHandler(delayTriggerEvents, delayDoSwitch);
+				let labelTriggerProps;
+
+				if (!disabled && !hidden) {
+					const doSwitch = () => {
+						clearTimeout(context.delayTimeout);
+						fnSwitchTo({index, key});
+					};
+					let localDelayTimeout: any;
+					const delayDoSwitch = (delayTriggerLatency!) <= 0 ?
+						doSwitch :
+						() => {
+							clearTimeout(context.delayTimeout);
+							localDelayTimeout = context.delayTimeout = setTimeout(doSwitch, delayTriggerLatency);
+						};
+					const cancelDelayDoSwitch = () => {
+						if (localDelayTimeout === context.delayTimeout) {
+							clearTimeout(localDelayTimeout);
+						}
+					};
+
+					if (delayTriggerEvents && delayTriggerEvents.length) {
+						labelDelayTriggerCancelProps = createEventHandler(delayTriggerCancelEvents, cancelDelayDoSwitch);
+						labelDelayTriggerProps = createEventHandler(delayTriggerEvents, delayDoSwitch);
+					}
+					labelTriggerProps = createEventHandler(triggerEvents, doSwitch);
 				}
-				const labelTriggerProps = createEventHandler(triggerEvents, doSwitch);
 
 				const isActive = index === currentIndex;
 				const labelItemStatusClassName = isActive ? labelItemActiveClassName : labelItemInactiveClassName;
+				let labelItemAllClassName = labelItemClassName + ' ' + labelItemStatusClassName;
+				if (disabled) {
+					labelItemAllClassName += ' ' + labelItemDisabledClassName;
+				}
+				if (hidden) {
+					labelItemAllClassName += ' ' + labelItemHiddenClassName;
+				}
 
 				return <label
 					{...labelProps}
 					{...labelDelayTriggerCancelProps}
 					{...labelDelayTriggerProps}
 					{...labelTriggerProps}
-					className={labelItemClassName + ' ' + labelItemStatusClassName}
+					className={labelItemAllClassName}
 					tabIndex={0}
 					id={getLabelItemId(tabberId, side, index)}
 					role="tab"

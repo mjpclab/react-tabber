@@ -20,35 +20,47 @@ function createLabelContainer(props, context, entries, side, fnSwitchTo) {
     var labelContainerLocationModeClassName = labelContainerClassName + '-' + side + '-' + mode;
     var labelItemActiveClassName = labelItemClassName + '-' + classNameSuffix.active;
     var labelItemInactiveClassName = labelItemClassName + '-' + classNameSuffix.inactive;
+    var labelItemDisabledClassName = labelItemClassName + '-' + classNameSuffix.disabled;
+    var labelItemHiddenClassName = labelItemClassName + '-' + classNameSuffix.hidden;
     var tabberId = context.tabberId, currentIndex = context.currentPosition.index;
     var labelContainer = React.createElement("div", { className: labelContainerClassName + ' ' + labelContainerLocationClassName + ' ' + labelContainerModeClassName + ' ' + labelContainerLocationModeClassName, role: "tablist" }, entries.map(function (entry, index) {
-        var labelProps = entry.labelProps, key = entry.key;
-        var doSwitch = function () {
-            clearTimeout(context.delayTimeout);
-            fnSwitchTo({ index: index, key: key });
-        };
-        var localDelayTimeout;
-        var delayDoSwitch = (delayTriggerLatency) <= 0 ?
-            doSwitch :
-            function () {
-                clearTimeout(context.delayTimeout);
-                localDelayTimeout = context.delayTimeout = setTimeout(doSwitch, delayTriggerLatency);
-            };
-        var cancelDelayDoSwitch = function () {
-            if (localDelayTimeout === context.delayTimeout) {
-                clearTimeout(localDelayTimeout);
-            }
-        };
+        var labelProps = entry.labelProps, key = entry.key, disabled = entry.disabled, hidden = entry.hidden;
         var labelDelayTriggerCancelProps;
         var labelDelayTriggerProps;
-        if (delayTriggerEvents && delayTriggerEvents.length) {
-            labelDelayTriggerCancelProps = createEventHandler(delayTriggerCancelEvents, cancelDelayDoSwitch);
-            labelDelayTriggerProps = createEventHandler(delayTriggerEvents, delayDoSwitch);
+        var labelTriggerProps;
+        if (!disabled && !hidden) {
+            var doSwitch_1 = function () {
+                clearTimeout(context.delayTimeout);
+                fnSwitchTo({ index: index, key: key });
+            };
+            var localDelayTimeout_1;
+            var delayDoSwitch = (delayTriggerLatency) <= 0 ?
+                doSwitch_1 :
+                function () {
+                    clearTimeout(context.delayTimeout);
+                    localDelayTimeout_1 = context.delayTimeout = setTimeout(doSwitch_1, delayTriggerLatency);
+                };
+            var cancelDelayDoSwitch = function () {
+                if (localDelayTimeout_1 === context.delayTimeout) {
+                    clearTimeout(localDelayTimeout_1);
+                }
+            };
+            if (delayTriggerEvents && delayTriggerEvents.length) {
+                labelDelayTriggerCancelProps = createEventHandler(delayTriggerCancelEvents, cancelDelayDoSwitch);
+                labelDelayTriggerProps = createEventHandler(delayTriggerEvents, delayDoSwitch);
+            }
+            labelTriggerProps = createEventHandler(triggerEvents, doSwitch_1);
         }
-        var labelTriggerProps = createEventHandler(triggerEvents, doSwitch);
         var isActive = index === currentIndex;
         var labelItemStatusClassName = isActive ? labelItemActiveClassName : labelItemInactiveClassName;
-        return React.createElement("label", __assign({}, labelProps, labelDelayTriggerCancelProps, labelDelayTriggerProps, labelTriggerProps, { className: labelItemClassName + ' ' + labelItemStatusClassName, tabIndex: 0, id: getLabelItemId(tabberId, side, index), role: "tab", "aria-controls": getPanelItemId(tabberId, index), "aria-selected": isActive, "aria-expanded": isActive, key: key ? 'key-' + key : 'index-' + index }), entry.label);
+        var labelItemAllClassName = labelItemClassName + ' ' + labelItemStatusClassName;
+        if (disabled) {
+            labelItemAllClassName += ' ' + labelItemDisabledClassName;
+        }
+        if (hidden) {
+            labelItemAllClassName += ' ' + labelItemHiddenClassName;
+        }
+        return React.createElement("label", __assign({}, labelProps, labelDelayTriggerCancelProps, labelDelayTriggerProps, labelTriggerProps, { className: labelItemAllClassName, tabIndex: 0, id: getLabelItemId(tabberId, side, index), role: "tab", "aria-controls": getPanelItemId(tabberId, index), "aria-selected": isActive, "aria-expanded": isActive, key: key ? 'key-' + key : 'index-' + index }), entry.label);
     }));
     return labelContainer;
 }

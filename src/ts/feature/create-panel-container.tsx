@@ -21,15 +21,25 @@ function createPanelContainer(
 
 	const panelItemActiveClassName = panelItemClassName + '-' + classNameSuffix.active;
 	const panelItemInactiveClassName = panelItemClassName + '-' + classNameSuffix.inactive;
+	const panelItemDisabledClassName = panelItemClassName + '-' + classNameSuffix.disabled;
+	const panelItemHiddenClassName = panelItemClassName + '-' + classNameSuffix.hidden;
 
 	return <div className={panelContainerClassName + ' ' + panelContainerModeClassName}>
 		{entries.map((entry, index) => {
-			const {panelProps, key} = entry;
+			const {panelProps, key, disabled, hidden} = entry;
+
 			const isActive = index === currentIndex;
 			const panelItemStatusClassName = isActive ? panelItemActiveClassName : panelItemInactiveClassName;
+			let panelItemAllClassName = panelItemClassName + ' ' + panelItemStatusClassName;
+			if (disabled) {
+				panelItemAllClassName += ' ' + panelItemDisabledClassName;
+			}
+			if (hidden) {
+				panelItemAllClassName += ' ' + panelItemHiddenClassName;
+			}
 			return <div
 				{...panelProps}
-				className={panelItemClassName + ' ' + panelItemStatusClassName}
+				className={panelItemAllClassName}
 				id={getPanelItemId(tabberId, index)}
 				role="tabpanel"
 				aria-labelledby={getLabelItemId(tabberId, refLabelSide, index)}

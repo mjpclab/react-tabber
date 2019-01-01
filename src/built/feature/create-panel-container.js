@@ -18,11 +18,20 @@ function createPanelContainer(props, context, entries, refLabelSide) {
     var panelContainerModeClassName = panelContainerClassName + '-' + mode;
     var panelItemActiveClassName = panelItemClassName + '-' + classNameSuffix.active;
     var panelItemInactiveClassName = panelItemClassName + '-' + classNameSuffix.inactive;
+    var panelItemDisabledClassName = panelItemClassName + '-' + classNameSuffix.disabled;
+    var panelItemHiddenClassName = panelItemClassName + '-' + classNameSuffix.hidden;
     return React.createElement("div", { className: panelContainerClassName + ' ' + panelContainerModeClassName }, entries.map(function (entry, index) {
-        var panelProps = entry.panelProps, key = entry.key;
+        var panelProps = entry.panelProps, key = entry.key, disabled = entry.disabled, hidden = entry.hidden;
         var isActive = index === currentIndex;
         var panelItemStatusClassName = isActive ? panelItemActiveClassName : panelItemInactiveClassName;
-        return React.createElement("div", __assign({}, panelProps, { className: panelItemClassName + ' ' + panelItemStatusClassName, id: getPanelItemId(tabberId, index), role: "tabpanel", "aria-labelledby": getLabelItemId(tabberId, refLabelSide, index), "aria-hidden": !isActive, key: key ? 'key-' + key : 'index-' + index }), entry.panel);
+        var panelItemAllClassName = panelItemClassName + ' ' + panelItemStatusClassName;
+        if (disabled) {
+            panelItemAllClassName += ' ' + panelItemDisabledClassName;
+        }
+        if (hidden) {
+            panelItemAllClassName += ' ' + panelItemHiddenClassName;
+        }
+        return React.createElement("div", __assign({}, panelProps, { className: panelItemAllClassName, id: getPanelItemId(tabberId, index), role: "tabpanel", "aria-labelledby": getLabelItemId(tabberId, refLabelSide, index), "aria-hidden": !isActive, key: key ? 'key-' + key : 'index-' + index }), entry.panel);
     }));
 }
 export default createPanelContainer;

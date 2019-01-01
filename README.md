@@ -30,7 +30,13 @@ if you are using React and ReactTabber in global variable mode, which means ther
 ### By data structure
 You need to collect all components that want to put into tabs array.
 Each array item has property `label` and `panel`, which can be a string, a number, a native DOM element, another React component, or array of these types of item.
-It also has an optional property `key` for the item which can improve performance and use it from some callbacks besides index value.
+
+Optional property `key` for the item can improve performance and use it from some callbacks besides index value.
+
+Optional property `disabled` for the item sets the tab item state to disabled.
+
+Optional property `hidden` for the item sets the tab item state to hidden.
+
 Here is the example of tabs array:
 ```jsx
 let tabs = [
@@ -42,7 +48,7 @@ ReactDOM.render(<ReactTabber tabs={tabs}/>, document.getElementById('container')
 ```
 ### By JSX template
 You can declare labels and panels by JSX template style. `ReactTabber.Label` represents a label and `ReactTabber.Panel` represents a panel.
-Optional keys are specified onto `ReactTabber.Label`s.
+Optional properties like `key`, `disabled` and `hidden` are specified onto `ReactTabber.Label`s.
 Continues multiple `ReactTabber.Panel`s are allowed, they are just belongs to the same closest `ReactTabber.Label`.
 `ReactTabber.Panel` Element can be omitted if inside contents has another element to wrap them.
 ```jsx

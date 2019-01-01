@@ -12,11 +12,16 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 import { Component } from "react";
+import PropTypes from 'prop-types';
 var Label = /** @class */ (function (_super) {
     __extends(Label, _super);
     function Label() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
+    Label.propTypes = {
+        disabled: PropTypes.bool,
+        hidden: PropTypes.bool
+    };
     return Label;
 }(Component));
 export default Label;
