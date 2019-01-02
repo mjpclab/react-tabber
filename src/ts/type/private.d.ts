@@ -24,5 +24,6 @@ declare namespace ReactTabber {
 		delayTimeout: any;
 	}
 
-	type FnSwitchTo = (position: NormalizedTabItemPosition) => void;
+	type FnSwitchTo = (position: NormalizedTabItemPosition) => NormalizedTabItemPosition;
+	type FnSwitchNeighbor = (options?: SwitchOptions) => NormalizedTabItemPosition | undefined;
 }

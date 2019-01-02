@@ -10,6 +10,7 @@
 <body>
 <div id="container"></div>
 
+<script type="text/javascript" src="js/es6-shim.js"></script>
 <script type="text/javascript" src="../node_modules/react/umd/react.development.js"></script>
 <script type="text/javascript" src="../node_modules/react-dom/umd/react-dom.development.js"></script>
 <script type="text/javascript" src="../node_modules/prop-types/prop-types.js"></script>
@@ -25,7 +26,7 @@
 	function render() {
 		ReactDOM.render(
 			<div>
-				<ReactTabber tabs={tabs} onSwitching={onSwitching} onSwitched={onSwitched}>
+				<ReactTabber tabs={tabs} onSwitching={onSwitching} onSwitched={onSwitched} keyboardSwitch={true}>
 					<ReactTabber.Label key="topic3">title <b>3</b></ReactTabber.Label>
 					<ReactTabber.Panel>content <b>3</b>. </ReactTabber.Panel>
 					<ReactTabber.Panel>another content <b>3</b>. </ReactTabber.Panel>

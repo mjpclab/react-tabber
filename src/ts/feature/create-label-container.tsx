@@ -4,15 +4,70 @@ import createEventHandler from '../utility/create-event-handler';
 import classNameSuffix from '../utility/class-name-suffix';
 import {getLabelItemId, getPanelItemId} from "../utility/get-id";
 
+const UP = 'Up';
+const DOWN = 'Down';
+const LEFT = 'Left';
+const RIGHT = 'Right';
+
+const ARROW_UP = 'ArrowUp';
+const ARROW_DOWN = 'ArrowDown';
+const ARROW_LEFT = 'ArrowLeft';
+const ARROW_RIGHT = 'ArrowRight';
+
+const TAB = 'Tab';
+const SPACE = ' ';
+const ENTER = 'Enter';
+
 function createLabelContainer(
 	props: ReactTabber.TabProps,
 	context: ReactTabber.TabContext,
 	entries: ReactTabber.Entry[],
 	side: string,
-	fnSwitchTo: ReactTabber.FnSwitchTo
+	fnSwitchTo: ReactTabber.FnSwitchTo,
+	fnSwitchPrevious: ReactTabber.FnSwitchNeighbor,
+	fnSwitchNext: ReactTabber.FnSwitchNeighbor
 ) {
+	let switchResult: ReactTabber.NormalizedTabItemPosition | undefined;
+
+	function onKeyDown(e: React.KeyboardEvent, pos: ReactTabber.NormalizedTabItemPosition) {
+		if (e.key) {
+			switch (e.key) {
+				case UP:
+				case LEFT:
+				case ARROW_UP:
+				case ARROW_LEFT:
+					switchResult = fnSwitchPrevious();
+					break;
+				case DOWN:
+				case RIGHT:
+				case ARROW_DOWN:
+				case ARROW_RIGHT:
+					switchResult = fnSwitchNext();
+					break;
+				case TAB:
+					switchResult = e.shiftKey ? fnSwitchPrevious() : fnSwitchNext();
+					if (switchResult) {
+						e.preventDefault();
+					}
+					break;
+				case SPACE:
+				case ENTER:
+					switchResult = fnSwitchTo(pos);
+					break;
+			}
+		}
+
+		if (switchResult) {
+			const targetNode = e.currentTarget.parentNode!.childNodes[switchResult.index] as HTMLElement;
+			targetNode && targetNode.focus && targetNode.focus();
+			e.preventDefault();
+		}
+	}
+
+
 	const {
 		mode,
+		keyboardSwitch,
 		labelContainerClassName,
 		labelItemClassName,
 		triggerEvents,
@@ -33,9 +88,13 @@ function createLabelContainer(
 	const {tabberId, currentPosition: {index: currentIndex}} = context;
 
 	const labelContainer =
-		<div className={labelContainerClassName + ' ' + labelContainerLocationClassName + ' ' + labelContainerModeClassName + ' ' + labelContainerLocationModeClassName} role="tablist">
+		<div
+			className={labelContainerClassName + ' ' + labelContainerLocationClassName + ' ' + labelContainerModeClassName + ' ' + labelContainerLocationModeClassName}
+			role="tablist"
+		>
 			{entries.map((entry, index) => {
 				const {labelProps, key, disabled, hidden} = entry;
+				const pos: ReactTabber.NormalizedTabItemPosition = {index, key};
 
 				let labelDelayTriggerCancelProps;
 				let labelDelayTriggerProps;
@@ -44,7 +103,7 @@ function createLabelContainer(
 				if (!disabled && !hidden) {
 					const doSwitch = () => {
 						clearTimeout(context.delayTimeout);
-						fnSwitchTo({index, key});
+						fnSwitchTo(pos);
 					};
 					let localDelayTimeout: any;
 					const delayDoSwitch = (delayTriggerLatency!) <= 0 ?
@@ -89,6 +148,7 @@ function createLabelContainer(
 					aria-selected={isActive}
 					aria-expanded={isActive}
 					key={key ? 'key-' + key : 'index-' + index}
+					onKeyDown={keyboardSwitch ? e => onKeyDown(e, pos) : undefined}
 				>{entry.label}</label>;
 			})}
 		</div>;

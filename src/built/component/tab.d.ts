@@ -4,7 +4,7 @@ declare class Tab extends React.Component<ReactTabber.TabProps, ReactTabber.TabS
     static defaultProps: ReactTabber.Props;
     private tabContext;
     constructor(props: ReactTabber.TabProps);
-    static getDerivedStateFromProps(props: ReactTabber.TabProps, state: ReactTabber.TabState): {
+    static getDerivedStateFromProps(props: ReactTabber.TabProps): {
         manageActiveIndex: boolean;
         targetPosition?: undefined;
     } | {
@@ -12,7 +12,10 @@ declare class Tab extends React.Component<ReactTabber.TabProps, ReactTabber.TabS
         targetPosition: string | number;
     };
     componentWillUnmount(): void;
-    private switchTo;
+    switchTo(position: ReactTabber.NormalizedTabItemPosition): ReactTabber.NormalizedTabItemPosition;
+    private _switchNeighbor;
+    switchPrevious(options?: ReactTabber.SwitchOptions): ReactTabber.NormalizedTabItemPosition | undefined;
+    switchNext(options?: ReactTabber.SwitchOptions): ReactTabber.NormalizedTabItemPosition | undefined;
     render(): JSX.Element;
     private handleIndexChange;
     componentDidMount(): void;

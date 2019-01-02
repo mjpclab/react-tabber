@@ -29,6 +29,7 @@ declare namespace ReactTabber {
 		tabs: Entry[];
 		mode: Mode;
 
+		keyboardSwitch: boolean;
 		delayTriggerLatency: number;
 		activePosition?: TabItemPosition;
 		onUpdateActivePosition?: (position: NormalizedTabItemPosition) => void;
@@ -72,4 +73,12 @@ declare namespace ReactTabber {
 	type LabelPropTypes = {
 		[P in keyof LabelProps]: any
 	};
+
+	// Switch
+	interface SwitchOptions {
+		includeDisabled?: boolean;
+		includeHidden?: boolean;
+		exclude: TabItemPosition[];
+		loop: boolean;
+	}
 }

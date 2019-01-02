@@ -108,6 +108,10 @@ Properties are options specified as attribute onto ReactTabber:
 Specify tabs you want to render as a tab, should be an array of rendering items, which has property `label`, `panel` and optional `key`.
 `label` will be shown on tab label container. `panel` is the content of the tab. `key` is used to identify different tab labels and panels.
 
+`keyboardSwitch`  
+Specify if active tab item could be switched by keyboard when label item has focus.
+If enabled, end user could use arrow keys and Tab key to (request) switch active tab item. Defaults to `true`.
+
 `triggerEvents`  
 Determine the types of React Element events triggered on label-item that will make the panel-item switched.
 Can be an array of event names, or space separated event names. Default value is `['onClick']`.

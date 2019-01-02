@@ -17,6 +17,7 @@ var sharedPropTypes = {
         key: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
     })),
     mode: PropTypes.string,
+    keyboardSwitch: PropTypes.bool,
     delayTriggerLatency: PropTypes.number,
     activePosition: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     onSwitching: PropTypes.func,

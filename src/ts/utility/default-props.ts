@@ -1,6 +1,7 @@
 const defaultProps: ReactTabber.Props = {
 	tabs: [],
 	mode: ReactTabber.Mode.Horizontal,
+	keyboardSwitch: true,
 
 	triggerEvents: ['onClick'],
 	delayTriggerLatency: 200,

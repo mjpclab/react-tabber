@@ -25,6 +25,7 @@
             key: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
         })),
         mode: PropTypes.string,
+        keyboardSwitch: PropTypes.bool,
         delayTriggerLatency: PropTypes.number,
         activePosition: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
         onSwitching: PropTypes.func,
@@ -43,6 +44,7 @@
     var defaultProps = {
         tabs: [],
         mode: "horizontal" /* Horizontal */,
+        keyboardSwitch: true,
         triggerEvents: ['onClick'],
         delayTriggerLatency: 200,
         tabContainerClassName: 'tab-container',
@@ -283,8 +285,53 @@
         };
         return __assign$2.apply(this, arguments);
     };
-    function createLabelContainer(props, context, entries, side, fnSwitchTo) {
-        var mode = props.mode, labelContainerClassName = props.labelContainerClassName, labelItemClassName = props.labelItemClassName, triggerEvents = props.triggerEvents, delayTriggerEvents = props.delayTriggerEvents, delayTriggerCancelEvents = props.delayTriggerCancelEvents, delayTriggerLatency = props.delayTriggerLatency;
+    var UP = 'Up';
+    var DOWN = 'Down';
+    var LEFT = 'Left';
+    var RIGHT = 'Right';
+    var ARROW_UP = 'ArrowUp';
+    var ARROW_DOWN = 'ArrowDown';
+    var ARROW_LEFT = 'ArrowLeft';
+    var ARROW_RIGHT = 'ArrowRight';
+    var TAB = 'Tab';
+    var SPACE = ' ';
+    var ENTER = 'Enter';
+    function createLabelContainer(props, context, entries, side, fnSwitchTo, fnSwitchPrevious, fnSwitchNext) {
+        var switchResult;
+        function onKeyDown(e, pos) {
+            if (e.key) {
+                switch (e.key) {
+                    case UP:
+                    case LEFT:
+                    case ARROW_UP:
+                    case ARROW_LEFT:
+                        switchResult = fnSwitchPrevious();
+                        break;
+                    case DOWN:
+                    case RIGHT:
+                    case ARROW_DOWN:
+                    case ARROW_RIGHT:
+                        switchResult = fnSwitchNext();
+                        break;
+                    case TAB:
+                        switchResult = e.shiftKey ? fnSwitchPrevious() : fnSwitchNext();
+                        if (switchResult) {
+                            e.preventDefault();
+                        }
+                        break;
+                    case SPACE:
+                    case ENTER:
+                        switchResult = fnSwitchTo(pos);
+                        break;
+                }
+            }
+            if (switchResult) {
+                var targetNode = e.currentTarget.parentNode.childNodes[switchResult.index];
+                targetNode && targetNode.focus && targetNode.focus();
+                e.preventDefault();
+            }
+        }
+        var mode = props.mode, keyboardSwitch = props.keyboardSwitch, labelContainerClassName = props.labelContainerClassName, labelItemClassName = props.labelItemClassName, triggerEvents = props.triggerEvents, delayTriggerEvents = props.delayTriggerEvents, delayTriggerCancelEvents = props.delayTriggerCancelEvents, delayTriggerLatency = props.delayTriggerLatency;
         var labelContainerLocationClassName = labelContainerClassName + '-' + side;
         var labelContainerModeClassName = labelContainerClassName + '-' + mode;
         var labelContainerLocationModeClassName = labelContainerClassName + '-' + side + '-' + mode;
@@ -295,13 +342,14 @@
         var tabberId = context.tabberId, currentIndex = context.currentPosition.index;
         var labelContainer = React__default.createElement("div", { className: labelContainerClassName + ' ' + labelContainerLocationClassName + ' ' + labelContainerModeClassName + ' ' + labelContainerLocationModeClassName, role: "tablist" }, entries.map(function (entry, index) {
             var labelProps = entry.labelProps, key = entry.key, disabled = entry.disabled, hidden = entry.hidden;
+            var pos = { index: index, key: key };
             var labelDelayTriggerCancelProps;
             var labelDelayTriggerProps;
             var labelTriggerProps;
             if (!disabled && !hidden) {
                 var doSwitch_1 = function () {
                     clearTimeout(context.delayTimeout);
-                    fnSwitchTo({ index: index, key: key });
+                    fnSwitchTo(pos);
                 };
                 var localDelayTimeout_1;
                 var delayDoSwitch = (delayTriggerLatency) <= 0 ?
@@ -330,7 +378,7 @@
             if (hidden) {
                 labelItemAllClassName += ' ' + labelItemHiddenClassName;
             }
-            return React__default.createElement("label", __assign$2({}, labelProps, labelDelayTriggerCancelProps, labelDelayTriggerProps, labelTriggerProps, { className: labelItemAllClassName, tabIndex: 0, id: getLabelItemId(tabberId, side, index), role: "tab", "aria-controls": getPanelItemId(tabberId, index), "aria-selected": isActive, "aria-expanded": isActive, key: key ? 'key-' + key : 'index-' + index }), entry.label);
+            return React__default.createElement("label", __assign$2({}, labelProps, labelDelayTriggerCancelProps, labelDelayTriggerProps, labelTriggerProps, { className: labelItemAllClassName, tabIndex: 0, id: getLabelItemId(tabberId, side, index), role: "tab", "aria-controls": getPanelItemId(tabberId, index), "aria-selected": isActive, "aria-expanded": isActive, key: key ? 'key-' + key : 'index-' + index, onKeyDown: keyboardSwitch ? function (e) { return onKeyDown(e, pos); } : undefined }), entry.label);
         }));
         return labelContainer;
     }
@@ -369,17 +417,17 @@
         }));
     }
 
-    function createTabContainer(props, context, entries, fnSwitchTo) {
+    function createTabContainer(props, context, entries, fnSwitchTo, fnSwitchPrevious, fnSwitchNext) {
         var mode = props.mode, tabContainerClassName = props.tabContainerClassName, showHeaderLabelContainer = props.showHeaderLabelContainer, showFooterLabelContainer = props.showFooterLabelContainer;
         var header = classNameSuffix.header, footer = classNameSuffix.footer;
         var tabContainerModeClassName = tabContainerClassName + '-' + mode;
         return React__default.createElement("div", { className: tabContainerClassName + ' ' + tabContainerModeClassName },
             showHeaderLabelContainer ?
-                createLabelContainer(props, context, entries, header, fnSwitchTo) :
+                createLabelContainer(props, context, entries, header, fnSwitchTo, fnSwitchPrevious, fnSwitchNext) :
                 null,
             createPanelContainer(props, context, entries, showHeaderLabelContainer || !showFooterLabelContainer ? header : footer),
             showFooterLabelContainer ?
-                createLabelContainer(props, context, entries, footer, fnSwitchTo)
+                createLabelContainer(props, context, entries, footer, fnSwitchTo, fnSwitchPrevious, fnSwitchNext)
                 : null);
     }
 
@@ -396,6 +444,11 @@
             d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
         };
     })();
+    var SwitchDirection;
+    (function (SwitchDirection) {
+        SwitchDirection[SwitchDirection["Backward"] = 0] = "Backward";
+        SwitchDirection[SwitchDirection["Forward"] = 1] = "Forward";
+    })(SwitchDirection || (SwitchDirection = {}));
     var nextTabberId = 0;
     var Tab = /** @class */ (function (_super) {
         __extends$2(Tab, _super);
@@ -408,13 +461,16 @@
                 delayTimeout: 0
             };
             _this.switchTo = _this.switchTo.bind(_this);
+            _this._switchNeighbor = _this._switchNeighbor.bind(_this);
+            _this.switchPrevious = _this.switchPrevious.bind(_this);
+            _this.switchNext = _this.switchNext.bind(_this);
             _this.state = {
                 manageActiveIndex: true,
                 targetPosition: -1,
             };
             return _this;
         }
-        Tab.getDerivedStateFromProps = function (props, state) {
+        Tab.getDerivedStateFromProps = function (props) {
             var activePosition = props.activePosition;
             if (activePosition === undefined || activePosition === null || (typeof activePosition === 'number' && !isFinite(activePosition))) {
                 return {
@@ -440,6 +496,55 @@
             else if (onUpdateActivePosition) {
                 onUpdateActivePosition(position);
             }
+            return position;
+        };
+        Tab.prototype._switchNeighbor = function (direction, options) {
+            var includeDisabled, includeHidden, loop, exclude;
+            if (options) {
+                includeDisabled = options.includeDisabled;
+                includeHidden = options.includeHidden;
+                loop = options.loop;
+                exclude = options.exclude;
+            }
+            var entries = this.props.tabs;
+            var excludeIndecies = exclude ? exclude.map(function (pos) { return getNormalizedPosition(entries, pos).index; }) : [];
+            var currentIndex = this.tabContext.currentPosition.index;
+            var itemCount = entries.length;
+            var maxIterationCount = -1;
+            if (loop) {
+                if (currentIndex >= 0 && currentIndex < itemCount) {
+                    maxIterationCount = itemCount - 1;
+                }
+                else {
+                    maxIterationCount = itemCount;
+                }
+            }
+            else if (direction === SwitchDirection.Backward) {
+                maxIterationCount = currentIndex;
+            }
+            else if (direction === SwitchDirection.Forward) {
+                maxIterationCount = itemCount - currentIndex - 1;
+            }
+            var iterationStep = direction === SwitchDirection.Backward ? -1 : 1;
+            for (var i = 1; i <= maxIterationCount; i++) {
+                var tabItemIndex = (currentIndex + i * iterationStep + itemCount) % itemCount;
+                if (excludeIndecies.indexOf(tabItemIndex) >= 0) {
+                    continue;
+                }
+                var _a = entries[tabItemIndex], disabled = _a.disabled, hidden = _a.hidden;
+                if ((!disabled && !hidden) ||
+                    (includeDisabled && !hidden) ||
+                    (!disabled && includeHidden) ||
+                    (includeDisabled && includeHidden)) {
+                    return this.switchTo(getNormalizedPosition(entries, tabItemIndex));
+                }
+            }
+        };
+        Tab.prototype.switchPrevious = function (options) {
+            return this._switchNeighbor(SwitchDirection.Backward, options);
+        };
+        Tab.prototype.switchNext = function (options) {
+            return this._switchNeighbor(SwitchDirection.Forward, options);
         };
         Tab.prototype.render = function () {
             var _a = this, props = _a.props, state = _a.state, tabContext = _a.tabContext;
@@ -466,7 +571,7 @@
             if (prevIndex !== currentIndex && props.onSwitching) {
                 props.onSwitching(normalizedPrevPosition, tabContext.currentPosition);
             }
-            return createTabContainer(props, tabContext, tabs, this.switchTo);
+            return createTabContainer(props, tabContext, tabs, this.switchTo, this.switchPrevious, this.switchNext);
         };
         Tab.prototype.handleIndexChange = function () {
             var _a = this, props = _a.props, tabContext = _a.tabContext;

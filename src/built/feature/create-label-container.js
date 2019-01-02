@@ -13,8 +13,53 @@ import React from 'react';
 import createEventHandler from '../utility/create-event-handler';
 import classNameSuffix from '../utility/class-name-suffix';
 import { getLabelItemId, getPanelItemId } from "../utility/get-id";
-function createLabelContainer(props, context, entries, side, fnSwitchTo) {
-    var mode = props.mode, labelContainerClassName = props.labelContainerClassName, labelItemClassName = props.labelItemClassName, triggerEvents = props.triggerEvents, delayTriggerEvents = props.delayTriggerEvents, delayTriggerCancelEvents = props.delayTriggerCancelEvents, delayTriggerLatency = props.delayTriggerLatency;
+var UP = 'Up';
+var DOWN = 'Down';
+var LEFT = 'Left';
+var RIGHT = 'Right';
+var ARROW_UP = 'ArrowUp';
+var ARROW_DOWN = 'ArrowDown';
+var ARROW_LEFT = 'ArrowLeft';
+var ARROW_RIGHT = 'ArrowRight';
+var TAB = 'Tab';
+var SPACE = ' ';
+var ENTER = 'Enter';
+function createLabelContainer(props, context, entries, side, fnSwitchTo, fnSwitchPrevious, fnSwitchNext) {
+    var switchResult;
+    function onKeyDown(e, pos) {
+        if (e.key) {
+            switch (e.key) {
+                case UP:
+                case LEFT:
+                case ARROW_UP:
+                case ARROW_LEFT:
+                    switchResult = fnSwitchPrevious();
+                    break;
+                case DOWN:
+                case RIGHT:
+                case ARROW_DOWN:
+                case ARROW_RIGHT:
+                    switchResult = fnSwitchNext();
+                    break;
+                case TAB:
+                    switchResult = e.shiftKey ? fnSwitchPrevious() : fnSwitchNext();
+                    if (switchResult) {
+                        e.preventDefault();
+                    }
+                    break;
+                case SPACE:
+                case ENTER:
+                    switchResult = fnSwitchTo(pos);
+                    break;
+            }
+        }
+        if (switchResult) {
+            var targetNode = e.currentTarget.parentNode.childNodes[switchResult.index];
+            targetNode && targetNode.focus && targetNode.focus();
+            e.preventDefault();
+        }
+    }
+    var mode = props.mode, keyboardSwitch = props.keyboardSwitch, labelContainerClassName = props.labelContainerClassName, labelItemClassName = props.labelItemClassName, triggerEvents = props.triggerEvents, delayTriggerEvents = props.delayTriggerEvents, delayTriggerCancelEvents = props.delayTriggerCancelEvents, delayTriggerLatency = props.delayTriggerLatency;
     var labelContainerLocationClassName = labelContainerClassName + '-' + side;
     var labelContainerModeClassName = labelContainerClassName + '-' + mode;
     var labelContainerLocationModeClassName = labelContainerClassName + '-' + side + '-' + mode;
@@ -25,13 +70,14 @@ function createLabelContainer(props, context, entries, side, fnSwitchTo) {
     var tabberId = context.tabberId, currentIndex = context.currentPosition.index;
     var labelContainer = React.createElement("div", { className: labelContainerClassName + ' ' + labelContainerLocationClassName + ' ' + labelContainerModeClassName + ' ' + labelContainerLocationModeClassName, role: "tablist" }, entries.map(function (entry, index) {
         var labelProps = entry.labelProps, key = entry.key, disabled = entry.disabled, hidden = entry.hidden;
+        var pos = { index: index, key: key };
         var labelDelayTriggerCancelProps;
         var labelDelayTriggerProps;
         var labelTriggerProps;
         if (!disabled && !hidden) {
             var doSwitch_1 = function () {
                 clearTimeout(context.delayTimeout);
-                fnSwitchTo({ index: index, key: key });
+                fnSwitchTo(pos);
             };
             var localDelayTimeout_1;
             var delayDoSwitch = (delayTriggerLatency) <= 0 ?
@@ -60,7 +106,7 @@ function createLabelContainer(props, context, entries, side, fnSwitchTo) {
         if (hidden) {
             labelItemAllClassName += ' ' + labelItemHiddenClassName;
         }
-        return React.createElement("label", __assign({}, labelProps, labelDelayTriggerCancelProps, labelDelayTriggerProps, labelTriggerProps, { className: labelItemAllClassName, tabIndex: 0, id: getLabelItemId(tabberId, side, index), role: "tab", "aria-controls": getPanelItemId(tabberId, index), "aria-selected": isActive, "aria-expanded": isActive, key: key ? 'key-' + key : 'index-' + index }), entry.label);
+        return React.createElement("label", __assign({}, labelProps, labelDelayTriggerCancelProps, labelDelayTriggerProps, labelTriggerProps, { className: labelItemAllClassName, tabIndex: 0, id: getLabelItemId(tabberId, side, index), role: "tab", "aria-controls": getPanelItemId(tabberId, index), "aria-selected": isActive, "aria-expanded": isActive, key: key ? 'key-' + key : 'index-' + index, onKeyDown: keyboardSwitch ? function (e) { return onKeyDown(e, pos); } : undefined }), entry.label);
     }));
     return labelContainer;
 }
