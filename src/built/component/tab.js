@@ -15,19 +15,19 @@ import React from 'react';
 import { invalidNormalizedPosition, getNormalizedPosition } from '../utility/normalized-position';
 import { tabPropTypes } from '../utility/prop-types';
 import defaultProps from '../utility/default-props';
+import { getNextTabContainerId } from '../utility/get-id';
 import createTabContainer from '../feature/create-tab-container';
 var SwitchDirection;
 (function (SwitchDirection) {
     SwitchDirection[SwitchDirection["Backward"] = 0] = "Backward";
     SwitchDirection[SwitchDirection["Forward"] = 1] = "Forward";
 })(SwitchDirection || (SwitchDirection = {}));
-var nextTabberId = 0;
 var Tab = /** @class */ (function (_super) {
     __extends(Tab, _super);
     function Tab(props) {
         var _this = _super.call(this, props) || this;
         _this.tabContext = {
-            tabberId: nextTabberId++,
+            tabberId: getNextTabContainerId(),
             prevPosition: invalidNormalizedPosition,
             currentPosition: invalidNormalizedPosition,
             delayTimeout: 0

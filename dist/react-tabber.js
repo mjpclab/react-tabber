@@ -249,6 +249,20 @@
         }
     }
 
+    var PREFIX = '__react-tabber';
+    var NUMBER_MAX_SAFE_INTEGER = Number.MAX_SAFE_INTEGER || 9007199254740991;
+    var currentTabberContainerId = -1;
+    function getNextTabContainerId() {
+        currentTabberContainerId = (currentTabberContainerId + 1) % NUMBER_MAX_SAFE_INTEGER;
+        return currentTabberContainerId;
+    }
+    function getLabelItemId(tabberId, side, index) {
+        return PREFIX + "__" + tabberId + "__" + side + "__label__" + index;
+    }
+    function getPanelItemId(tabberId, index) {
+        return PREFIX + "__" + tabberId + "__panel__" + index;
+    }
+
     var classNameSuffix = {
         active: 'active',
         inactive: 'inactive',
@@ -264,14 +278,6 @@
             eventHandlers[event] = handler;
         });
         return eventHandlers;
-    }
-
-    var PREFIX = '__react-tabber';
-    function getLabelItemId(tabberId, side, index) {
-        return PREFIX + "__" + tabberId + "__" + side + "__label__" + index;
-    }
-    function getPanelItemId(tabberId, index) {
-        return PREFIX + "__" + tabberId + "__panel__" + index;
     }
 
     var __assign$2 = (undefined && undefined.__assign) || function () {
@@ -449,13 +455,12 @@
         SwitchDirection[SwitchDirection["Backward"] = 0] = "Backward";
         SwitchDirection[SwitchDirection["Forward"] = 1] = "Forward";
     })(SwitchDirection || (SwitchDirection = {}));
-    var nextTabberId = 0;
     var Tab = /** @class */ (function (_super) {
         __extends$2(Tab, _super);
         function Tab(props) {
             var _this = _super.call(this, props) || this;
             _this.tabContext = {
-                tabberId: nextTabberId++,
+                tabberId: getNextTabContainerId(),
                 prevPosition: invalidNormalizedPosition,
                 currentPosition: invalidNormalizedPosition,
                 delayTimeout: 0

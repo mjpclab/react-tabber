@@ -3,19 +3,18 @@ import React from 'react';
 import {invalidNormalizedPosition, getNormalizedPosition} from '../utility/normalized-position';
 import {tabPropTypes} from '../utility/prop-types';
 import defaultProps from '../utility/default-props';
+import {getNextTabContainerId} from '../utility/get-id';
 
 import createTabContainer from '../feature/create-tab-container';
 
 enum SwitchDirection {Backward, Forward}
-
-let nextTabberId = 0;
 
 class Tab extends React.Component<ReactTabber.TabProps, ReactTabber.TabState> {
 	static propTypes = tabPropTypes;
 	static defaultProps = defaultProps;
 
 	private tabContext: ReactTabber.TabContext = {
-		tabberId: nextTabberId++,
+		tabberId: getNextTabContainerId(),
 		prevPosition: invalidNormalizedPosition,
 		currentPosition: invalidNormalizedPosition,
 		delayTimeout: 0
