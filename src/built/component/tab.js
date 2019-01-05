@@ -36,6 +36,8 @@ var Tab = /** @class */ (function (_super) {
         _this._switchNeighbor = _this._switchNeighbor.bind(_this);
         _this.switchPrevious = _this.switchPrevious.bind(_this);
         _this.switchNext = _this.switchNext.bind(_this);
+        _this.switchFirst = _this.switchFirst.bind(_this);
+        _this.switchLast = _this.switchLast.bind(_this);
         _this.state = {
             manageActiveIndex: true,
             targetPosition: -1,
@@ -70,7 +72,7 @@ var Tab = /** @class */ (function (_super) {
         }
         return position;
     };
-    Tab.prototype._switchNeighbor = function (direction, options) {
+    Tab.prototype._switchNeighbor = function (fromIndex, direction, options) {
         var includeDisabled, includeHidden, loop, exclude;
         if (options) {
             includeDisabled = options.includeDisabled;
@@ -80,11 +82,10 @@ var Tab = /** @class */ (function (_super) {
         }
         var entries = this.props.tabs;
         var excludeIndecies = exclude ? exclude.map(function (pos) { return getNormalizedPosition(entries, pos).index; }) : [];
-        var currentIndex = this.tabContext.currentPosition.index;
         var itemCount = entries.length;
         var maxIterationCount = -1;
         if (loop) {
-            if (currentIndex >= 0 && currentIndex < itemCount) {
+            if (fromIndex >= 0 && fromIndex < itemCount) {
                 maxIterationCount = itemCount - 1;
             }
             else {
@@ -92,14 +93,14 @@ var Tab = /** @class */ (function (_super) {
             }
         }
         else if (direction === SwitchDirection.Backward) {
-            maxIterationCount = currentIndex;
+            maxIterationCount = fromIndex;
         }
         else if (direction === SwitchDirection.Forward) {
-            maxIterationCount = itemCount - currentIndex - 1;
+            maxIterationCount = itemCount - fromIndex - 1;
         }
         var iterationStep = direction === SwitchDirection.Backward ? -1 : 1;
         for (var i = 1; i <= maxIterationCount; i++) {
-            var tabItemIndex = (currentIndex + i * iterationStep + itemCount) % itemCount;
+            var tabItemIndex = (fromIndex + i * iterationStep + itemCount) % itemCount;
             if (excludeIndecies.indexOf(tabItemIndex) >= 0) {
                 continue;
             }
@@ -113,10 +114,16 @@ var Tab = /** @class */ (function (_super) {
         }
     };
     Tab.prototype.switchPrevious = function (options) {
-        return this._switchNeighbor(SwitchDirection.Backward, options);
+        return this._switchNeighbor(this.tabContext.currentPosition.index, SwitchDirection.Backward, options);
     };
     Tab.prototype.switchNext = function (options) {
-        return this._switchNeighbor(SwitchDirection.Forward, options);
+        return this._switchNeighbor(this.tabContext.currentPosition.index, SwitchDirection.Forward, options);
+    };
+    Tab.prototype.switchFirst = function (options) {
+        return this._switchNeighbor(-1, SwitchDirection.Forward, options);
+    };
+    Tab.prototype.switchLast = function (options) {
+        return this._switchNeighbor(this.props.tabs.length, SwitchDirection.Backward, options);
     };
     Tab.prototype.render = function () {
         var _a = this, props = _a.props, state = _a.state, tabContext = _a.tabContext;
@@ -143,7 +150,7 @@ var Tab = /** @class */ (function (_super) {
         if (prevIndex !== currentIndex && props.onSwitching) {
             props.onSwitching(normalizedPrevPosition, tabContext.currentPosition);
         }
-        return createTabContainer(props, tabContext, tabs, this.switchTo, this.switchPrevious, this.switchNext);
+        return createTabContainer(props, tabContext, tabs, this.switchTo, this.switchPrevious, this.switchNext, this.switchFirst, this.switchLast);
     };
     Tab.prototype.handleIndexChange = function () {
         var _a = this, props = _a.props, tabContext = _a.tabContext;

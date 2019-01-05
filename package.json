@@ -1,6 +1,6 @@
 {
   "name": "react-tabber",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A React tab sheet component",
   "main": "src/built/index.js",
   "types": "src/built/index.d.ts",

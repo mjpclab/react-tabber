@@ -27,6 +27,8 @@ class Tab extends React.Component<ReactTabber.TabProps, ReactTabber.TabState> {
 		this._switchNeighbor = this._switchNeighbor.bind(this);
 		this.switchPrevious = this.switchPrevious.bind(this);
 		this.switchNext = this.switchNext.bind(this);
+		this.switchFirst = this.switchFirst.bind(this);
+		this.switchLast = this.switchLast.bind(this);
 
 		this.state = {
 			manageActiveIndex: true,
@@ -68,7 +70,7 @@ class Tab extends React.Component<ReactTabber.TabProps, ReactTabber.TabState> {
 		return position;
 	}
 
-	private _switchNeighbor(direction: SwitchDirection, options?: ReactTabber.SwitchOptions) {
+	private _switchNeighbor(fromIndex: number, direction: SwitchDirection, options?: ReactTabber.SwitchOptions) {
 		let includeDisabled, includeHidden, loop, exclude;
 		if (options) {
 			includeDisabled = options.includeDisabled;
@@ -80,26 +82,25 @@ class Tab extends React.Component<ReactTabber.TabProps, ReactTabber.TabState> {
 		const entries = this.props.tabs;
 		const excludeIndecies = exclude ? exclude.map(pos => getNormalizedPosition(entries, pos).index) : [];
 
-		const {currentPosition: {index: currentIndex}} = this.tabContext;
 		const itemCount = entries.length;
 
 		let maxIterationCount = -1;
 		if (loop) {
-			if (currentIndex >= 0 && currentIndex < itemCount) {
+			if (fromIndex >= 0 && fromIndex < itemCount) {
 				maxIterationCount = itemCount - 1;
 			} else {
 				maxIterationCount = itemCount;
 			}
 		} else if (direction === SwitchDirection.Backward) {
-			maxIterationCount = currentIndex;
+			maxIterationCount = fromIndex;
 		} else if (direction === SwitchDirection.Forward) {
-			maxIterationCount = itemCount - currentIndex - 1;
+			maxIterationCount = itemCount - fromIndex - 1;
 		}
 
 		const iterationStep = direction === SwitchDirection.Backward ? -1 : 1;
 
 		for (let i = 1; i <= maxIterationCount; i++) {
-			const tabItemIndex = (currentIndex + i * iterationStep + itemCount) % itemCount;
+			const tabItemIndex = (fromIndex + i * iterationStep + itemCount) % itemCount;
 
 			if (excludeIndecies.indexOf(tabItemIndex) >= 0) {
 				continue;
@@ -119,11 +120,19 @@ class Tab extends React.Component<ReactTabber.TabProps, ReactTabber.TabState> {
 	}
 
 	public switchPrevious(options?: ReactTabber.SwitchOptions) {
-		return this._switchNeighbor(SwitchDirection.Backward, options);
+		return this._switchNeighbor(this.tabContext.currentPosition.index, SwitchDirection.Backward, options);
 	}
 
 	public switchNext(options?: ReactTabber.SwitchOptions) {
-		return this._switchNeighbor(SwitchDirection.Forward, options);
+		return this._switchNeighbor(this.tabContext.currentPosition.index, SwitchDirection.Forward, options);
+	}
+
+	public switchFirst(options?: ReactTabber.SwitchOptions) {
+		return this._switchNeighbor(-1, SwitchDirection.Forward, options);
+	}
+
+	public switchLast(options?: ReactTabber.SwitchOptions) {
+		return this._switchNeighbor(this.props.tabs.length, SwitchDirection.Backward, options);
 	}
 
 	render() {
@@ -159,7 +168,9 @@ class Tab extends React.Component<ReactTabber.TabProps, ReactTabber.TabState> {
 			tabs,
 			this.switchTo,
 			this.switchPrevious,
-			this.switchNext
+			this.switchNext,
+			this.switchFirst,
+			this.switchLast
 		);
 	}
 

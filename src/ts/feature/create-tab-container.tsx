@@ -10,7 +10,9 @@ function createTabContainer(
 	entries: ReactTabber.Entry[],
 	fnSwitchTo: ReactTabber.FnSwitchTo,
 	fnSwitchPrevious: ReactTabber.FnSwitchNeighbor,
-	fnSwitchNext: ReactTabber.FnSwitchNeighbor
+	fnSwitchNext: ReactTabber.FnSwitchNeighbor,
+	fnSwitchFirst: ReactTabber.FnSwitchNeighbor,
+	fnSwitchLast: ReactTabber.FnSwitchNeighbor
 ) {
 	const {
 		mode,
@@ -26,13 +28,19 @@ function createTabContainer(
 	return <div className={tabContainerClassName + ' ' + tabContainerModeClassName}>
 		{
 			showHeaderLabelContainer ?
-				createLabelContainer(props, context, entries, header, fnSwitchTo, fnSwitchPrevious, fnSwitchNext) :
+				createLabelContainer(
+					props, context, entries, header,
+					fnSwitchTo, fnSwitchPrevious, fnSwitchNext, fnSwitchFirst, fnSwitchLast
+				) :
 				null
 		}
 		{createPanelContainer(props, context, entries, showHeaderLabelContainer || !showFooterLabelContainer ? header : footer)}
 		{
 			showFooterLabelContainer ?
-				createLabelContainer(props, context, entries, footer, fnSwitchTo, fnSwitchPrevious, fnSwitchNext)
+				createLabelContainer(
+					props, context, entries, footer,
+					fnSwitchTo, fnSwitchPrevious, fnSwitchNext, fnSwitchFirst, fnSwitchLast
+				)
 				: null
 		}
 	</div>;

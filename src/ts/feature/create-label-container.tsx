@@ -15,6 +15,8 @@ const ARROW_LEFT = 'ArrowLeft';
 const ARROW_RIGHT = 'ArrowRight';
 
 const TAB = 'Tab';
+const HOME = 'Home';
+const END = 'End';
 const SPACE = ' ';
 const ENTER = 'Enter';
 
@@ -25,7 +27,9 @@ function createLabelContainer(
 	side: string,
 	fnSwitchTo: ReactTabber.FnSwitchTo,
 	fnSwitchPrevious: ReactTabber.FnSwitchNeighbor,
-	fnSwitchNext: ReactTabber.FnSwitchNeighbor
+	fnSwitchNext: ReactTabber.FnSwitchNeighbor,
+	fnSwitchFirst: ReactTabber.FnSwitchNeighbor,
+	fnSwitchLast: ReactTabber.FnSwitchNeighbor
 ) {
 	let switchResult: ReactTabber.NormalizedTabItemPosition | undefined;
 
@@ -49,6 +53,12 @@ function createLabelContainer(
 					if (switchResult) {
 						e.preventDefault();
 					}
+					break;
+				case HOME:
+					switchResult = fnSwitchFirst();
+					break;
+				case END:
+					switchResult = fnSwitchLast();
 					break;
 				case SPACE:
 				case ENTER:

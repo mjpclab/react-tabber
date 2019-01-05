@@ -16,6 +16,8 @@ declare class Tab extends React.Component<ReactTabber.TabProps, ReactTabber.TabS
     private _switchNeighbor;
     switchPrevious(options?: ReactTabber.SwitchOptions): ReactTabber.NormalizedTabItemPosition | undefined;
     switchNext(options?: ReactTabber.SwitchOptions): ReactTabber.NormalizedTabItemPosition | undefined;
+    switchFirst(options?: ReactTabber.SwitchOptions): ReactTabber.NormalizedTabItemPosition | undefined;
+    switchLast(options?: ReactTabber.SwitchOptions): ReactTabber.NormalizedTabItemPosition | undefined;
     render(): JSX.Element;
     private handleIndexChange;
     componentDidMount(): void;

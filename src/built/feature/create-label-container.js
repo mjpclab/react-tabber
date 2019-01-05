@@ -22,9 +22,11 @@ var ARROW_DOWN = 'ArrowDown';
 var ARROW_LEFT = 'ArrowLeft';
 var ARROW_RIGHT = 'ArrowRight';
 var TAB = 'Tab';
+var HOME = 'Home';
+var END = 'End';
 var SPACE = ' ';
 var ENTER = 'Enter';
-function createLabelContainer(props, context, entries, side, fnSwitchTo, fnSwitchPrevious, fnSwitchNext) {
+function createLabelContainer(props, context, entries, side, fnSwitchTo, fnSwitchPrevious, fnSwitchNext, fnSwitchFirst, fnSwitchLast) {
     var switchResult;
     function onKeyDown(e, pos) {
         if (e.key) {
@@ -46,6 +48,12 @@ function createLabelContainer(props, context, entries, side, fnSwitchTo, fnSwitc
                     if (switchResult) {
                         e.preventDefault();
                     }
+                    break;
+                case HOME:
+                    switchResult = fnSwitchFirst();
+                    break;
+                case END:
+                    switchResult = fnSwitchLast();
                     break;
                 case SPACE:
                 case ENTER:
