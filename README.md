@@ -29,7 +29,7 @@ if you are using React and ReactTabber in global variable mode, which means ther
 ## Prepare tab entries to render
 ### By data structure
 You need to collect all components that want to put into tabs array.
-Each array item has property `label` and `panel`, which can be a string, a number, a native DOM element, another React component, or array of these types of item.
+Each array item has property `label` and `panel`, which can be a string, a number, a native DOM element, another React component, or array of these types of items.
 
 Optional property `key` for the item can improve performance and use it from some callbacks besides index value.
 
@@ -127,13 +127,17 @@ Specify events on label-item that will cancel delay switching.
 Specify how long (in milliseconds) need to wait before trigger the delayed switching events.
 
 `activePosition`  
-Specify the active(switched) tab position. Could be an numeric index starting from 0, or a `key` prop specified to tab item.
+Specify the active(switched) tab item position. Could be an numeric index starting from 0, or a `key` prop specified to tab item.
 Subscribe `onUpdateActivePosition` to get informed that tabber component request to change the active position, e.g. when user
 clicked another tab item and wish to switch to it. 
 If this prop is not specified, or its value is `null` or `undefined`, the active position is managed by tabber component itself.
 
 `onUpdateActivePosition({index, key})`  
 A callback will be invoked when `activePosition` is controlled by outside component, and request to change it.
+
+`onUpdateTargetPosition({index, key})`  
+A callback will be invoked when `activePosition` is controlled by tabber component itself, notifying that the active position will be changed.
+Returns `false` to cancel switching.
 
 `onSwitching(from:{index, key}, to:{index, key})`  
 A callback will be invoked when start switching tab, current active index is `oldIndex`, and target index is `newIndex`.

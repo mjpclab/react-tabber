@@ -57,12 +57,14 @@ class Tab extends React.Component<ReactTabber.TabProps, ReactTabber.TabState> {
 
 	public switchTo(position: ReactTabber.NormalizedTabItemPosition) {
 		const {manageActiveIndex} = this.state;
-		const {onUpdateActivePosition} = this.props;
+		const {onUpdateActivePosition, onUpdateTargetPosition} = this.props;
 
 		if (manageActiveIndex) {
-			this.setState({
-				targetPosition: position.index
-			});
+			if (!onUpdateTargetPosition || onUpdateTargetPosition(position) !== false) {
+				this.setState({
+					targetPosition: position.index
+				});
+			}
 		} else if (onUpdateActivePosition) {
 			onUpdateActivePosition(position);
 		}

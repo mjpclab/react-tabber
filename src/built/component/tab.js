@@ -61,11 +61,13 @@ var Tab = /** @class */ (function (_super) {
     };
     Tab.prototype.switchTo = function (position) {
         var manageActiveIndex = this.state.manageActiveIndex;
-        var onUpdateActivePosition = this.props.onUpdateActivePosition;
+        var _a = this.props, onUpdateActivePosition = _a.onUpdateActivePosition, onUpdateTargetPosition = _a.onUpdateTargetPosition;
         if (manageActiveIndex) {
-            this.setState({
-                targetPosition: position.index
-            });
+            if (!onUpdateTargetPosition || onUpdateTargetPosition(position) !== false) {
+                this.setState({
+                    targetPosition: position.index
+                });
+            }
         }
         else if (onUpdateActivePosition) {
             onUpdateActivePosition(position);
