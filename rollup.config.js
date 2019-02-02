@@ -2,22 +2,24 @@ import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
 import {uglify} from 'rollup-plugin-uglify';
 
-const getConfig = function (isMinify) {
+const getConfig = function (format, filename) {
+	const isMinify = filename.indexOf('.min') >= 0;
+
 	const config = {
 		input: 'src/built/index.js',
 		output: {
 			name: 'ReactTabber',
-			format: 'umd',
+			format: format,
 			globals: {
 				react: 'React',
 				'prop-types': 'PropTypes'
 			},
-			file: `dist/react-tabber${isMinify ? '.min' : ''}.js`,
+			file: `dist/${filename}.js`,
 		},
 		external: ['react', 'prop-types'],
 		plugins: [
-			resolve(), // so Rollup can find `ms`
-			commonjs(), // so Rollup can convert `ms` to an ES module
+			resolve(),
+			commonjs(),
 			isMinify && uglify()
 		],
 	};
@@ -26,6 +28,7 @@ const getConfig = function (isMinify) {
 };
 
 export default [
-	getConfig(false),
-	getConfig(true)
+	getConfig('umd', 'react-tabber'),
+	getConfig('umd', 'react-tabber.min'),
+	getConfig('esm', 'react-tabber.esm')
 ];
