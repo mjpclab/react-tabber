@@ -4,7 +4,7 @@
   "description": "A React tab sheet component",
   "main": "dist/react-tabber.js",
   "module": "dist/react-tabber.esm.js",
-  "types": "src/built/index.d.ts",
+  "types": "src/ts/index.tsx",
   "scripts": {
     "build": "bash build.sh"
   },
