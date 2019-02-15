@@ -2,11 +2,12 @@ import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
 import {uglify} from 'rollup-plugin-uglify';
 
-const getConfig = function (format, filename) {
+const getConfig = function (filename) {
+	const format = filename.indexOf('.esm') >= 0 ? 'esm' : 'umd';
 	const isMinify = filename.indexOf('.min') >= 0;
 
 	const config = {
-		input: 'src/built/index.js',
+		input: 'built/index.js',
 		output: {
 			name: 'ReactTabber',
 			format: format,
@@ -28,7 +29,7 @@ const getConfig = function (format, filename) {
 };
 
 export default [
-	getConfig('umd', 'react-tabber'),
-	getConfig('umd', 'react-tabber.min'),
-	getConfig('esm', 'react-tabber.esm')
+	getConfig('react-tabber'),
+	getConfig('react-tabber.min'),
+	getConfig('react-tabber.esm')
 ];

@@ -4,7 +4,7 @@
 # npm install --global typescript rollup uglify
 
 cd "$(dirname $0)"
-rm -rf src/built/* dist/*
+rm -rf built/* dist/*
 tsc
 rollup --config
 

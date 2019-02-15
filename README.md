@@ -81,15 +81,11 @@ a change of active position.
 
 # Including CSS
 react-tabber provides default CSS styles if you don't want to make from scratch. Make sure CSS class name options are not customized.
-
-## Importing by module
+importing or copying following CSS files:
 ```javascript
-import 'react-tabber/src/built/theme/gray';
-import 'react-tabber/src/built/theme/effect/fade'; // optional fade effect when switching, must load after theme
+import 'react-tabber/dist/theme/gray.css';
+import 'react-tabber/dist/theme/effect/fade.css'; // optional fade effect when switching, must load after theme
 ```
-
-## Use standalone CSS file
-Copying or referencing CSS files from `dist/theme/` directory.
 
 ## Vertical labels
 To use vertical labels, specify property `mode` to "vertical".  
