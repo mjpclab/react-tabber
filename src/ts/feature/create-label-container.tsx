@@ -1,8 +1,9 @@
 import React from 'react';
 
+import {Entry, NormalizedTabItemPosition, TabProps, TabContext, FnSwitchTo, FnSwitchNeighbor} from '../type/tab';
 import createEventHandler from '../utility/create-event-handler';
 import classNameSuffix from '../utility/class-name-suffix';
-import {getLabelItemId, getPanelItemId} from "../utility/get-id";
+import {getLabelItemId, getPanelItemId} from '../utility/get-id';
 
 const UP = 'Up';
 const DOWN = 'Down';
@@ -21,19 +22,19 @@ const SPACE = ' ';
 const ENTER = 'Enter';
 
 function createLabelContainer(
-	props: ReactTabber.TabProps,
-	context: ReactTabber.TabContext,
-	entries: ReactTabber.Entry[],
+	props: TabProps,
+	context: TabContext,
+	entries: Entry[],
 	side: string,
-	fnSwitchTo: ReactTabber.FnSwitchTo,
-	fnSwitchPrevious: ReactTabber.FnSwitchNeighbor,
-	fnSwitchNext: ReactTabber.FnSwitchNeighbor,
-	fnSwitchFirst: ReactTabber.FnSwitchNeighbor,
-	fnSwitchLast: ReactTabber.FnSwitchNeighbor
+	fnSwitchTo: FnSwitchTo,
+	fnSwitchPrevious: FnSwitchNeighbor,
+	fnSwitchNext: FnSwitchNeighbor,
+	fnSwitchFirst: FnSwitchNeighbor,
+	fnSwitchLast: FnSwitchNeighbor
 ) {
-	let switchResult: ReactTabber.NormalizedTabItemPosition | undefined;
+	let switchResult: NormalizedTabItemPosition | undefined;
 
-	function onKeyDown(e: React.KeyboardEvent, pos: ReactTabber.NormalizedTabItemPosition) {
+	function onKeyDown(e: React.KeyboardEvent, pos: NormalizedTabItemPosition) {
 		if (e.key) {
 			switch (e.key) {
 				case UP:
@@ -104,7 +105,7 @@ function createLabelContainer(
 		>
 			{entries.map((entry, index) => {
 				const {labelProps, key, disabled, hidden} = entry;
-				const pos: ReactTabber.NormalizedTabItemPosition = {index, key};
+				const pos: NormalizedTabItemPosition = {index, key};
 
 				let labelDelayTriggerCancelProps;
 				let labelDelayTriggerProps;

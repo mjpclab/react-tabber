@@ -1,12 +1,13 @@
 import React from 'react';
 
+import {Entry, TabProps, TabContext} from '../type/tab';
 import classNameSuffix from '../utility/class-name-suffix';
-import {getLabelItemId, getPanelItemId} from "../utility/get-id";
+import {getLabelItemId, getPanelItemId} from '../utility/get-id';
 
 function createPanelContainer(
-	props: ReactTabber.TabProps,
-	context: ReactTabber.TabContext,
-	entries: ReactTabber.Entry[],
+	props: TabProps,
+	context: TabContext,
+	entries: Entry[],
 	refLabelSide: string
 ) {
 	const {

@@ -1,8 +1,9 @@
-import {Component} from "react";
+import {LabelProps, LabelPropTypes} from '../type/label';
+import {Component} from 'react';
 import PropTypes from 'prop-types';
 
-class Label extends Component<ReactTabber.LabelProps> {
-	static propTypes: ReactTabber.LabelPropTypes = {
+class Label extends Component<LabelProps> {
+	static propTypes: LabelPropTypes = {
 		disabled: PropTypes.bool,
 		hidden: PropTypes.bool
 	}

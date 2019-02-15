@@ -1,5 +1,7 @@
+import {JSXProps} from '../type/tab';
+
 function createEventHandler(events: string[] | undefined | null, handler: any) {
-	const eventHandlers: ReactTabber.JSXProps = {};
+	const eventHandlers: JSXProps = {};
 
 	events && events.length && events.forEach(event => {
 		eventHandlers[event] = handler;

@@ -1,14 +1,16 @@
 import React, {ReactElement} from "react";
+
+import {Entry} from '../type/tab';
 import Label from "../component/label";
 import Panel from "../component/panel";
 
-function parseTabEntries(propTabs: ReactTabber.Entry[] | undefined, children: React.ReactNode) {
-	const entries: ReactTabber.Entry[] = [];
+function parseTabEntries(propTabs: Entry[] | undefined, children: React.ReactNode) {
+	const entries: Entry[] = [];
 
 	// prop entries
 	if (propTabs && propTabs.length) {
 		entries.push(...propTabs.map(_entry => {
-			const entry: ReactTabber.Entry = {..._entry};
+			const entry: Entry = {..._entry};
 			if (entry.key === undefined) {
 				entry.key = null
 			}

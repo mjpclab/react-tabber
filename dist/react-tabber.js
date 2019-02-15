@@ -38,7 +38,7 @@
         panelContainerClassName: PropTypes.string,
         panelItemClassName: PropTypes.string,
     };
-    var propTypes = __assign({}, sharedPropTypes, { triggerEvents: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]), delayTriggerEvents: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]), delayTriggerCancelEvents: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]) });
+    var publicPropTypes = __assign({}, sharedPropTypes, { triggerEvents: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]), delayTriggerEvents: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]), delayTriggerCancelEvents: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]) });
     var tabPropTypes = __assign({}, sharedPropTypes, { triggerEvents: PropTypes.arrayOf(PropTypes.string), delayTriggerEvents: PropTypes.arrayOf(PropTypes.string), delayTriggerCancelEvents: PropTypes.arrayOf(PropTypes.string) });
 
     var defaultProps = {
@@ -615,7 +615,6 @@
         return Tab;
     }(React__default.Component));
 
-    /// <reference path='./type/public.d.ts' />
     var __extends$3 = (undefined && undefined.__extends) || (function () {
         var extendStatics = function (d, b) {
             extendStatics = Object.setPrototypeOf ||
@@ -661,10 +660,10 @@
         };
         ReactTabber.Label = Label;
         ReactTabber.Panel = Panel;
-        ReactTabber.propTypes = propTypes;
+        ReactTabber.propTypes = publicPropTypes;
         ReactTabber.defaultProps = defaultProps;
         return ReactTabber;
-    }(React__default.Component));
+    }(React.Component));
 
     return ReactTabber;
 

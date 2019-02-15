@@ -1,9 +1,12 @@
-const invalidNormalizedPosition: ReactTabber.NormalizedTabItemPosition = {
+import {isFinite} from '../type/global';
+import {Entry, TabItemPosition, NormalizedTabItemPosition} from '../type/tab';
+
+const invalidNormalizedPosition: NormalizedTabItemPosition = {
 	index: -1,
 	key: undefined
 };
 
-function getNormalizedPosition(entries: ReactTabber.Entry[], position: ReactTabber.TabItemPosition): ReactTabber.NormalizedTabItemPosition {
+function getNormalizedPosition(entries: Entry[], position: TabItemPosition): NormalizedTabItemPosition {
 	if (typeof position === 'number') {
 		return {
 			index: position,
@@ -16,7 +19,7 @@ function getNormalizedPosition(entries: ReactTabber.Entry[], position: ReactTabb
 			key: entries[index].key
 		}
 	} else if (position) {
-		let result: ReactTabber.NormalizedTabItemPosition | undefined = undefined;
+		let result: NormalizedTabItemPosition | undefined = undefined;
 
 		entries.some((entry, i) => {
 			if (entry.key === position) {

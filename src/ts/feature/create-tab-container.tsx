@@ -1,18 +1,19 @@
 import React from 'react';
-import classNameSuffix from '../utility/class-name-suffix';
 
+import {Entry, TabProps, TabContext, FnSwitchTo, FnSwitchNeighbor} from '../type/tab';
+import classNameSuffix from '../utility/class-name-suffix';
 import createLabelContainer from './create-label-container';
 import createPanelContainer from './create-panel-container';
 
 function createTabContainer(
-	props: ReactTabber.TabProps,
-	context: ReactTabber.TabContext,
-	entries: ReactTabber.Entry[],
-	fnSwitchTo: ReactTabber.FnSwitchTo,
-	fnSwitchPrevious: ReactTabber.FnSwitchNeighbor,
-	fnSwitchNext: ReactTabber.FnSwitchNeighbor,
-	fnSwitchFirst: ReactTabber.FnSwitchNeighbor,
-	fnSwitchLast: ReactTabber.FnSwitchNeighbor
+	props: TabProps,
+	context: TabContext,
+	entries: Entry[],
+	fnSwitchTo: FnSwitchTo,
+	fnSwitchPrevious: FnSwitchNeighbor,
+	fnSwitchNext: FnSwitchNeighbor,
+	fnSwitchFirst: FnSwitchNeighbor,
+	fnSwitchLast: FnSwitchNeighbor
 ) {
 	const {
 		mode,

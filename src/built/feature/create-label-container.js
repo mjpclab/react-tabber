@@ -12,7 +12,7 @@ var __assign = (this && this.__assign) || function () {
 import React from 'react';
 import createEventHandler from '../utility/create-event-handler';
 import classNameSuffix from '../utility/class-name-suffix';
-import { getLabelItemId, getPanelItemId } from "../utility/get-id";
+import { getLabelItemId, getPanelItemId } from '../utility/get-id';
 var UP = 'Up';
 var DOWN = 'Down';
 var LEFT = 'Left';

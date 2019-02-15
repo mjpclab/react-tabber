@@ -11,7 +11,7 @@ var __assign = (this && this.__assign) || function () {
 };
 import React from 'react';
 import classNameSuffix from '../utility/class-name-suffix';
-import { getLabelItemId, getPanelItemId } from "../utility/get-id";
+import { getLabelItemId, getPanelItemId } from '../utility/get-id';
 function createPanelContainer(props, context, entries, refLabelSide) {
     var mode = props.mode, panelContainerClassName = props.panelContainerClassName, panelItemClassName = props.panelItemClassName;
     var tabberId = context.tabberId, currentIndex = context.currentPosition.index;

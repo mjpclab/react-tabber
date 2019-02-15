@@ -1,6 +1,8 @@
-const defaultProps: ReactTabber.Props = {
+import {PublicProps, Mode} from '../type/tab';
+
+const defaultProps: PublicProps = {
 	tabs: [],
-	mode: ReactTabber.Mode.Horizontal,
+	mode: Mode.Horizontal,
 	keyboardSwitch: true,
 
 	triggerEvents: ['onClick'],

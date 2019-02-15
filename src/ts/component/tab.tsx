@@ -1,5 +1,6 @@
 import React from 'react';
 
+import {TabProps, TabState, TabContext, NormalizedTabItemPosition, SwitchOptions} from '../type/tab';
 import {invalidNormalizedPosition, getNormalizedPosition} from '../utility/normalized-position';
 import {tabPropTypes} from '../utility/prop-types';
 import defaultProps from '../utility/default-props';
@@ -9,18 +10,18 @@ import createTabContainer from '../feature/create-tab-container';
 
 enum SwitchDirection {Backward, Forward}
 
-class Tab extends React.Component<ReactTabber.TabProps, ReactTabber.TabState> {
+class Tab extends React.Component<TabProps, TabState> {
 	static propTypes = tabPropTypes;
 	static defaultProps = defaultProps;
 
-	private tabContext: ReactTabber.TabContext = {
+	private tabContext: TabContext = {
 		tabberId: getNextTabContainerId(),
 		prevPosition: invalidNormalizedPosition,
 		currentPosition: invalidNormalizedPosition,
 		delayTimeout: 0
 	};
 
-	constructor(props: ReactTabber.TabProps) {
+	constructor(props: TabProps) {
 		super(props);
 
 		this.switchTo = this.switchTo.bind(this);
@@ -36,7 +37,7 @@ class Tab extends React.Component<ReactTabber.TabProps, ReactTabber.TabState> {
 		};
 	}
 
-	static getDerivedStateFromProps(props: ReactTabber.TabProps) {
+	static getDerivedStateFromProps(props: TabProps) {
 		const {activePosition} = props;
 
 		if (activePosition === undefined || activePosition === null || (typeof activePosition === 'number' && !isFinite(activePosition))) {
@@ -55,7 +56,7 @@ class Tab extends React.Component<ReactTabber.TabProps, ReactTabber.TabState> {
 		clearTimeout(this.tabContext.delayTimeout);
 	}
 
-	public switchTo(position: ReactTabber.NormalizedTabItemPosition) {
+	public switchTo(position: NormalizedTabItemPosition) {
 		const {manageActiveIndex} = this.state;
 		const {onUpdateActivePosition, onUpdateTargetPosition} = this.props;
 
@@ -72,7 +73,7 @@ class Tab extends React.Component<ReactTabber.TabProps, ReactTabber.TabState> {
 		return position;
 	}
 
-	private _switchNeighbor(fromIndex: number, direction: SwitchDirection, options?: ReactTabber.SwitchOptions) {
+	private _switchNeighbor(fromIndex: number, direction: SwitchDirection, options?: SwitchOptions) {
 		let includeDisabled, includeHidden, loop, exclude;
 		if (options) {
 			includeDisabled = options.includeDisabled;
@@ -121,19 +122,19 @@ class Tab extends React.Component<ReactTabber.TabProps, ReactTabber.TabState> {
 		}
 	}
 
-	public switchPrevious(options?: ReactTabber.SwitchOptions) {
+	public switchPrevious(options?: SwitchOptions) {
 		return this._switchNeighbor(this.tabContext.currentPosition.index, SwitchDirection.Backward, options);
 	}
 
-	public switchNext(options?: ReactTabber.SwitchOptions) {
+	public switchNext(options?: SwitchOptions) {
 		return this._switchNeighbor(this.tabContext.currentPosition.index, SwitchDirection.Forward, options);
 	}
 
-	public switchFirst(options?: ReactTabber.SwitchOptions) {
+	public switchFirst(options?: SwitchOptions) {
 		return this._switchNeighbor(-1, SwitchDirection.Forward, options);
 	}
 
-	public switchLast(options?: ReactTabber.SwitchOptions) {
+	public switchLast(options?: SwitchOptions) {
 		return this._switchNeighbor(this.props.tabs.length, SwitchDirection.Backward, options);
 	}
 

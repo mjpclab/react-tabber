@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import {PublicPropTypes, TabPropTypes} from '../type/tab';
 
 const sharedPropTypes = {
 	tabs: PropTypes.arrayOf(PropTypes.shape({
@@ -24,18 +25,18 @@ const sharedPropTypes = {
 	panelItemClassName: PropTypes.string,
 };
 
-const propTypes: ReactTabber.PropTypes = {
+const publicPropTypes: PublicPropTypes = {
 	...sharedPropTypes,
 	triggerEvents: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]),
 	delayTriggerEvents: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]),
 	delayTriggerCancelEvents: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)])
 };
 
-const tabPropTypes: ReactTabber.TabPropTypes = {
+const tabPropTypes: TabPropTypes = {
 	...sharedPropTypes,
 	triggerEvents: PropTypes.arrayOf(PropTypes.string),
 	delayTriggerEvents: PropTypes.arrayOf(PropTypes.string),
 	delayTriggerCancelEvents: PropTypes.arrayOf(PropTypes.string)
 };
 
-export {propTypes, tabPropTypes};
+export {publicPropTypes, tabPropTypes};

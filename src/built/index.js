@@ -1,4 +1,3 @@
-/// <reference path='./type/public.d.ts' />
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -32,8 +31,8 @@ var __rest = (this && this.__rest) || function (s, e) {
             t[p[i]] = s[p[i]];
     return t;
 };
-import React from 'react';
-import { propTypes } from './utility/prop-types';
+import React, { Component } from 'react';
+import { publicPropTypes } from './utility/prop-types';
 import defaultProps from './utility/default-props';
 import normalizeEvents from './utility/normalize-events';
 import parseTabEntries from './feature/parse-tab-entries';
@@ -52,8 +51,8 @@ var ReactTabber = /** @class */ (function (_super) {
     };
     ReactTabber.Label = Label;
     ReactTabber.Panel = Panel;
-    ReactTabber.propTypes = propTypes;
+    ReactTabber.propTypes = publicPropTypes;
     ReactTabber.defaultProps = defaultProps;
     return ReactTabber;
-}(React.Component));
+}(Component));
 export default ReactTabber;

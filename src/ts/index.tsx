@@ -1,8 +1,8 @@
-/// <reference path='./type/public.d.ts' />
+import React, {Component} from 'react';
 
-import React from 'react';
+import {PublicProps} from './type/tab';
 
-import {propTypes} from './utility/prop-types';
+import {publicPropTypes} from './utility/prop-types';
 import defaultProps from './utility/default-props';
 import normalizeEvents from './utility/normalize-events';
 
@@ -12,11 +12,11 @@ import Tab from './component/tab';
 import Label from './component/label';
 import Panel from './component/panel';
 
-class ReactTabber extends React.Component<ReactTabber.Props> {
+class ReactTabber extends Component<PublicProps> {
 	static Label = Label;
 	static Panel = Panel;
 
-	static propTypes = propTypes;
+	static propTypes = publicPropTypes;
 	static defaultProps = defaultProps;
 
 	render() {
