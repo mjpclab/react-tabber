@@ -6,7 +6,7 @@ import {tabPropTypes} from '../utility/prop-types';
 import defaultProps from '../utility/default-props';
 import {getNextTabContainerId} from '../utility/get-id';
 
-import createTabContainer from '../feature/create-tab-container';
+import TabContainer from './tab-container';
 
 enum SwitchDirection {Backward, Forward}
 
@@ -165,16 +165,17 @@ class Tab extends React.Component<TabProps, TabState> {
 			props.onSwitching(normalizedPrevPosition, tabContext.currentPosition);
 		}
 
-		return createTabContainer(
-			props,
-			tabContext,
-			tabs,
-			this.switchTo,
-			this.switchPrevious,
-			this.switchNext,
-			this.switchFirst,
-			this.switchLast
-		);
+		return <TabContainer
+			tabProps={props}
+			tabContext={tabContext}
+			entries={tabs}
+			fnSwitchTo={this.switchTo}
+			fnSwitchPrevious={this.switchPrevious}
+			fnSwitchNext={this.switchNext}
+			fnSwitchFirst={this.switchFirst}
+			fnSwitchLast={this.switchLast}
+
+		/>
 	}
 
 	private handleIndexChange() {

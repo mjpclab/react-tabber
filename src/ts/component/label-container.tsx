@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 
 import {Entry, NormalizedTabItemPosition, TabProps, TabContext, FnSwitchTo, FnSwitchNeighbor} from '../type/tab';
 import createEventHandler from '../utility/create-event-handler';
@@ -21,9 +22,9 @@ const END = 'End';
 const SPACE = ' ';
 const ENTER = 'Enter';
 
-function createLabelContainer(
-	props: TabProps,
-	context: TabContext,
+interface LabelContainerProps {
+	tabProps: TabProps,
+	tabContext: TabContext,
 	entries: Entry[],
 	side: string,
 	fnSwitchTo: FnSwitchTo,
@@ -31,10 +32,70 @@ function createLabelContainer(
 	fnSwitchNext: FnSwitchNeighbor,
 	fnSwitchFirst: FnSwitchNeighbor,
 	fnSwitchLast: FnSwitchNeighbor
-) {
-	let switchResult: NormalizedTabItemPosition | undefined;
+}
 
-	function onKeyDown(e: React.KeyboardEvent, pos: NormalizedTabItemPosition) {
+interface LabelContainerState {
+	labelContainerAllClassName: string;
+
+	labelItemActiveClassName: string;
+	labelItemInactiveClassName: string;
+	labelItemDisabledClassName: string;
+	labelItemHiddenClassName: string;
+}
+
+class LabelContainer extends Component<LabelContainerProps, LabelContainerState> {
+	static propTypes = {
+		tabProps: PropTypes.object,
+		tabContext: PropTypes.object,
+		entries: PropTypes.arrayOf(PropTypes.object),
+		side: PropTypes.string,
+		fnSwitchTo: PropTypes.func,
+		fnSwitchPrevious: PropTypes.func,
+		fnSwitchNext: PropTypes.func,
+		fnSwitchFirst: PropTypes.func,
+		fnSwitchLast: PropTypes.func
+	};
+
+	constructor(props: LabelContainerProps) {
+		super(props);
+		this.onKeyDown = this.onKeyDown.bind(this);
+	}
+
+	static getDerivedStateFromProps(props: LabelContainerProps) {
+		const {
+			tabProps: {
+				mode,
+				labelContainerClassName,
+				labelItemClassName
+			},
+			side
+		} = props;
+
+		const labelContainerLocationClassName = labelContainerClassName + '-' + side;
+		const labelContainerModeClassName = labelContainerClassName + '-' + mode;
+		const labelContainerLocationModeClassName = labelContainerClassName + '-' + side + '-' + mode;
+		const labelContainerAllClassName = labelContainerClassName + ' ' + labelContainerLocationClassName + ' ' + labelContainerModeClassName + ' ' + labelContainerLocationModeClassName;
+
+		const labelItemActiveClassName = labelItemClassName + '-' + classNameSuffix.active;
+		const labelItemInactiveClassName = labelItemClassName + '-' + classNameSuffix.inactive;
+		const labelItemDisabledClassName = labelItemClassName + '-' + classNameSuffix.disabled;
+		const labelItemHiddenClassName = labelItemClassName + '-' + classNameSuffix.hidden;
+
+		return {
+			labelContainerAllClassName,
+
+			labelItemActiveClassName,
+			labelItemInactiveClassName,
+			labelItemDisabledClassName,
+			labelItemHiddenClassName
+		}
+	}
+
+	onKeyDown(e: React.KeyboardEvent, pos: NormalizedTabItemPosition) {
+		const {fnSwitchTo, fnSwitchPrevious, fnSwitchNext, fnSwitchFirst, fnSwitchLast} = this.props;
+
+		let switchResult: NormalizedTabItemPosition | undefined;
+
 		if (e.key) {
 			switch (e.key) {
 				case UP:
@@ -75,34 +136,33 @@ function createLabelContainer(
 		}
 	}
 
+	render() {
+		const {
+			tabProps: {
+				keyboardSwitch,
+				labelItemClassName,
+				triggerEvents,
+				delayTriggerEvents,
+				delayTriggerCancelEvents,
+				delayTriggerLatency
+			},
+			entries,
+			tabContext,
+			side,
+			fnSwitchTo
+		} = this.props;
 
-	const {
-		mode,
-		keyboardSwitch,
-		labelContainerClassName,
-		labelItemClassName,
-		triggerEvents,
-		delayTriggerEvents,
-		delayTriggerCancelEvents,
-		delayTriggerLatency
-	} = props;
+		const {tabberId, currentPosition: {index: currentIndex}} = tabContext;
 
-	const labelContainerLocationClassName = labelContainerClassName + '-' + side;
-	const labelContainerModeClassName = labelContainerClassName + '-' + mode;
-	const labelContainerLocationModeClassName = labelContainerClassName + '-' + side + '-' + mode;
+		const {
+			labelContainerAllClassName,
+			labelItemActiveClassName,
+			labelItemInactiveClassName,
+			labelItemDisabledClassName,
+			labelItemHiddenClassName
+		} = this.state;
 
-	const labelItemActiveClassName = labelItemClassName + '-' + classNameSuffix.active;
-	const labelItemInactiveClassName = labelItemClassName + '-' + classNameSuffix.inactive;
-	const labelItemDisabledClassName = labelItemClassName + '-' + classNameSuffix.disabled;
-	const labelItemHiddenClassName = labelItemClassName + '-' + classNameSuffix.hidden;
-
-	const {tabberId, currentPosition: {index: currentIndex}} = context;
-
-	const labelContainer =
-		<div
-			className={labelContainerClassName + ' ' + labelContainerLocationClassName + ' ' + labelContainerModeClassName + ' ' + labelContainerLocationModeClassName}
-			role="tablist"
-		>
+		return <div className={labelContainerAllClassName} role="tablist">
 			{entries.map((entry, index) => {
 				const {labelProps, key, disabled, hidden} = entry;
 				const pos: NormalizedTabItemPosition = {index, key};
@@ -113,18 +173,18 @@ function createLabelContainer(
 
 				if (!disabled && !hidden) {
 					const doSwitch = () => {
-						clearTimeout(context.delayTimeout);
+						clearTimeout(tabContext.delayTimeout);
 						fnSwitchTo(pos);
 					};
 					let localDelayTimeout: any;
 					const delayDoSwitch = (delayTriggerLatency!) <= 0 ?
 						doSwitch :
 						() => {
-							clearTimeout(context.delayTimeout);
-							localDelayTimeout = context.delayTimeout = setTimeout(doSwitch, delayTriggerLatency);
+							clearTimeout(tabContext.delayTimeout);
+							localDelayTimeout = tabContext.delayTimeout = setTimeout(doSwitch, delayTriggerLatency);
 						};
 					const cancelDelayDoSwitch = () => {
-						if (localDelayTimeout === context.delayTimeout) {
+						if (localDelayTimeout === tabContext.delayTimeout) {
 							clearTimeout(localDelayTimeout);
 						}
 					};
@@ -159,11 +219,11 @@ function createLabelContainer(
 					aria-selected={isActive}
 					aria-expanded={isActive}
 					key={key ? 'key-' + key : 'index-' + index}
-					onKeyDown={keyboardSwitch ? e => onKeyDown(e, pos) : undefined}
+					onKeyDown={keyboardSwitch ? e => this.onKeyDown(e, pos) : undefined}
 				>{entry.label}</label>;
 			})}
 		</div>;
-	return labelContainer;
+	}
 }
 
-export default createLabelContainer;
+export default LabelContainer;

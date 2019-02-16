@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-import {PublicProps} from './type/tab';
+import {PublicProps, PublicPropTypes} from './type/tab';
 
 import {publicPropTypes} from './utility/prop-types';
 import defaultProps from './utility/default-props';
@@ -16,8 +16,8 @@ class ReactTabber extends Component<PublicProps> {
 	static Label = Label;
 	static Panel = Panel;
 
-	static propTypes = publicPropTypes;
-	static defaultProps = defaultProps;
+	static propTypes: PublicPropTypes = publicPropTypes;
+	static defaultProps: PublicProps = defaultProps;
 
 	render() {
 		const {tabs, children, triggerEvents, delayTriggerEvents, delayTriggerCancelEvents, ...props} = this.props;

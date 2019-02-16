@@ -16,7 +16,7 @@ import { invalidNormalizedPosition, getNormalizedPosition } from '../utility/nor
 import { tabPropTypes } from '../utility/prop-types';
 import defaultProps from '../utility/default-props';
 import { getNextTabContainerId } from '../utility/get-id';
-import createTabContainer from '../feature/create-tab-container';
+import TabContainer from './tab-container';
 var SwitchDirection;
 (function (SwitchDirection) {
     SwitchDirection[SwitchDirection["Backward"] = 0] = "Backward";
@@ -152,7 +152,7 @@ var Tab = /** @class */ (function (_super) {
         if (prevIndex !== currentIndex && props.onSwitching) {
             props.onSwitching(normalizedPrevPosition, tabContext.currentPosition);
         }
-        return createTabContainer(props, tabContext, tabs, this.switchTo, this.switchPrevious, this.switchNext, this.switchFirst, this.switchLast);
+        return React.createElement(TabContainer, { tabProps: props, tabContext: tabContext, entries: tabs, fnSwitchTo: this.switchTo, fnSwitchPrevious: this.switchPrevious, fnSwitchNext: this.switchNext, fnSwitchFirst: this.switchFirst, fnSwitchLast: this.switchLast });
     };
     Tab.prototype.handleIndexChange = function () {
         var _a = this, props = _a.props, tabContext = _a.tabContext;
