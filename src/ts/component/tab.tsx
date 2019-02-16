@@ -1,8 +1,15 @@
 import React from 'react';
 
-import {TabProps, TabState, TabContext, NormalizedTabItemPosition, SwitchOptions} from '../type/tab';
-import {invalidNormalizedPosition, getNormalizedPosition} from '../utility/normalized-position';
+import {
+	TabProps,
+	TabContext,
+	NormalizedTabItemPosition,
+	SwitchOptions,
+	TabItemPosition,
+	TabPropTypes
+} from '../type/tab';
 import {tabPropTypes} from '../utility/prop-types';
+import {invalidNormalizedPosition, getNormalizedPosition} from '../utility/normalized-position';
 import defaultProps from '../utility/default-props';
 import {getNextTabContainerId} from '../utility/get-id';
 
@@ -10,8 +17,13 @@ import TabContainer from './tab-container';
 
 enum SwitchDirection {Backward, Forward}
 
+interface TabState {
+	manageTargetPosition: boolean;
+	targetPosition: TabItemPosition;
+}
+
 class Tab extends React.Component<TabProps, TabState> {
-	static propTypes = tabPropTypes;
+	static propTypes: TabPropTypes = tabPropTypes;
 	static defaultProps = defaultProps;
 
 	private tabContext: TabContext = {
@@ -32,7 +44,7 @@ class Tab extends React.Component<TabProps, TabState> {
 		this.switchLast = this.switchLast.bind(this);
 
 		this.state = {
-			manageActiveIndex: true,
+			manageTargetPosition: true,
 			targetPosition: -1,
 		};
 	}
@@ -42,12 +54,12 @@ class Tab extends React.Component<TabProps, TabState> {
 
 		if (activePosition === undefined || activePosition === null || (typeof activePosition === 'number' && !isFinite(activePosition))) {
 			return {
-				manageActiveIndex: true
+				manageTargetPosition: true
 			}
 		}
 
 		return {
-			manageActiveIndex: false,
+			manageTargetPosition: false,
 			targetPosition: activePosition
 		}
 	}
@@ -57,10 +69,10 @@ class Tab extends React.Component<TabProps, TabState> {
 	}
 
 	public switchTo(position: NormalizedTabItemPosition) {
-		const {manageActiveIndex} = this.state;
+		const {manageTargetPosition} = this.state;
 		const {onUpdateActivePosition, onUpdateTargetPosition} = this.props;
 
-		if (manageActiveIndex) {
+		if (manageTargetPosition) {
 			if (!onUpdateTargetPosition || onUpdateTargetPosition(position) !== false) {
 				this.setState({
 					targetPosition: position.index
@@ -82,7 +94,7 @@ class Tab extends React.Component<TabProps, TabState> {
 			exclude = options.exclude;
 		}
 
-		const entries = this.props.tabs;
+		const entries = this.props.entries;
 		const excludeIndecies = exclude ? exclude.map(pos => getNormalizedPosition(entries, pos).index) : [];
 
 		const itemCount = entries.length;
@@ -135,7 +147,7 @@ class Tab extends React.Component<TabProps, TabState> {
 	}
 
 	public switchLast(options?: SwitchOptions) {
-		return this._switchNeighbor(this.props.tabs.length, SwitchDirection.Backward, options);
+		return this._switchNeighbor(this.props.entries.length, SwitchDirection.Backward, options);
 	}
 
 	render() {
@@ -143,22 +155,39 @@ class Tab extends React.Component<TabProps, TabState> {
 		const {targetPosition} = state;
 		const {prevPosition: normalizedPrevPosition} = tabContext;
 		const {index: prevIndex} = normalizedPrevPosition;
-		const {tabs} = props;
+		const {
+			entries,
+			mode,
+			keyboardSwitch,
+			delayTriggerLatency,
 
-		const normalizedTargetPosition = getNormalizedPosition(tabs, targetPosition);
+			tabContainerClassName,
+			labelContainerClassName,
+			labelItemClassName,
+			panelContainerClassName,
+			panelItemClassName,
+			showHeaderLabelContainer,
+			showFooterLabelContainer,
+
+			triggerEvents,
+			delayTriggerEvents,
+			delayTriggerCancelEvents,
+		} = props;
+
+		const normalizedTargetPosition = getNormalizedPosition(entries, targetPosition);
 		const {index: targetIndex} = normalizedTargetPosition;
 
-		const entryCount = tabs.length;
+		const entryCount = entries.length;
 		let currentIndex: number;
 		if (targetIndex === -1) {
 			currentIndex = entryCount > 0 ? 0 : -1;
-			tabContext.currentPosition = getNormalizedPosition(tabs, currentIndex);
+			tabContext.currentPosition = getNormalizedPosition(entries, currentIndex);
 		} else if (targetIndex < entryCount) {
 			currentIndex = targetIndex;
 			tabContext.currentPosition = normalizedTargetPosition;
 		} else {
 			currentIndex = entryCount - 1;
-			tabContext.currentPosition = getNormalizedPosition(tabs, currentIndex);
+			tabContext.currentPosition = getNormalizedPosition(entries, currentIndex);
 		}
 
 		if (prevIndex !== currentIndex && props.onSwitching) {
@@ -166,15 +195,30 @@ class Tab extends React.Component<TabProps, TabState> {
 		}
 
 		return <TabContainer
-			tabProps={props}
-			tabContext={tabContext}
-			entries={tabs}
+			entries={entries}
+			mode={mode}
+			keyboardSwitch={keyboardSwitch}
+			delayTriggerLatency={delayTriggerLatency}
+
+			tabContainerClassName={tabContainerClassName}
+			labelContainerClassName={labelContainerClassName}
+			labelItemClassName={labelItemClassName}
+			panelContainerClassName={panelContainerClassName}
+			panelItemClassName={panelItemClassName}
+			showHeaderLabelContainer={showHeaderLabelContainer}
+			showFooterLabelContainer={showFooterLabelContainer}
+
+			triggerEvents={triggerEvents}
+			delayTriggerEvents={delayTriggerEvents}
+			delayTriggerCancelEvents={delayTriggerCancelEvents}
+
 			fnSwitchTo={this.switchTo}
 			fnSwitchPrevious={this.switchPrevious}
 			fnSwitchNext={this.switchNext}
 			fnSwitchFirst={this.switchFirst}
 			fnSwitchLast={this.switchLast}
 
+			tabContext={tabContext}
 		/>
 	}
 

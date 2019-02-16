@@ -1,4 +1,3 @@
-import { isFinite } from '../type/global';
 var invalidNormalizedPosition = {
     index: -1,
     key: undefined

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 
-import {Entry, NormalizedTabItemPosition, TabProps, TabContext, FnSwitchTo, FnSwitchNeighbor} from '../type/tab';
+import {NormalizedTabItemPosition, LabelContainerProps, LabelContainerPropTypes} from '../type/tab';
+import {labelContainerPropTypes} from '../utility/prop-types';
 import createEventHandler from '../utility/create-event-handler';
 import classNameSuffix from '../utility/class-name-suffix';
 import {getLabelItemId, getPanelItemId} from '../utility/get-id';
@@ -22,18 +22,6 @@ const END = 'End';
 const SPACE = ' ';
 const ENTER = 'Enter';
 
-interface LabelContainerProps {
-	tabProps: TabProps,
-	tabContext: TabContext,
-	entries: Entry[],
-	side: string,
-	fnSwitchTo: FnSwitchTo,
-	fnSwitchPrevious: FnSwitchNeighbor,
-	fnSwitchNext: FnSwitchNeighbor,
-	fnSwitchFirst: FnSwitchNeighbor,
-	fnSwitchLast: FnSwitchNeighbor
-}
-
 interface LabelContainerState {
 	labelContainerAllClassName: string;
 
@@ -44,17 +32,7 @@ interface LabelContainerState {
 }
 
 class LabelContainer extends Component<LabelContainerProps, LabelContainerState> {
-	static propTypes = {
-		tabProps: PropTypes.object,
-		tabContext: PropTypes.object,
-		entries: PropTypes.arrayOf(PropTypes.object),
-		side: PropTypes.string,
-		fnSwitchTo: PropTypes.func,
-		fnSwitchPrevious: PropTypes.func,
-		fnSwitchNext: PropTypes.func,
-		fnSwitchFirst: PropTypes.func,
-		fnSwitchLast: PropTypes.func
-	};
+	static propTypes: LabelContainerPropTypes = labelContainerPropTypes;
 
 	constructor(props: LabelContainerProps) {
 		super(props);
@@ -71,11 +49,9 @@ class LabelContainer extends Component<LabelContainerProps, LabelContainerState>
 
 	static getDerivedStateFromProps(props: LabelContainerProps) {
 		const {
-			tabProps: {
-				mode,
-				labelContainerClassName,
-				labelItemClassName
-			},
+			mode,
+			labelContainerClassName,
+			labelItemClassName,
 			side
 		} = props;
 
@@ -146,14 +122,12 @@ class LabelContainer extends Component<LabelContainerProps, LabelContainerState>
 
 	render() {
 		const {
-			tabProps: {
-				keyboardSwitch,
-				labelItemClassName,
-				triggerEvents,
-				delayTriggerEvents,
-				delayTriggerCancelEvents,
-				delayTriggerLatency
-			},
+			keyboardSwitch,
+			labelItemClassName,
+			triggerEvents,
+			delayTriggerEvents,
+			delayTriggerCancelEvents,
+			delayTriggerLatency,
 			entries,
 			tabContext,
 			side,

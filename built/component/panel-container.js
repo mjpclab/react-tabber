@@ -23,7 +23,7 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import { panelContainerPropTypes } from '../utility/prop-types';
 import classNameSuffix from '../utility/class-name-suffix';
 import { getLabelItemId, getPanelItemId } from '../utility/get-id';
 var PanelContainer = /** @class */ (function (_super) {
@@ -40,7 +40,7 @@ var PanelContainer = /** @class */ (function (_super) {
         return _this;
     }
     PanelContainer.getDerivedStateFromProps = function (props) {
-        var _a = props.tabProps, mode = _a.mode, panelContainerClassName = _a.panelContainerClassName, panelItemClassName = _a.panelItemClassName;
+        var mode = props.mode, panelContainerClassName = props.panelContainerClassName, panelItemClassName = props.panelItemClassName;
         var panelContainerModeClassName = panelContainerClassName + '-' + mode;
         var panelContainerAllClassName = panelContainerClassName + ' ' + panelContainerModeClassName;
         var panelItemActiveClassName = panelItemClassName + '-' + classNameSuffix.active;
@@ -56,7 +56,7 @@ var PanelContainer = /** @class */ (function (_super) {
         };
     };
     PanelContainer.prototype.render = function () {
-        var _a = this.props, panelItemClassName = _a.tabProps.panelItemClassName, tabContext = _a.tabContext, entries = _a.entries, refLabelSide = _a.refLabelSide;
+        var _a = this.props, panelItemClassName = _a.panelItemClassName, tabContext = _a.tabContext, entries = _a.entries, refLabelSide = _a.refLabelSide;
         var tabberId = tabContext.tabberId, currentIndex = tabContext.currentPosition.index;
         var _b = this.state, panelContainerAllClassName = _b.panelContainerAllClassName, panelItemActiveClassName = _b.panelItemActiveClassName, panelItemInactiveClassName = _b.panelItemInactiveClassName, panelItemDisabledClassName = _b.panelItemDisabledClassName, panelItemHiddenClassName = _b.panelItemHiddenClassName;
         return React.createElement("div", { className: panelContainerAllClassName }, entries.map(function (entry, index) {
@@ -73,12 +73,7 @@ var PanelContainer = /** @class */ (function (_super) {
             return React.createElement("div", __assign({}, panelProps, { className: panelItemAllClassName, id: getPanelItemId(tabberId, index), role: "tabpanel", "aria-labelledby": getLabelItemId(tabberId, refLabelSide, index), "aria-hidden": !isActive, key: key ? 'key-' + key : 'index-' + index }), entry.panel);
         }));
     };
-    PanelContainer.propTypes = {
-        tabProps: PropTypes.object,
-        tabContext: PropTypes.object,
-        entries: PropTypes.arrayOf(PropTypes.object),
-        refLabelSide: PropTypes.string
-    };
+    PanelContainer.propTypes = panelContainerPropTypes;
     return PanelContainer;
 }(Component));
 export default PanelContainer;

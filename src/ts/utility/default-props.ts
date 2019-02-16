@@ -1,7 +1,7 @@
 import {PublicProps, Mode} from '../type/tab';
 
 const defaultProps: PublicProps = {
-	tabs: [],
+	entries: [],
 	mode: Mode.Horizontal,
 	keyboardSwitch: true,
 

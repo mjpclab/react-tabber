@@ -18,7 +18,7 @@
 
 <script type="text/javascript" src="../dist/react-tabber.js"></script>
 <script type="text/babel">
-	const tabs = [
+	const entries = [
 		{label: 'title1', panel: <div>content1</div>, key: 'topic1'},
 		{label: <span>title2</span>, panel: <div>content2</div>, key: 'topic2'}
 	];
@@ -26,7 +26,7 @@
 	function render() {
 		ReactDOM.render(
 			<div>
-				<ReactTabber tabs={tabs} onSwitching={onSwitching} onSwitched={onSwitched} keyboardSwitch={true}>
+				<ReactTabber entries={entries} onSwitching={onSwitching} onSwitched={onSwitched} keyboardSwitch={true}>
 					<ReactTabber.Label key="topic3">title <b>3</b></ReactTabber.Label>
 					<ReactTabber.Panel>content <b>3</b>. </ReactTabber.Panel>
 					<ReactTabber.Panel>another content <b>3</b>. </ReactTabber.Panel>

@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 
 import {PublicProps, PublicPropTypes} from './type/tab';
-
 import {publicPropTypes} from './utility/prop-types';
 import defaultProps from './utility/default-props';
 import normalizeEvents from './utility/normalize-events';
@@ -20,15 +19,15 @@ class ReactTabber extends Component<PublicProps> {
 	static defaultProps: PublicProps = defaultProps;
 
 	render() {
-		const {tabs, children, triggerEvents, delayTriggerEvents, delayTriggerCancelEvents, ...props} = this.props;
-		const allTabs = parseTabEntries(tabs, children);
+		const {entries, children, triggerEvents, delayTriggerEvents, delayTriggerCancelEvents, ...props} = this.props;
+		const allEntries = parseTabEntries(entries, children);
 
 		return <Tab
 			{...props}
+			entries={allEntries}
 			triggerEvents={normalizeEvents(triggerEvents)}
 			delayTriggerEvents={normalizeEvents(delayTriggerEvents)}
 			delayTriggerCancelEvents={normalizeEvents(delayTriggerCancelEvents)}
-			tabs={allTabs}
 		/>;
 	}
 }

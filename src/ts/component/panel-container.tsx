@@ -1,16 +1,9 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 
-import {Entry, TabProps, TabContext} from '../type/tab';
+import {PanelContainerProps, PanelContainerPropTypes} from '../type/tab';
+import {panelContainerPropTypes} from '../utility/prop-types';
 import classNameSuffix from '../utility/class-name-suffix';
 import {getLabelItemId, getPanelItemId} from '../utility/get-id';
-
-interface PanelContainerProps {
-	tabProps: TabProps,
-	tabContext: TabContext,
-	entries: Entry[],
-	refLabelSide: string
-}
 
 interface PanelContainerState {
 	panelContainerAllClassName: string;
@@ -22,12 +15,7 @@ interface PanelContainerState {
 }
 
 class PanelContainer extends Component<PanelContainerProps, PanelContainerState> {
-	static propTypes = {
-		tabProps: PropTypes.object,
-		tabContext: PropTypes.object,
-		entries: PropTypes.arrayOf(PropTypes.object),
-		refLabelSide: PropTypes.string
-	};
+	static propTypes: PanelContainerPropTypes = panelContainerPropTypes;
 
 	constructor(props: PanelContainerProps) {
 		super(props);
@@ -43,11 +31,9 @@ class PanelContainer extends Component<PanelContainerProps, PanelContainerState>
 
 	static getDerivedStateFromProps(props: PanelContainerProps) {
 		const {
-			tabProps: {
-				mode,
-				panelContainerClassName,
-				panelItemClassName
-			},
+			mode,
+			panelContainerClassName,
+			panelItemClassName
 		} = props;
 
 		const panelContainerModeClassName = panelContainerClassName + '-' + mode;
@@ -70,9 +56,7 @@ class PanelContainer extends Component<PanelContainerProps, PanelContainerState>
 
 	render() {
 		const {
-			tabProps: {
-				panelItemClassName
-			},
+			panelItemClassName,
 			tabContext,
 			entries,
 			refLabelSide

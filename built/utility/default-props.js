@@ -1,5 +1,5 @@
 var defaultProps = {
-    tabs: [],
+    entries: [],
     mode: "horizontal" /* Horizontal */,
     keyboardSwitch: true,
     triggerEvents: ['onClick'],

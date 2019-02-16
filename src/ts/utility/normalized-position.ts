@@ -1,4 +1,4 @@
-import {isFinite} from '../type/global';
+/// <reference path="../type/global.d.ts" />
 import {Entry, TabItemPosition, NormalizedTabItemPosition} from '../type/tab';
 
 const invalidNormalizedPosition: NormalizedTabItemPosition = {

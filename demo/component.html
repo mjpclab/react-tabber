@@ -24,7 +24,7 @@
 
 			this.state = {
 				targetIndex: 0,
-				tabs: [
+				entries: [
 					{label: 'title1', panel: <div>content1</div>},
 					{label: <span>title2</span>, panel: <div>content2</div>}
 				]
@@ -49,33 +49,33 @@
 		}
 
 		addTab() {
-			const newTabs = this.state.tabs;
-			newTabs.push({
-				label: 'label-' + (newTabs.length + 1),
-				panel: 'content-' + (newTabs.length + 1)
+			const newEntries = this.state.entries;
+			newEntries.push({
+				label: 'label-' + (newEntries.length + 1),
+				panel: 'content-' + (newEntries.length + 1)
 			});
 
 			this.setState({
-				tabs: newTabs
+				entries: newEntries
 			});
 		}
 
 		removeTab() {
-			if (this.state.tabs.length) {
-				const newTabs = this.state.tabs;
-				newTabs.length--;
+			if (this.state.entries.length) {
+				const newEntries = this.state.entries;
+				newEntries.length--;
 
 				this.setState({
-					tabs: newTabs
+					entries: newEntries
 				});
 			}
 		}
 
 		prevTab() {
-			const tabs = this.state.tabs;
+			const entries = this.state.entries;
 			const targetIndex = this.state.targetIndex;
 
-			const tabCount = tabs.length;
+			const tabCount = entries.length;
 			const newIndex = (targetIndex - 1 + tabCount) % tabCount;
 			this.setState({
 				targetIndex: newIndex
@@ -83,10 +83,10 @@
 		}
 
 		nextTab() {
-			const tabs = this.state.tabs;
+			const entries = this.state.entries;
 			const targetIndex = this.state.targetIndex;
 
-			const tabCount = tabs.length;
+			const tabCount = entries.length;
 			const newIndex = (targetIndex + 1) % tabCount;
 			this.setState({
 				targetIndex: newIndex
@@ -94,11 +94,11 @@
 		}
 
 		render() {
-			const tabs = this.state.tabs;
+			const entries = this.state.entries;
 			const targetIndex = this.state.targetIndex;
 
 			return <div>
-				<ReactTabber activePosition={targetIndex} tabs={tabs} onUpdateActivePosition={this.onUpdateActivePosition} onSwitching={this.onSwitching}/>
+				<ReactTabber activePosition={targetIndex} entries={entries} onUpdateActivePosition={this.onUpdateActivePosition} onSwitching={this.onSwitching}/>
 				<button onClick={this.addTab}>Add Tab</button>
 				<button onClick={this.removeTab}>Remove Tab</button>
 				<br/>

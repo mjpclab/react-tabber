@@ -23,7 +23,7 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import { labelContainerPropTypes } from '../utility/prop-types';
 import createEventHandler from '../utility/create-event-handler';
 import classNameSuffix from '../utility/class-name-suffix';
 import { getLabelItemId, getPanelItemId } from '../utility/get-id';
@@ -55,7 +55,7 @@ var LabelContainer = /** @class */ (function (_super) {
         return _this;
     }
     LabelContainer.getDerivedStateFromProps = function (props) {
-        var _a = props.tabProps, mode = _a.mode, labelContainerClassName = _a.labelContainerClassName, labelItemClassName = _a.labelItemClassName, side = props.side;
+        var mode = props.mode, labelContainerClassName = props.labelContainerClassName, labelItemClassName = props.labelItemClassName, side = props.side;
         var labelContainerLocationClassName = labelContainerClassName + '-' + side;
         var labelContainerModeClassName = labelContainerClassName + '-' + mode;
         var labelContainerLocationModeClassName = labelContainerClassName + '-' + side + '-' + mode;
@@ -115,9 +115,9 @@ var LabelContainer = /** @class */ (function (_super) {
     };
     LabelContainer.prototype.render = function () {
         var _this = this;
-        var _a = this.props, _b = _a.tabProps, keyboardSwitch = _b.keyboardSwitch, labelItemClassName = _b.labelItemClassName, triggerEvents = _b.triggerEvents, delayTriggerEvents = _b.delayTriggerEvents, delayTriggerCancelEvents = _b.delayTriggerCancelEvents, delayTriggerLatency = _b.delayTriggerLatency, entries = _a.entries, tabContext = _a.tabContext, side = _a.side, fnSwitchTo = _a.fnSwitchTo;
+        var _a = this.props, keyboardSwitch = _a.keyboardSwitch, labelItemClassName = _a.labelItemClassName, triggerEvents = _a.triggerEvents, delayTriggerEvents = _a.delayTriggerEvents, delayTriggerCancelEvents = _a.delayTriggerCancelEvents, delayTriggerLatency = _a.delayTriggerLatency, entries = _a.entries, tabContext = _a.tabContext, side = _a.side, fnSwitchTo = _a.fnSwitchTo;
         var tabberId = tabContext.tabberId, currentIndex = tabContext.currentPosition.index;
-        var _c = this.state, labelContainerAllClassName = _c.labelContainerAllClassName, labelItemActiveClassName = _c.labelItemActiveClassName, labelItemInactiveClassName = _c.labelItemInactiveClassName, labelItemDisabledClassName = _c.labelItemDisabledClassName, labelItemHiddenClassName = _c.labelItemHiddenClassName;
+        var _b = this.state, labelContainerAllClassName = _b.labelContainerAllClassName, labelItemActiveClassName = _b.labelItemActiveClassName, labelItemInactiveClassName = _b.labelItemInactiveClassName, labelItemDisabledClassName = _b.labelItemDisabledClassName, labelItemHiddenClassName = _b.labelItemHiddenClassName;
         return React.createElement("div", { className: labelContainerAllClassName, role: "tablist" }, entries.map(function (entry, index) {
             var labelProps = entry.labelProps, key = entry.key, disabled = entry.disabled, hidden = entry.hidden;
             var pos = { index: index, key: key };
@@ -159,17 +159,7 @@ var LabelContainer = /** @class */ (function (_super) {
             return React.createElement("label", __assign({}, labelProps, labelDelayTriggerCancelProps, labelDelayTriggerProps, labelTriggerProps, { className: labelItemAllClassName, tabIndex: 0, id: getLabelItemId(tabberId, side, index), role: "tab", "aria-controls": getPanelItemId(tabberId, index), "aria-selected": isActive, "aria-expanded": isActive, key: key ? 'key-' + key : 'index-' + index, onKeyDown: keyboardSwitch ? function (e) { return _this.onKeyDown(e, pos); } : undefined }), entry.label);
         }));
     };
-    LabelContainer.propTypes = {
-        tabProps: PropTypes.object,
-        tabContext: PropTypes.object,
-        entries: PropTypes.arrayOf(PropTypes.object),
-        side: PropTypes.string,
-        fnSwitchTo: PropTypes.func,
-        fnSwitchPrevious: PropTypes.func,
-        fnSwitchNext: PropTypes.func,
-        fnSwitchFirst: PropTypes.func,
-        fnSwitchLast: PropTypes.func
-    };
+    LabelContainer.propTypes = labelContainerPropTypes;
     return LabelContainer;
 }(Component));
 export default LabelContainer;

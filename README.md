@@ -28,7 +28,7 @@ if you are using React and ReactTabber in global variable mode, which means ther
 
 ## Prepare tab entries to render
 ### By data structure
-You need to collect all components that want to put into tabs array.
+You need to collect all components that want to put into tab entries array.
 Each array item has property `label` and `panel`, which can be a string, a number, a native DOM element, another React component, or array of these types of items.
 
 Optional property `key` for the item can improve performance and use it from some callbacks besides index value.
@@ -37,14 +37,14 @@ Optional property `disabled` for the item sets the tab item state to disabled.
 
 Optional property `hidden` for the item sets the tab item state to hidden.
 
-Here is the example of tabs array:
+Here is the example of tab entries array:
 ```jsx
-let tabs = [
+let entries = [
   {label: 'label1', panel: <div>content 1</div>, key: 'tab1'},
   {label: 'label2', panel: <div>content 2</div>, key: 'tab2'}
 ];
 
-ReactDOM.render(<ReactTabber tabs={tabs}/>, document.getElementById('container'));
+ReactDOM.render(<ReactTabber entries={entries}/>, document.getElementById('container'));
 ```
 ### By JSX template
 You can declare labels and panels by JSX template style. `ReactTabber.Label` represents a label and `ReactTabber.Panel` represents a panel.
@@ -100,8 +100,8 @@ Properties are options specified as attribute onto ReactTabber:
 <ReactTabber option1="value1" option2="value2"/>
 ```
 ## Behavior Properties
-`tabs`  
-Specify tabs you want to render as a tab, should be an array of rendering items, which has property `label`, `panel` and optional `key`.
+`entries`  
+Specify tab entries you want to render as a tab, should be an array of rendering items, which has property `label`, `panel` and optional `key`.
 `label` will be shown on tab label container. `panel` is the content of the tab. `key` is used to identify different tab labels and panels.
 
 `keyboardSwitch`  
