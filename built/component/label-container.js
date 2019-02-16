@@ -45,6 +45,13 @@ var LabelContainer = /** @class */ (function (_super) {
     function LabelContainer(props) {
         var _this = _super.call(this, props) || this;
         _this.onKeyDown = _this.onKeyDown.bind(_this);
+        _this.state = {
+            labelContainerAllClassName: '',
+            labelItemActiveClassName: '',
+            labelItemInactiveClassName: '',
+            labelItemDisabledClassName: '',
+            labelItemHiddenClassName: ''
+        };
         return _this;
     }
     LabelContainer.getDerivedStateFromProps = function (props) {

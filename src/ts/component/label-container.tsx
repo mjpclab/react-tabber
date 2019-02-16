@@ -59,6 +59,14 @@ class LabelContainer extends Component<LabelContainerProps, LabelContainerState>
 	constructor(props: LabelContainerProps) {
 		super(props);
 		this.onKeyDown = this.onKeyDown.bind(this);
+		this.state = {
+			labelContainerAllClassName: '',
+
+			labelItemActiveClassName: '',
+			labelItemInactiveClassName: '',
+			labelItemDisabledClassName: '',
+			labelItemHiddenClassName: ''
+		};
 	}
 
 	static getDerivedStateFromProps(props: LabelContainerProps) {

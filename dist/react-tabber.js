@@ -322,6 +322,13 @@
         function LabelContainer(props) {
             var _this = _super.call(this, props) || this;
             _this.onKeyDown = _this.onKeyDown.bind(_this);
+            _this.state = {
+                labelContainerAllClassName: '',
+                labelItemActiveClassName: '',
+                labelItemInactiveClassName: '',
+                labelItemDisabledClassName: '',
+                labelItemHiddenClassName: ''
+            };
             return _this;
         }
         LabelContainer.getDerivedStateFromProps = function (props) {
@@ -469,8 +476,16 @@
     };
     var PanelContainer = /** @class */ (function (_super) {
         __extends$3(PanelContainer, _super);
-        function PanelContainer() {
-            return _super !== null && _super.apply(this, arguments) || this;
+        function PanelContainer(props) {
+            var _this = _super.call(this, props) || this;
+            _this.state = {
+                panelContainerAllClassName: '',
+                panelItemActiveClassName: '',
+                panelItemInactiveClassName: '',
+                panelItemDisabledClassName: '',
+                panelItemHiddenClassName: ''
+            };
+            return _this;
         }
         PanelContainer.getDerivedStateFromProps = function (props) {
             var _a = props.tabProps, mode = _a.mode, panelContainerClassName = _a.panelContainerClassName, panelItemClassName = _a.panelItemClassName;

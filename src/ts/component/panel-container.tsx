@@ -29,6 +29,18 @@ class PanelContainer extends Component<PanelContainerProps, PanelContainerState>
 		refLabelSide: PropTypes.string
 	};
 
+	constructor(props: PanelContainerProps) {
+		super(props);
+		this.state = {
+			panelContainerAllClassName: '',
+
+			panelItemActiveClassName: '',
+			panelItemInactiveClassName: '',
+			panelItemDisabledClassName: '',
+			panelItemHiddenClassName: ''
+		};
+	}
+
 	static getDerivedStateFromProps(props: PanelContainerProps) {
 		const {
 			tabProps: {
