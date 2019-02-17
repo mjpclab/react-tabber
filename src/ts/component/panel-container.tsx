@@ -5,16 +5,7 @@ import {panelContainerPropTypes} from '../utility/prop-types';
 import classNameSuffix from '../utility/class-name-suffix';
 import {getLabelItemId, getPanelItemId} from '../utility/get-id';
 
-interface PanelContainerState {
-	panelContainerAllClassName: string;
-
-	panelItemActiveClassName: string;
-	panelItemInactiveClassName: string;
-	panelItemDisabledClassName: string;
-	panelItemHiddenClassName: string;
-}
-
-class PanelContainer extends Component<PanelContainerProps, PanelContainerState> {
+class PanelContainer extends Component<PanelContainerProps> {
 	static propTypes: PanelContainerPropTypes = panelContainerPropTypes;
 
 	constructor(props: PanelContainerProps) {
@@ -29,12 +20,15 @@ class PanelContainer extends Component<PanelContainerProps, PanelContainerState>
 		};
 	}
 
-	static getDerivedStateFromProps(props: PanelContainerProps) {
+	render() {
 		const {
 			mode,
 			panelContainerClassName,
-			panelItemClassName
-		} = props;
+			panelItemClassName,
+			tabContext,
+			entries,
+			refLabelSide
+		} = this.props;
 
 		const panelContainerModeClassName = panelContainerClassName + '-' + mode;
 		const panelContainerAllClassName = panelContainerClassName + ' ' + panelContainerModeClassName;
@@ -44,34 +38,7 @@ class PanelContainer extends Component<PanelContainerProps, PanelContainerState>
 		const panelItemDisabledClassName = panelItemClassName + '-' + classNameSuffix.disabled;
 		const panelItemHiddenClassName = panelItemClassName + '-' + classNameSuffix.hidden;
 
-		return {
-			panelContainerAllClassName,
-
-			panelItemActiveClassName,
-			panelItemInactiveClassName,
-			panelItemDisabledClassName,
-			panelItemHiddenClassName
-		}
-	}
-
-	render() {
-		const {
-			panelItemClassName,
-			tabContext,
-			entries,
-			refLabelSide
-		} = this.props;
-
 		const {tabberId, currentPosition: {index: currentIndex}} = tabContext;
-
-		const {
-			panelContainerAllClassName,
-
-			panelItemActiveClassName,
-			panelItemInactiveClassName,
-			panelItemDisabledClassName,
-			panelItemHiddenClassName
-		} = this.state;
 
 		return <div className={panelContainerAllClassName}>
 			{entries.map((entry, index) => {
@@ -99,6 +66,5 @@ class PanelContainer extends Component<PanelContainerProps, PanelContainerState>
 		</div>;
 	}
 }
-
 
 export default PanelContainer;

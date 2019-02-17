@@ -54,24 +54,6 @@ var LabelContainer = /** @class */ (function (_super) {
         };
         return _this;
     }
-    LabelContainer.getDerivedStateFromProps = function (props) {
-        var mode = props.mode, labelContainerClassName = props.labelContainerClassName, labelItemClassName = props.labelItemClassName, side = props.side;
-        var labelContainerLocationClassName = labelContainerClassName + '-' + side;
-        var labelContainerModeClassName = labelContainerClassName + '-' + mode;
-        var labelContainerLocationModeClassName = labelContainerClassName + '-' + side + '-' + mode;
-        var labelContainerAllClassName = labelContainerClassName + ' ' + labelContainerLocationClassName + ' ' + labelContainerModeClassName + ' ' + labelContainerLocationModeClassName;
-        var labelItemActiveClassName = labelItemClassName + '-' + classNameSuffix.active;
-        var labelItemInactiveClassName = labelItemClassName + '-' + classNameSuffix.inactive;
-        var labelItemDisabledClassName = labelItemClassName + '-' + classNameSuffix.disabled;
-        var labelItemHiddenClassName = labelItemClassName + '-' + classNameSuffix.hidden;
-        return {
-            labelContainerAllClassName: labelContainerAllClassName,
-            labelItemActiveClassName: labelItemActiveClassName,
-            labelItemInactiveClassName: labelItemInactiveClassName,
-            labelItemDisabledClassName: labelItemDisabledClassName,
-            labelItemHiddenClassName: labelItemHiddenClassName
-        };
-    };
     LabelContainer.prototype.onKeyDown = function (e, pos) {
         var _a = this.props, fnSwitchTo = _a.fnSwitchTo, fnSwitchPrevious = _a.fnSwitchPrevious, fnSwitchNext = _a.fnSwitchNext, fnSwitchFirst = _a.fnSwitchFirst, fnSwitchLast = _a.fnSwitchLast;
         var switchResult;
@@ -115,9 +97,16 @@ var LabelContainer = /** @class */ (function (_super) {
     };
     LabelContainer.prototype.render = function () {
         var _this = this;
-        var _a = this.props, keyboardSwitch = _a.keyboardSwitch, labelItemClassName = _a.labelItemClassName, triggerEvents = _a.triggerEvents, delayTriggerEvents = _a.delayTriggerEvents, delayTriggerCancelEvents = _a.delayTriggerCancelEvents, delayTriggerLatency = _a.delayTriggerLatency, entries = _a.entries, tabContext = _a.tabContext, side = _a.side, fnSwitchTo = _a.fnSwitchTo;
+        var _a = this.props, entries = _a.entries, mode = _a.mode, keyboardSwitch = _a.keyboardSwitch, triggerEvents = _a.triggerEvents, labelContainerClassName = _a.labelContainerClassName, labelItemClassName = _a.labelItemClassName, delayTriggerEvents = _a.delayTriggerEvents, delayTriggerCancelEvents = _a.delayTriggerCancelEvents, delayTriggerLatency = _a.delayTriggerLatency, tabContext = _a.tabContext, side = _a.side, fnSwitchTo = _a.fnSwitchTo;
+        var labelContainerLocationClassName = labelContainerClassName + '-' + side;
+        var labelContainerModeClassName = labelContainerClassName + '-' + mode;
+        var labelContainerLocationModeClassName = labelContainerClassName + '-' + side + '-' + mode;
+        var labelContainerAllClassName = labelContainerClassName + ' ' + labelContainerLocationClassName + ' ' + labelContainerModeClassName + ' ' + labelContainerLocationModeClassName;
+        var labelItemActiveClassName = labelItemClassName + '-' + classNameSuffix.active;
+        var labelItemInactiveClassName = labelItemClassName + '-' + classNameSuffix.inactive;
+        var labelItemDisabledClassName = labelItemClassName + '-' + classNameSuffix.disabled;
+        var labelItemHiddenClassName = labelItemClassName + '-' + classNameSuffix.hidden;
         var tabberId = tabContext.tabberId, currentIndex = tabContext.currentPosition.index;
-        var _b = this.state, labelContainerAllClassName = _b.labelContainerAllClassName, labelItemActiveClassName = _b.labelItemActiveClassName, labelItemInactiveClassName = _b.labelItemInactiveClassName, labelItemDisabledClassName = _b.labelItemDisabledClassName, labelItemHiddenClassName = _b.labelItemHiddenClassName;
         return React.createElement("div", { className: labelContainerAllClassName, role: "tablist" }, entries.map(function (entry, index) {
             var labelProps = entry.labelProps, key = entry.key, disabled = entry.disabled, hidden = entry.hidden;
             var pos = { index: index, key: key };

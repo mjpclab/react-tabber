@@ -22,16 +22,7 @@ const END = 'End';
 const SPACE = ' ';
 const ENTER = 'Enter';
 
-interface LabelContainerState {
-	labelContainerAllClassName: string;
-
-	labelItemActiveClassName: string;
-	labelItemInactiveClassName: string;
-	labelItemDisabledClassName: string;
-	labelItemHiddenClassName: string;
-}
-
-class LabelContainer extends Component<LabelContainerProps, LabelContainerState> {
+class LabelContainer extends Component<LabelContainerProps> {
 	static propTypes: LabelContainerPropTypes = labelContainerPropTypes;
 
 	constructor(props: LabelContainerProps) {
@@ -45,34 +36,6 @@ class LabelContainer extends Component<LabelContainerProps, LabelContainerState>
 			labelItemDisabledClassName: '',
 			labelItemHiddenClassName: ''
 		};
-	}
-
-	static getDerivedStateFromProps(props: LabelContainerProps) {
-		const {
-			mode,
-			labelContainerClassName,
-			labelItemClassName,
-			side
-		} = props;
-
-		const labelContainerLocationClassName = labelContainerClassName + '-' + side;
-		const labelContainerModeClassName = labelContainerClassName + '-' + mode;
-		const labelContainerLocationModeClassName = labelContainerClassName + '-' + side + '-' + mode;
-		const labelContainerAllClassName = labelContainerClassName + ' ' + labelContainerLocationClassName + ' ' + labelContainerModeClassName + ' ' + labelContainerLocationModeClassName;
-
-		const labelItemActiveClassName = labelItemClassName + '-' + classNameSuffix.active;
-		const labelItemInactiveClassName = labelItemClassName + '-' + classNameSuffix.inactive;
-		const labelItemDisabledClassName = labelItemClassName + '-' + classNameSuffix.disabled;
-		const labelItemHiddenClassName = labelItemClassName + '-' + classNameSuffix.hidden;
-
-		return {
-			labelContainerAllClassName,
-
-			labelItemActiveClassName,
-			labelItemInactiveClassName,
-			labelItemDisabledClassName,
-			labelItemHiddenClassName
-		}
 	}
 
 	onKeyDown(e: React.KeyboardEvent, pos: NormalizedTabItemPosition) {
@@ -122,27 +85,33 @@ class LabelContainer extends Component<LabelContainerProps, LabelContainerState>
 
 	render() {
 		const {
+			entries,
+			mode,
 			keyboardSwitch,
-			labelItemClassName,
 			triggerEvents,
+			labelContainerClassName,
+			labelItemClassName,
+
 			delayTriggerEvents,
 			delayTriggerCancelEvents,
 			delayTriggerLatency,
-			entries,
+
 			tabContext,
 			side,
 			fnSwitchTo
 		} = this.props;
 
-		const {tabberId, currentPosition: {index: currentIndex}} = tabContext;
+		const labelContainerLocationClassName = labelContainerClassName + '-' + side;
+		const labelContainerModeClassName = labelContainerClassName + '-' + mode;
+		const labelContainerLocationModeClassName = labelContainerClassName + '-' + side + '-' + mode;
+		const labelContainerAllClassName = labelContainerClassName + ' ' + labelContainerLocationClassName + ' ' + labelContainerModeClassName + ' ' + labelContainerLocationModeClassName;
 
-		const {
-			labelContainerAllClassName,
-			labelItemActiveClassName,
-			labelItemInactiveClassName,
-			labelItemDisabledClassName,
-			labelItemHiddenClassName
-		} = this.state;
+		const labelItemActiveClassName = labelItemClassName + '-' + classNameSuffix.active;
+		const labelItemInactiveClassName = labelItemClassName + '-' + classNameSuffix.inactive;
+		const labelItemDisabledClassName = labelItemClassName + '-' + classNameSuffix.disabled;
+		const labelItemHiddenClassName = labelItemClassName + '-' + classNameSuffix.hidden;
+
+		const {tabberId, currentPosition: {index: currentIndex}} = tabContext;
 
 		return <div className={labelContainerAllClassName} role="tablist">
 			{entries.map((entry, index) => {
