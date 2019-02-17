@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import {NormalizedTabItemPosition, LabelContainerProps, LabelContainerPropTypes} from '../type/tab';
 import {labelContainerPropTypes} from '../utility/prop-types';
 import createEventHandler from '../utility/create-event-handler';
-import classNameSuffix from '../utility/class-name-suffix';
+import ClassNameSuffix from '../utility/class-name-suffix';
 import {getLabelItemId, getPanelItemId} from '../utility/get-id';
 
 const UP = 'Up';
@@ -24,19 +24,6 @@ const ENTER = 'Enter';
 
 class LabelContainer extends Component<LabelContainerProps> {
 	static propTypes: LabelContainerPropTypes = labelContainerPropTypes;
-
-	constructor(props: LabelContainerProps) {
-		super(props);
-		this.onKeyDown = this.onKeyDown.bind(this);
-		this.state = {
-			labelContainerAllClassName: '',
-
-			labelItemActiveClassName: '',
-			labelItemInactiveClassName: '',
-			labelItemDisabledClassName: '',
-			labelItemHiddenClassName: ''
-		};
-	}
 
 	onKeyDown(e: React.KeyboardEvent, pos: NormalizedTabItemPosition) {
 		const {fnSwitchTo, fnSwitchPrevious, fnSwitchNext, fnSwitchFirst, fnSwitchLast} = this.props;
@@ -101,15 +88,15 @@ class LabelContainer extends Component<LabelContainerProps> {
 			fnSwitchTo
 		} = this.props;
 
-		const labelContainerLocationClassName = labelContainerClassName + '-' + side;
+		const labelContainerSideClassName = labelContainerClassName + '-' + side;
 		const labelContainerModeClassName = labelContainerClassName + '-' + mode;
-		const labelContainerLocationModeClassName = labelContainerClassName + '-' + side + '-' + mode;
-		const labelContainerAllClassName = labelContainerClassName + ' ' + labelContainerLocationClassName + ' ' + labelContainerModeClassName + ' ' + labelContainerLocationModeClassName;
+		const labelContainerSideModeClassName = labelContainerClassName + '-' + side + '-' + mode;
+		const labelContainerAllClassName = labelContainerClassName + ' ' + labelContainerSideClassName + ' ' + labelContainerModeClassName + ' ' + labelContainerSideModeClassName;
 
-		const labelItemActiveClassName = labelItemClassName + '-' + classNameSuffix.active;
-		const labelItemInactiveClassName = labelItemClassName + '-' + classNameSuffix.inactive;
-		const labelItemDisabledClassName = labelItemClassName + '-' + classNameSuffix.disabled;
-		const labelItemHiddenClassName = labelItemClassName + '-' + classNameSuffix.hidden;
+		const labelItemActiveClassName = labelItemClassName + '-' + ClassNameSuffix.active;
+		const labelItemInactiveClassName = labelItemClassName + '-' + ClassNameSuffix.inactive;
+		const labelItemDisabledClassName = labelItemClassName + '-' + ClassNameSuffix.disabled;
+		const labelItemHiddenClassName = labelItemClassName + '-' + ClassNameSuffix.hidden;
 
 		const {tabberId, currentPosition: {index: currentIndex}} = tabContext;
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import {TabContainerProps} from '../type/tab';
-import classNameSuffix from '../utility/class-name-suffix';
+import ClassNameSuffix from '../utility/class-name-suffix';
 import {tabContainerPropTypes} from "../utility/prop-types";
 
 import LabelContainer from './label-container';
@@ -34,8 +34,6 @@ function TabContainer(props: TabContainerProps): JSX.Element {
 		tabContext,
 	} = props;
 
-	const {header, footer} = classNameSuffix;
-
 	const tabContainerModeClassName = tabContainerClassName + '-' + mode;
 
 	return <div className={tabContainerClassName + ' ' + tabContainerModeClassName}>
@@ -49,7 +47,7 @@ function TabContainer(props: TabContainerProps): JSX.Element {
 					labelContainerClassName={labelContainerClassName}
 					labelItemClassName={labelItemClassName}
 					tabContext={tabContext}
-					side={header}
+					side={ClassNameSuffix.header}
 
 					triggerEvents={triggerEvents}
 					delayTriggerEvents={delayTriggerEvents}
@@ -68,7 +66,7 @@ function TabContainer(props: TabContainerProps): JSX.Element {
 			panelItemClassName={panelItemClassName}
 			tabContext={tabContext}
 			entries={entries}
-			refLabelSide={showHeaderLabelContainer || !showFooterLabelContainer ? header : footer}
+			refLabelSide={showHeaderLabelContainer || !showFooterLabelContainer ? ClassNameSuffix.header : ClassNameSuffix.footer}
 		/>
 		{
 			showFooterLabelContainer ?
@@ -80,7 +78,7 @@ function TabContainer(props: TabContainerProps): JSX.Element {
 					labelContainerClassName={labelContainerClassName}
 					labelItemClassName={labelItemClassName}
 					tabContext={tabContext}
-					side={footer}
+					side={ClassNameSuffix.footer}
 
 					triggerEvents={triggerEvents}
 					delayTriggerEvents={delayTriggerEvents}

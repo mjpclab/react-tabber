@@ -13,7 +13,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 import React from 'react';
 import { tabPropTypes } from '../utility/prop-types';
-import { invalidNormalizedPosition, getNormalizedPosition } from '../utility/normalized-position';
+import { invalidNormalizedPosition, normalizePosition } from '../utility/normalize-position';
 import defaultProps from '../utility/default-props';
 import { getNextTabContainerId } from '../utility/get-id';
 import TabContainer from './tab-container';
@@ -46,7 +46,7 @@ var Tab = /** @class */ (function (_super) {
     }
     Tab.getDerivedStateFromProps = function (props) {
         var activePosition = props.activePosition;
-        if (activePosition === undefined || activePosition === null || (typeof activePosition === 'number' && !isFinite(activePosition))) {
+        if (activePosition === undefined || activePosition === null || (typeof activePosition === 'number' && isNaN(activePosition))) {
             return {
                 manageTargetPosition: true
             };
@@ -83,7 +83,7 @@ var Tab = /** @class */ (function (_super) {
             exclude = options.exclude;
         }
         var entries = this.props.entries;
-        var excludeIndecies = exclude ? exclude.map(function (pos) { return getNormalizedPosition(entries, pos).index; }) : [];
+        var excludeIndecies = exclude ? exclude.map(function (pos) { return normalizePosition(entries, pos).index; }) : [];
         var itemCount = entries.length;
         var maxIterationCount = -1;
         if (loop) {
@@ -111,7 +111,7 @@ var Tab = /** @class */ (function (_super) {
                 (includeDisabled && !hidden) ||
                 (!disabled && includeHidden) ||
                 (includeDisabled && includeHidden)) {
-                return this.switchTo(getNormalizedPosition(entries, tabItemIndex));
+                return this.switchTo(normalizePosition(entries, tabItemIndex));
             }
         }
     };
@@ -129,17 +129,17 @@ var Tab = /** @class */ (function (_super) {
     };
     Tab.prototype.render = function () {
         var _a = this, props = _a.props, state = _a.state, tabContext = _a.tabContext;
-        var targetPosition = state.targetPosition;
+        var entries = props.entries, mode = props.mode, keyboardSwitch = props.keyboardSwitch, delayTriggerLatency = props.delayTriggerLatency, tabContainerClassName = props.tabContainerClassName, labelContainerClassName = props.labelContainerClassName, labelItemClassName = props.labelItemClassName, panelContainerClassName = props.panelContainerClassName, panelItemClassName = props.panelItemClassName, showHeaderLabelContainer = props.showHeaderLabelContainer, showFooterLabelContainer = props.showFooterLabelContainer, triggerEvents = props.triggerEvents, delayTriggerEvents = props.delayTriggerEvents, delayTriggerCancelEvents = props.delayTriggerCancelEvents;
         var normalizedPrevPosition = tabContext.prevPosition;
         var prevIndex = normalizedPrevPosition.index;
-        var entries = props.entries, mode = props.mode, keyboardSwitch = props.keyboardSwitch, delayTriggerLatency = props.delayTriggerLatency, tabContainerClassName = props.tabContainerClassName, labelContainerClassName = props.labelContainerClassName, labelItemClassName = props.labelItemClassName, panelContainerClassName = props.panelContainerClassName, panelItemClassName = props.panelItemClassName, showHeaderLabelContainer = props.showHeaderLabelContainer, showFooterLabelContainer = props.showFooterLabelContainer, triggerEvents = props.triggerEvents, delayTriggerEvents = props.delayTriggerEvents, delayTriggerCancelEvents = props.delayTriggerCancelEvents;
-        var normalizedTargetPosition = getNormalizedPosition(entries, targetPosition);
+        var targetPosition = state.targetPosition;
+        var normalizedTargetPosition = normalizePosition(entries, targetPosition);
         var targetIndex = normalizedTargetPosition.index;
         var entryCount = entries.length;
         var currentIndex;
         if (targetIndex === -1) {
             currentIndex = entryCount > 0 ? 0 : -1;
-            tabContext.currentPosition = getNormalizedPosition(entries, currentIndex);
+            tabContext.currentPosition = normalizePosition(entries, currentIndex);
         }
         else if (targetIndex < entryCount) {
             currentIndex = targetIndex;
@@ -147,7 +147,7 @@ var Tab = /** @class */ (function (_super) {
         }
         else {
             currentIndex = entryCount - 1;
-            tabContext.currentPosition = getNormalizedPosition(entries, currentIndex);
+            tabContext.currentPosition = normalizePosition(entries, currentIndex);
         }
         if (prevIndex !== currentIndex && props.onSwitching) {
             props.onSwitching(normalizedPrevPosition, tabContext.currentPosition);

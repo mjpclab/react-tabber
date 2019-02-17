@@ -25,7 +25,7 @@ var __assign = (this && this.__assign) || function () {
 import React, { Component } from 'react';
 import { labelContainerPropTypes } from '../utility/prop-types';
 import createEventHandler from '../utility/create-event-handler';
-import classNameSuffix from '../utility/class-name-suffix';
+import ClassNameSuffix from '../utility/class-name-suffix';
 import { getLabelItemId, getPanelItemId } from '../utility/get-id';
 var UP = 'Up';
 var DOWN = 'Down';
@@ -42,17 +42,8 @@ var SPACE = ' ';
 var ENTER = 'Enter';
 var LabelContainer = /** @class */ (function (_super) {
     __extends(LabelContainer, _super);
-    function LabelContainer(props) {
-        var _this = _super.call(this, props) || this;
-        _this.onKeyDown = _this.onKeyDown.bind(_this);
-        _this.state = {
-            labelContainerAllClassName: '',
-            labelItemActiveClassName: '',
-            labelItemInactiveClassName: '',
-            labelItemDisabledClassName: '',
-            labelItemHiddenClassName: ''
-        };
-        return _this;
+    function LabelContainer() {
+        return _super !== null && _super.apply(this, arguments) || this;
     }
     LabelContainer.prototype.onKeyDown = function (e, pos) {
         var _a = this.props, fnSwitchTo = _a.fnSwitchTo, fnSwitchPrevious = _a.fnSwitchPrevious, fnSwitchNext = _a.fnSwitchNext, fnSwitchFirst = _a.fnSwitchFirst, fnSwitchLast = _a.fnSwitchLast;
@@ -98,14 +89,14 @@ var LabelContainer = /** @class */ (function (_super) {
     LabelContainer.prototype.render = function () {
         var _this = this;
         var _a = this.props, entries = _a.entries, mode = _a.mode, keyboardSwitch = _a.keyboardSwitch, triggerEvents = _a.triggerEvents, labelContainerClassName = _a.labelContainerClassName, labelItemClassName = _a.labelItemClassName, delayTriggerEvents = _a.delayTriggerEvents, delayTriggerCancelEvents = _a.delayTriggerCancelEvents, delayTriggerLatency = _a.delayTriggerLatency, tabContext = _a.tabContext, side = _a.side, fnSwitchTo = _a.fnSwitchTo;
-        var labelContainerLocationClassName = labelContainerClassName + '-' + side;
+        var labelContainerSideClassName = labelContainerClassName + '-' + side;
         var labelContainerModeClassName = labelContainerClassName + '-' + mode;
-        var labelContainerLocationModeClassName = labelContainerClassName + '-' + side + '-' + mode;
-        var labelContainerAllClassName = labelContainerClassName + ' ' + labelContainerLocationClassName + ' ' + labelContainerModeClassName + ' ' + labelContainerLocationModeClassName;
-        var labelItemActiveClassName = labelItemClassName + '-' + classNameSuffix.active;
-        var labelItemInactiveClassName = labelItemClassName + '-' + classNameSuffix.inactive;
-        var labelItemDisabledClassName = labelItemClassName + '-' + classNameSuffix.disabled;
-        var labelItemHiddenClassName = labelItemClassName + '-' + classNameSuffix.hidden;
+        var labelContainerSideModeClassName = labelContainerClassName + '-' + side + '-' + mode;
+        var labelContainerAllClassName = labelContainerClassName + ' ' + labelContainerSideClassName + ' ' + labelContainerModeClassName + ' ' + labelContainerSideModeClassName;
+        var labelItemActiveClassName = labelItemClassName + '-' + ClassNameSuffix.active;
+        var labelItemInactiveClassName = labelItemClassName + '-' + ClassNameSuffix.inactive;
+        var labelItemDisabledClassName = labelItemClassName + '-' + ClassNameSuffix.disabled;
+        var labelItemHiddenClassName = labelItemClassName + '-' + ClassNameSuffix.hidden;
         var tabberId = tabContext.tabberId, currentIndex = tabContext.currentPosition.index;
         return React.createElement("div", { className: labelContainerAllClassName, role: "tablist" }, entries.map(function (entry, index) {
             var labelProps = entry.labelProps, key = entry.key, disabled = entry.disabled, hidden = entry.hidden;

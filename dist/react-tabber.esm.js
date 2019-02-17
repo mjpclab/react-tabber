@@ -239,7 +239,7 @@ var invalidNormalizedPosition = {
     index: -1,
     key: undefined
 };
-function getNormalizedPosition(entries, position) {
+function normalizePosition(entries, position) {
     if (typeof position === 'number') {
         return {
             index: position,
@@ -286,7 +286,7 @@ function getPanelItemId(tabberId, index) {
     return PREFIX + "__" + tabberId + "__panel__" + index;
 }
 
-var classNameSuffix = {
+var ClassNameSuffix = {
     active: 'active',
     inactive: 'inactive',
     disabled: 'disabled',
@@ -342,17 +342,8 @@ var SPACE = ' ';
 var ENTER = 'Enter';
 var LabelContainer = /** @class */ (function (_super) {
     __extends$2(LabelContainer, _super);
-    function LabelContainer(props) {
-        var _this = _super.call(this, props) || this;
-        _this.onKeyDown = _this.onKeyDown.bind(_this);
-        _this.state = {
-            labelContainerAllClassName: '',
-            labelItemActiveClassName: '',
-            labelItemInactiveClassName: '',
-            labelItemDisabledClassName: '',
-            labelItemHiddenClassName: ''
-        };
-        return _this;
+    function LabelContainer() {
+        return _super !== null && _super.apply(this, arguments) || this;
     }
     LabelContainer.prototype.onKeyDown = function (e, pos) {
         var _a = this.props, fnSwitchTo = _a.fnSwitchTo, fnSwitchPrevious = _a.fnSwitchPrevious, fnSwitchNext = _a.fnSwitchNext, fnSwitchFirst = _a.fnSwitchFirst, fnSwitchLast = _a.fnSwitchLast;
@@ -398,14 +389,14 @@ var LabelContainer = /** @class */ (function (_super) {
     LabelContainer.prototype.render = function () {
         var _this = this;
         var _a = this.props, entries = _a.entries, mode = _a.mode, keyboardSwitch = _a.keyboardSwitch, triggerEvents = _a.triggerEvents, labelContainerClassName = _a.labelContainerClassName, labelItemClassName = _a.labelItemClassName, delayTriggerEvents = _a.delayTriggerEvents, delayTriggerCancelEvents = _a.delayTriggerCancelEvents, delayTriggerLatency = _a.delayTriggerLatency, tabContext = _a.tabContext, side = _a.side, fnSwitchTo = _a.fnSwitchTo;
-        var labelContainerLocationClassName = labelContainerClassName + '-' + side;
+        var labelContainerSideClassName = labelContainerClassName + '-' + side;
         var labelContainerModeClassName = labelContainerClassName + '-' + mode;
-        var labelContainerLocationModeClassName = labelContainerClassName + '-' + side + '-' + mode;
-        var labelContainerAllClassName = labelContainerClassName + ' ' + labelContainerLocationClassName + ' ' + labelContainerModeClassName + ' ' + labelContainerLocationModeClassName;
-        var labelItemActiveClassName = labelItemClassName + '-' + classNameSuffix.active;
-        var labelItemInactiveClassName = labelItemClassName + '-' + classNameSuffix.inactive;
-        var labelItemDisabledClassName = labelItemClassName + '-' + classNameSuffix.disabled;
-        var labelItemHiddenClassName = labelItemClassName + '-' + classNameSuffix.hidden;
+        var labelContainerSideModeClassName = labelContainerClassName + '-' + side + '-' + mode;
+        var labelContainerAllClassName = labelContainerClassName + ' ' + labelContainerSideClassName + ' ' + labelContainerModeClassName + ' ' + labelContainerSideModeClassName;
+        var labelItemActiveClassName = labelItemClassName + '-' + ClassNameSuffix.active;
+        var labelItemInactiveClassName = labelItemClassName + '-' + ClassNameSuffix.inactive;
+        var labelItemDisabledClassName = labelItemClassName + '-' + ClassNameSuffix.disabled;
+        var labelItemHiddenClassName = labelItemClassName + '-' + ClassNameSuffix.hidden;
         var tabberId = tabContext.tabberId, currentIndex = tabContext.currentPosition.index;
         return React.createElement("div", { className: labelContainerAllClassName, role: "tablist" }, entries.map(function (entry, index) {
             var labelProps = entry.labelProps, key = entry.key, disabled = entry.disabled, hidden = entry.hidden;
@@ -478,25 +469,17 @@ var __assign$3 = (undefined && undefined.__assign) || function () {
 };
 var PanelContainer = /** @class */ (function (_super) {
     __extends$3(PanelContainer, _super);
-    function PanelContainer(props) {
-        var _this = _super.call(this, props) || this;
-        _this.state = {
-            panelContainerAllClassName: '',
-            panelItemActiveClassName: '',
-            panelItemInactiveClassName: '',
-            panelItemDisabledClassName: '',
-            panelItemHiddenClassName: ''
-        };
-        return _this;
+    function PanelContainer() {
+        return _super !== null && _super.apply(this, arguments) || this;
     }
     PanelContainer.prototype.render = function () {
         var _a = this.props, mode = _a.mode, panelContainerClassName = _a.panelContainerClassName, panelItemClassName = _a.panelItemClassName, tabContext = _a.tabContext, entries = _a.entries, refLabelSide = _a.refLabelSide;
         var panelContainerModeClassName = panelContainerClassName + '-' + mode;
         var panelContainerAllClassName = panelContainerClassName + ' ' + panelContainerModeClassName;
-        var panelItemActiveClassName = panelItemClassName + '-' + classNameSuffix.active;
-        var panelItemInactiveClassName = panelItemClassName + '-' + classNameSuffix.inactive;
-        var panelItemDisabledClassName = panelItemClassName + '-' + classNameSuffix.disabled;
-        var panelItemHiddenClassName = panelItemClassName + '-' + classNameSuffix.hidden;
+        var panelItemActiveClassName = panelItemClassName + '-' + ClassNameSuffix.active;
+        var panelItemInactiveClassName = panelItemClassName + '-' + ClassNameSuffix.inactive;
+        var panelItemDisabledClassName = panelItemClassName + '-' + ClassNameSuffix.disabled;
+        var panelItemHiddenClassName = panelItemClassName + '-' + ClassNameSuffix.hidden;
         var tabberId = tabContext.tabberId, currentIndex = tabContext.currentPosition.index;
         return React.createElement("div", { className: panelContainerAllClassName }, entries.map(function (entry, index) {
             var panelProps = entry.panelProps, key = entry.key, disabled = entry.disabled, hidden = entry.hidden;
@@ -518,14 +501,13 @@ var PanelContainer = /** @class */ (function (_super) {
 
 function TabContainer(props) {
     var entries = props.entries, mode = props.mode, keyboardSwitch = props.keyboardSwitch, delayTriggerLatency = props.delayTriggerLatency, tabContainerClassName = props.tabContainerClassName, labelContainerClassName = props.labelContainerClassName, labelItemClassName = props.labelItemClassName, panelContainerClassName = props.panelContainerClassName, panelItemClassName = props.panelItemClassName, showHeaderLabelContainer = props.showHeaderLabelContainer, showFooterLabelContainer = props.showFooterLabelContainer, triggerEvents = props.triggerEvents, delayTriggerEvents = props.delayTriggerEvents, delayTriggerCancelEvents = props.delayTriggerCancelEvents, fnSwitchTo = props.fnSwitchTo, fnSwitchPrevious = props.fnSwitchPrevious, fnSwitchNext = props.fnSwitchNext, fnSwitchFirst = props.fnSwitchFirst, fnSwitchLast = props.fnSwitchLast, tabContext = props.tabContext;
-    var header = classNameSuffix.header, footer = classNameSuffix.footer;
     var tabContainerModeClassName = tabContainerClassName + '-' + mode;
     return React.createElement("div", { className: tabContainerClassName + ' ' + tabContainerModeClassName },
         showHeaderLabelContainer ?
-            React.createElement(LabelContainer, { entries: entries, mode: mode, keyboardSwitch: keyboardSwitch, delayTriggerLatency: delayTriggerLatency, labelContainerClassName: labelContainerClassName, labelItemClassName: labelItemClassName, tabContext: tabContext, side: header, triggerEvents: triggerEvents, delayTriggerEvents: delayTriggerEvents, delayTriggerCancelEvents: delayTriggerCancelEvents, fnSwitchTo: fnSwitchTo, fnSwitchPrevious: fnSwitchPrevious, fnSwitchNext: fnSwitchNext, fnSwitchFirst: fnSwitchFirst, fnSwitchLast: fnSwitchLast }) : null,
-        React.createElement(PanelContainer, { mode: mode, panelContainerClassName: panelContainerClassName, panelItemClassName: panelItemClassName, tabContext: tabContext, entries: entries, refLabelSide: showHeaderLabelContainer || !showFooterLabelContainer ? header : footer }),
+            React.createElement(LabelContainer, { entries: entries, mode: mode, keyboardSwitch: keyboardSwitch, delayTriggerLatency: delayTriggerLatency, labelContainerClassName: labelContainerClassName, labelItemClassName: labelItemClassName, tabContext: tabContext, side: ClassNameSuffix.header, triggerEvents: triggerEvents, delayTriggerEvents: delayTriggerEvents, delayTriggerCancelEvents: delayTriggerCancelEvents, fnSwitchTo: fnSwitchTo, fnSwitchPrevious: fnSwitchPrevious, fnSwitchNext: fnSwitchNext, fnSwitchFirst: fnSwitchFirst, fnSwitchLast: fnSwitchLast }) : null,
+        React.createElement(PanelContainer, { mode: mode, panelContainerClassName: panelContainerClassName, panelItemClassName: panelItemClassName, tabContext: tabContext, entries: entries, refLabelSide: showHeaderLabelContainer || !showFooterLabelContainer ? ClassNameSuffix.header : ClassNameSuffix.footer }),
         showFooterLabelContainer ?
-            React.createElement(LabelContainer, { entries: entries, mode: mode, keyboardSwitch: keyboardSwitch, delayTriggerLatency: delayTriggerLatency, labelContainerClassName: labelContainerClassName, labelItemClassName: labelItemClassName, tabContext: tabContext, side: footer, triggerEvents: triggerEvents, delayTriggerEvents: delayTriggerEvents, delayTriggerCancelEvents: delayTriggerCancelEvents, fnSwitchTo: fnSwitchTo, fnSwitchPrevious: fnSwitchPrevious, fnSwitchNext: fnSwitchNext, fnSwitchFirst: fnSwitchFirst, fnSwitchLast: fnSwitchLast }) : null);
+            React.createElement(LabelContainer, { entries: entries, mode: mode, keyboardSwitch: keyboardSwitch, delayTriggerLatency: delayTriggerLatency, labelContainerClassName: labelContainerClassName, labelItemClassName: labelItemClassName, tabContext: tabContext, side: ClassNameSuffix.footer, triggerEvents: triggerEvents, delayTriggerEvents: delayTriggerEvents, delayTriggerCancelEvents: delayTriggerCancelEvents, fnSwitchTo: fnSwitchTo, fnSwitchPrevious: fnSwitchPrevious, fnSwitchNext: fnSwitchNext, fnSwitchFirst: fnSwitchFirst, fnSwitchLast: fnSwitchLast }) : null);
 }
 TabContainer.propTypes = tabContainerPropTypes;
 
@@ -571,7 +553,7 @@ var Tab = /** @class */ (function (_super) {
     }
     Tab.getDerivedStateFromProps = function (props) {
         var activePosition = props.activePosition;
-        if (activePosition === undefined || activePosition === null || (typeof activePosition === 'number' && !isFinite(activePosition))) {
+        if (activePosition === undefined || activePosition === null || (typeof activePosition === 'number' && isNaN(activePosition))) {
             return {
                 manageTargetPosition: true
             };
@@ -608,7 +590,7 @@ var Tab = /** @class */ (function (_super) {
             exclude = options.exclude;
         }
         var entries = this.props.entries;
-        var excludeIndecies = exclude ? exclude.map(function (pos) { return getNormalizedPosition(entries, pos).index; }) : [];
+        var excludeIndecies = exclude ? exclude.map(function (pos) { return normalizePosition(entries, pos).index; }) : [];
         var itemCount = entries.length;
         var maxIterationCount = -1;
         if (loop) {
@@ -636,7 +618,7 @@ var Tab = /** @class */ (function (_super) {
                 (includeDisabled && !hidden) ||
                 (!disabled && includeHidden) ||
                 (includeDisabled && includeHidden)) {
-                return this.switchTo(getNormalizedPosition(entries, tabItemIndex));
+                return this.switchTo(normalizePosition(entries, tabItemIndex));
             }
         }
     };
@@ -654,17 +636,17 @@ var Tab = /** @class */ (function (_super) {
     };
     Tab.prototype.render = function () {
         var _a = this, props = _a.props, state = _a.state, tabContext = _a.tabContext;
-        var targetPosition = state.targetPosition;
+        var entries = props.entries, mode = props.mode, keyboardSwitch = props.keyboardSwitch, delayTriggerLatency = props.delayTriggerLatency, tabContainerClassName = props.tabContainerClassName, labelContainerClassName = props.labelContainerClassName, labelItemClassName = props.labelItemClassName, panelContainerClassName = props.panelContainerClassName, panelItemClassName = props.panelItemClassName, showHeaderLabelContainer = props.showHeaderLabelContainer, showFooterLabelContainer = props.showFooterLabelContainer, triggerEvents = props.triggerEvents, delayTriggerEvents = props.delayTriggerEvents, delayTriggerCancelEvents = props.delayTriggerCancelEvents;
         var normalizedPrevPosition = tabContext.prevPosition;
         var prevIndex = normalizedPrevPosition.index;
-        var entries = props.entries, mode = props.mode, keyboardSwitch = props.keyboardSwitch, delayTriggerLatency = props.delayTriggerLatency, tabContainerClassName = props.tabContainerClassName, labelContainerClassName = props.labelContainerClassName, labelItemClassName = props.labelItemClassName, panelContainerClassName = props.panelContainerClassName, panelItemClassName = props.panelItemClassName, showHeaderLabelContainer = props.showHeaderLabelContainer, showFooterLabelContainer = props.showFooterLabelContainer, triggerEvents = props.triggerEvents, delayTriggerEvents = props.delayTriggerEvents, delayTriggerCancelEvents = props.delayTriggerCancelEvents;
-        var normalizedTargetPosition = getNormalizedPosition(entries, targetPosition);
+        var targetPosition = state.targetPosition;
+        var normalizedTargetPosition = normalizePosition(entries, targetPosition);
         var targetIndex = normalizedTargetPosition.index;
         var entryCount = entries.length;
         var currentIndex;
         if (targetIndex === -1) {
             currentIndex = entryCount > 0 ? 0 : -1;
-            tabContext.currentPosition = getNormalizedPosition(entries, currentIndex);
+            tabContext.currentPosition = normalizePosition(entries, currentIndex);
         }
         else if (targetIndex < entryCount) {
             currentIndex = targetIndex;
@@ -672,7 +654,7 @@ var Tab = /** @class */ (function (_super) {
         }
         else {
             currentIndex = entryCount - 1;
-            tabContext.currentPosition = getNormalizedPosition(entries, currentIndex);
+            tabContext.currentPosition = normalizePosition(entries, currentIndex);
         }
         if (prevIndex !== currentIndex && props.onSwitching) {
             props.onSwitching(normalizedPrevPosition, tabContext.currentPosition);

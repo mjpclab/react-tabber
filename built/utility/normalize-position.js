@@ -2,7 +2,7 @@ var invalidNormalizedPosition = {
     index: -1,
     key: undefined
 };
-function getNormalizedPosition(entries, position) {
+function normalizePosition(entries, position) {
     if (typeof position === 'number') {
         return {
             index: position,
@@ -34,4 +34,4 @@ function getNormalizedPosition(entries, position) {
         return invalidNormalizedPosition;
     }
 }
-export { invalidNormalizedPosition, getNormalizedPosition };
+export { invalidNormalizedPosition, normalizePosition };

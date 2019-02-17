@@ -1,4 +1,4 @@
-const classNameSuffix = {
+const ClassNameSuffix = {
 	active: 'active',
 	inactive: 'inactive',
 	disabled: 'disabled',
@@ -7,4 +7,4 @@ const classNameSuffix = {
 	footer: 'footer'
 };
 
-export default classNameSuffix;
+export default ClassNameSuffix;

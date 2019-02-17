@@ -6,7 +6,7 @@ const invalidNormalizedPosition: NormalizedTabItemPosition = {
 	key: undefined
 };
 
-function getNormalizedPosition(entries: Entry[], position: TabItemPosition): NormalizedTabItemPosition {
+function normalizePosition(entries: Entry[], position: TabItemPosition): NormalizedTabItemPosition {
 	if (typeof position === 'number') {
 		return {
 			index: position,
@@ -38,4 +38,4 @@ function getNormalizedPosition(entries: Entry[], position: TabItemPosition): Nor
 	}
 }
 
-export {invalidNormalizedPosition, getNormalizedPosition};
+export {invalidNormalizedPosition, normalizePosition};

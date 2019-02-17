@@ -24,29 +24,21 @@ var __assign = (this && this.__assign) || function () {
 };
 import React, { Component } from 'react';
 import { panelContainerPropTypes } from '../utility/prop-types';
-import classNameSuffix from '../utility/class-name-suffix';
+import ClassNameSuffix from '../utility/class-name-suffix';
 import { getLabelItemId, getPanelItemId } from '../utility/get-id';
 var PanelContainer = /** @class */ (function (_super) {
     __extends(PanelContainer, _super);
-    function PanelContainer(props) {
-        var _this = _super.call(this, props) || this;
-        _this.state = {
-            panelContainerAllClassName: '',
-            panelItemActiveClassName: '',
-            panelItemInactiveClassName: '',
-            panelItemDisabledClassName: '',
-            panelItemHiddenClassName: ''
-        };
-        return _this;
+    function PanelContainer() {
+        return _super !== null && _super.apply(this, arguments) || this;
     }
     PanelContainer.prototype.render = function () {
         var _a = this.props, mode = _a.mode, panelContainerClassName = _a.panelContainerClassName, panelItemClassName = _a.panelItemClassName, tabContext = _a.tabContext, entries = _a.entries, refLabelSide = _a.refLabelSide;
         var panelContainerModeClassName = panelContainerClassName + '-' + mode;
         var panelContainerAllClassName = panelContainerClassName + ' ' + panelContainerModeClassName;
-        var panelItemActiveClassName = panelItemClassName + '-' + classNameSuffix.active;
-        var panelItemInactiveClassName = panelItemClassName + '-' + classNameSuffix.inactive;
-        var panelItemDisabledClassName = panelItemClassName + '-' + classNameSuffix.disabled;
-        var panelItemHiddenClassName = panelItemClassName + '-' + classNameSuffix.hidden;
+        var panelItemActiveClassName = panelItemClassName + '-' + ClassNameSuffix.active;
+        var panelItemInactiveClassName = panelItemClassName + '-' + ClassNameSuffix.inactive;
+        var panelItemDisabledClassName = panelItemClassName + '-' + ClassNameSuffix.disabled;
+        var panelItemHiddenClassName = panelItemClassName + '-' + ClassNameSuffix.hidden;
         var tabberId = tabContext.tabberId, currentIndex = tabContext.currentPosition.index;
         return React.createElement("div", { className: panelContainerAllClassName }, entries.map(function (entry, index) {
             var panelProps = entry.panelProps, key = entry.key, disabled = entry.disabled, hidden = entry.hidden;

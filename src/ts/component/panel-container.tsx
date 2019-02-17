@@ -2,23 +2,11 @@ import React, {Component} from 'react';
 
 import {PanelContainerProps, PanelContainerPropTypes} from '../type/tab';
 import {panelContainerPropTypes} from '../utility/prop-types';
-import classNameSuffix from '../utility/class-name-suffix';
+import ClassNameSuffix from '../utility/class-name-suffix';
 import {getLabelItemId, getPanelItemId} from '../utility/get-id';
 
 class PanelContainer extends Component<PanelContainerProps> {
 	static propTypes: PanelContainerPropTypes = panelContainerPropTypes;
-
-	constructor(props: PanelContainerProps) {
-		super(props);
-		this.state = {
-			panelContainerAllClassName: '',
-
-			panelItemActiveClassName: '',
-			panelItemInactiveClassName: '',
-			panelItemDisabledClassName: '',
-			panelItemHiddenClassName: ''
-		};
-	}
 
 	render() {
 		const {
@@ -33,10 +21,10 @@ class PanelContainer extends Component<PanelContainerProps> {
 		const panelContainerModeClassName = panelContainerClassName + '-' + mode;
 		const panelContainerAllClassName = panelContainerClassName + ' ' + panelContainerModeClassName;
 
-		const panelItemActiveClassName = panelItemClassName + '-' + classNameSuffix.active;
-		const panelItemInactiveClassName = panelItemClassName + '-' + classNameSuffix.inactive;
-		const panelItemDisabledClassName = panelItemClassName + '-' + classNameSuffix.disabled;
-		const panelItemHiddenClassName = panelItemClassName + '-' + classNameSuffix.hidden;
+		const panelItemActiveClassName = panelItemClassName + '-' + ClassNameSuffix.active;
+		const panelItemInactiveClassName = panelItemClassName + '-' + ClassNameSuffix.inactive;
+		const panelItemDisabledClassName = panelItemClassName + '-' + ClassNameSuffix.disabled;
+		const panelItemHiddenClassName = panelItemClassName + '-' + ClassNameSuffix.hidden;
 
 		const {tabberId, currentPosition: {index: currentIndex}} = tabContext;
 

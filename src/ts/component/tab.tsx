@@ -9,7 +9,7 @@ import {
 	TabPropTypes
 } from '../type/tab';
 import {tabPropTypes} from '../utility/prop-types';
-import {invalidNormalizedPosition, getNormalizedPosition} from '../utility/normalized-position';
+import {invalidNormalizedPosition, normalizePosition} from '../utility/normalize-position';
 import defaultProps from '../utility/default-props';
 import {getNextTabContainerId} from '../utility/get-id';
 
@@ -52,7 +52,7 @@ class Tab extends React.Component<TabProps, TabState> {
 	static getDerivedStateFromProps(props: TabProps) {
 		const {activePosition} = props;
 
-		if (activePosition === undefined || activePosition === null || (typeof activePosition === 'number' && !isFinite(activePosition))) {
+		if (activePosition === undefined || activePosition === null || (typeof activePosition === 'number' && isNaN(activePosition))) {
 			return {
 				manageTargetPosition: true
 			}
@@ -95,7 +95,7 @@ class Tab extends React.Component<TabProps, TabState> {
 		}
 
 		const entries = this.props.entries;
-		const excludeIndecies = exclude ? exclude.map(pos => getNormalizedPosition(entries, pos).index) : [];
+		const excludeIndecies = exclude ? exclude.map(pos => normalizePosition(entries, pos).index) : [];
 
 		const itemCount = entries.length;
 
@@ -129,7 +129,7 @@ class Tab extends React.Component<TabProps, TabState> {
 				(!disabled && includeHidden) ||
 				(includeDisabled && includeHidden)
 			) {
-				return this.switchTo(getNormalizedPosition(entries, tabItemIndex));
+				return this.switchTo(normalizePosition(entries, tabItemIndex));
 			}
 		}
 	}
@@ -152,9 +152,6 @@ class Tab extends React.Component<TabProps, TabState> {
 
 	render() {
 		const {props, state, tabContext} = this;
-		const {targetPosition} = state;
-		const {prevPosition: normalizedPrevPosition} = tabContext;
-		const {index: prevIndex} = normalizedPrevPosition;
 		const {
 			entries,
 			mode,
@@ -174,20 +171,24 @@ class Tab extends React.Component<TabProps, TabState> {
 			delayTriggerCancelEvents,
 		} = props;
 
-		const normalizedTargetPosition = getNormalizedPosition(entries, targetPosition);
+		const {prevPosition: normalizedPrevPosition} = tabContext;
+		const {index: prevIndex} = normalizedPrevPosition;
+
+		const {targetPosition} = state;
+		const normalizedTargetPosition = normalizePosition(entries, targetPosition);
 		const {index: targetIndex} = normalizedTargetPosition;
 
 		const entryCount = entries.length;
 		let currentIndex: number;
 		if (targetIndex === -1) {
 			currentIndex = entryCount > 0 ? 0 : -1;
-			tabContext.currentPosition = getNormalizedPosition(entries, currentIndex);
+			tabContext.currentPosition = normalizePosition(entries, currentIndex);
 		} else if (targetIndex < entryCount) {
 			currentIndex = targetIndex;
 			tabContext.currentPosition = normalizedTargetPosition;
 		} else {
 			currentIndex = entryCount - 1;
-			tabContext.currentPosition = getNormalizedPosition(entries, currentIndex);
+			tabContext.currentPosition = normalizePosition(entries, currentIndex);
 		}
 
 		if (prevIndex !== currentIndex && props.onSwitching) {

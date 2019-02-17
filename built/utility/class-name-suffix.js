@@ -1,4 +1,4 @@
-var classNameSuffix = {
+var ClassNameSuffix = {
     active: 'active',
     inactive: 'inactive',
     disabled: 'disabled',
@@ -6,4 +6,4 @@ var classNameSuffix = {
     header: 'header',
     footer: 'footer'
 };
-export default classNameSuffix;
+export default ClassNameSuffix;
