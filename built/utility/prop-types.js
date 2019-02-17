@@ -53,14 +53,15 @@ var normalizedEventPropTypes = {
 };
 var publicPropTypes = __assign({}, necessaryPropTypes, callbackPropTypes, eventPropTypes, { activePosition: PropTypes.oneOfType([PropTypes.string, PropTypes.number]) });
 var tabPropTypes = __assign({}, necessaryPropTypes, callbackPropTypes, normalizedEventPropTypes, { activePosition: PropTypes.oneOfType([PropTypes.string, PropTypes.number]) });
-var tabContainerPropTypes = __assign({}, necessaryPropTypes, normalizedEventPropTypes, switchFuncPropTypes, { tabContext: PropTypes.object });
-var labelContainerPropTypes = __assign({}, normalizedEventPropTypes, switchFuncPropTypes, { entries: entriesPropType, mode: PropTypes.string, keyboardSwitch: PropTypes.bool, delayTriggerLatency: PropTypes.number, labelContainerClassName: PropTypes.string, labelItemClassName: PropTypes.string, tabContext: PropTypes.object, side: PropTypes.string });
+var tabContainerPropTypes = __assign({}, necessaryPropTypes, normalizedEventPropTypes, switchFuncPropTypes, { tabContext: PropTypes.object, currentIndex: PropTypes.number });
+var labelContainerPropTypes = __assign({}, normalizedEventPropTypes, switchFuncPropTypes, { entries: entriesPropType, mode: PropTypes.string, keyboardSwitch: PropTypes.bool, delayTriggerLatency: PropTypes.number, labelContainerClassName: PropTypes.string, labelItemClassName: PropTypes.string, tabContext: PropTypes.object, currentIndex: PropTypes.number, side: PropTypes.string });
 var panelContainerPropTypes = {
     entries: PropTypes.arrayOf(PropTypes.object),
     mode: PropTypes.string,
     panelContainerClassName: PropTypes.string,
     panelItemClassName: PropTypes.string,
     tabContext: PropTypes.object,
+    currentIndex: PropTypes.number,
     refLabelSide: PropTypes.string
 };
 export { publicPropTypes, tabPropTypes, tabContainerPropTypes, labelContainerPropTypes, panelContainerPropTypes };

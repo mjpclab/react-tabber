@@ -78,6 +78,7 @@ const tabContainerPropTypes: TabContainerPropTypes = {
 	...normalizedEventPropTypes,
 	...switchFuncPropTypes,
 	tabContext: PropTypes.object,
+	currentIndex: PropTypes.number
 };
 
 const labelContainerPropTypes: LabelContainerPropTypes = {
@@ -90,7 +91,8 @@ const labelContainerPropTypes: LabelContainerPropTypes = {
 	labelContainerClassName: PropTypes.string,
 	labelItemClassName: PropTypes.string,
 	tabContext: PropTypes.object,
-	side: PropTypes.string,
+	currentIndex: PropTypes.number,
+	side: PropTypes.string
 };
 
 const panelContainerPropTypes: PanelContainerPropTypes = {
@@ -99,6 +101,7 @@ const panelContainerPropTypes: PanelContainerPropTypes = {
 	panelContainerClassName: PropTypes.string,
 	panelItemClassName: PropTypes.string,
 	tabContext: PropTypes.object,
+	currentIndex: PropTypes.number,
 	refLabelSide: PropTypes.string
 };
 

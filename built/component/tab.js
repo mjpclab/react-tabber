@@ -28,10 +28,10 @@ var Tab = /** @class */ (function (_super) {
         var _this = _super.call(this, props) || this;
         _this.tabContext = {
             tabberId: getNextTabContainerId(),
-            prevPosition: invalidNormalizedPosition,
-            currentPosition: invalidNormalizedPosition,
             delayTimeout: 0
         };
+        _this.prevPosition = invalidNormalizedPosition;
+        _this.currentPosition = invalidNormalizedPosition;
         _this.switchTo = _this.switchTo.bind(_this);
         _this._switchNeighbor = _this._switchNeighbor.bind(_this);
         _this.switchPrevious = _this.switchPrevious.bind(_this);
@@ -116,10 +116,10 @@ var Tab = /** @class */ (function (_super) {
         }
     };
     Tab.prototype.switchPrevious = function (options) {
-        return this._switchNeighbor(this.tabContext.currentPosition.index, SwitchDirection.Backward, options);
+        return this._switchNeighbor(this.currentPosition.index, SwitchDirection.Backward, options);
     };
     Tab.prototype.switchNext = function (options) {
-        return this._switchNeighbor(this.tabContext.currentPosition.index, SwitchDirection.Forward, options);
+        return this._switchNeighbor(this.currentPosition.index, SwitchDirection.Forward, options);
     };
     Tab.prototype.switchFirst = function (options) {
         return this._switchNeighbor(-1, SwitchDirection.Forward, options);
@@ -128,9 +128,8 @@ var Tab = /** @class */ (function (_super) {
         return this._switchNeighbor(this.props.entries.length, SwitchDirection.Backward, options);
     };
     Tab.prototype.render = function () {
-        var _a = this, props = _a.props, state = _a.state, tabContext = _a.tabContext;
+        var _a = this, props = _a.props, state = _a.state, tabContext = _a.tabContext, normalizedPrevPosition = _a.prevPosition;
         var entries = props.entries, mode = props.mode, keyboardSwitch = props.keyboardSwitch, delayTriggerLatency = props.delayTriggerLatency, tabContainerClassName = props.tabContainerClassName, labelContainerClassName = props.labelContainerClassName, labelItemClassName = props.labelItemClassName, panelContainerClassName = props.panelContainerClassName, panelItemClassName = props.panelItemClassName, showHeaderLabelContainer = props.showHeaderLabelContainer, showFooterLabelContainer = props.showFooterLabelContainer, triggerEvents = props.triggerEvents, delayTriggerEvents = props.delayTriggerEvents, delayTriggerCancelEvents = props.delayTriggerCancelEvents;
-        var normalizedPrevPosition = tabContext.prevPosition;
         var prevIndex = normalizedPrevPosition.index;
         var targetPosition = state.targetPosition;
         var normalizedTargetPosition = normalizePosition(entries, targetPosition);
@@ -139,29 +138,28 @@ var Tab = /** @class */ (function (_super) {
         var currentIndex;
         if (targetIndex === -1) {
             currentIndex = entryCount > 0 ? 0 : -1;
-            tabContext.currentPosition = normalizePosition(entries, currentIndex);
+            this.currentPosition = normalizePosition(entries, currentIndex);
         }
         else if (targetIndex < entryCount) {
             currentIndex = targetIndex;
-            tabContext.currentPosition = normalizedTargetPosition;
+            this.currentPosition = normalizedTargetPosition;
         }
         else {
             currentIndex = entryCount - 1;
-            tabContext.currentPosition = normalizePosition(entries, currentIndex);
+            this.currentPosition = normalizePosition(entries, currentIndex);
         }
         if (prevIndex !== currentIndex && props.onSwitching) {
-            props.onSwitching(normalizedPrevPosition, tabContext.currentPosition);
+            props.onSwitching(normalizedPrevPosition, this.currentPosition);
         }
-        return React.createElement(TabContainer, { entries: entries, mode: mode, keyboardSwitch: keyboardSwitch, delayTriggerLatency: delayTriggerLatency, tabContainerClassName: tabContainerClassName, labelContainerClassName: labelContainerClassName, labelItemClassName: labelItemClassName, panelContainerClassName: panelContainerClassName, panelItemClassName: panelItemClassName, showHeaderLabelContainer: showHeaderLabelContainer, showFooterLabelContainer: showFooterLabelContainer, triggerEvents: triggerEvents, delayTriggerEvents: delayTriggerEvents, delayTriggerCancelEvents: delayTriggerCancelEvents, fnSwitchTo: this.switchTo, fnSwitchPrevious: this.switchPrevious, fnSwitchNext: this.switchNext, fnSwitchFirst: this.switchFirst, fnSwitchLast: this.switchLast, tabContext: tabContext });
+        return React.createElement(TabContainer, { entries: entries, mode: mode, keyboardSwitch: keyboardSwitch, delayTriggerLatency: delayTriggerLatency, tabContainerClassName: tabContainerClassName, labelContainerClassName: labelContainerClassName, labelItemClassName: labelItemClassName, panelContainerClassName: panelContainerClassName, panelItemClassName: panelItemClassName, showHeaderLabelContainer: showHeaderLabelContainer, showFooterLabelContainer: showFooterLabelContainer, triggerEvents: triggerEvents, delayTriggerEvents: delayTriggerEvents, delayTriggerCancelEvents: delayTriggerCancelEvents, fnSwitchTo: this.switchTo, fnSwitchPrevious: this.switchPrevious, fnSwitchNext: this.switchNext, fnSwitchFirst: this.switchFirst, fnSwitchLast: this.switchLast, tabContext: tabContext, currentIndex: currentIndex });
     };
     Tab.prototype.handleIndexChange = function () {
-        var _a = this, props = _a.props, tabContext = _a.tabContext;
+        var _a = this, props = _a.props, prevPosition = _a.prevPosition, currentPosition = _a.currentPosition;
         var onSwitched = props.onSwitched;
-        var prevPosition = tabContext.prevPosition, currentPosition = tabContext.currentPosition;
         if (prevPosition.index !== currentPosition.index && onSwitched) {
             onSwitched(prevPosition, currentPosition);
         }
-        tabContext.prevPosition = currentPosition;
+        this.prevPosition = currentPosition;
     };
     Tab.prototype.componentDidMount = function () {
         this.handleIndexChange();

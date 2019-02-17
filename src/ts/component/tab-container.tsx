@@ -32,6 +32,7 @@ function TabContainer(props: TabContainerProps): JSX.Element {
 		fnSwitchLast,
 
 		tabContext,
+		currentIndex
 	} = props;
 
 	const tabContainerModeClassName = tabContainerClassName + '-' + mode;
@@ -47,6 +48,7 @@ function TabContainer(props: TabContainerProps): JSX.Element {
 					labelContainerClassName={labelContainerClassName}
 					labelItemClassName={labelItemClassName}
 					tabContext={tabContext}
+					currentIndex={currentIndex}
 					side={ClassNameSuffix.header}
 
 					triggerEvents={triggerEvents}
@@ -65,6 +67,7 @@ function TabContainer(props: TabContainerProps): JSX.Element {
 			panelContainerClassName={panelContainerClassName}
 			panelItemClassName={panelItemClassName}
 			tabContext={tabContext}
+			currentIndex={currentIndex}
 			entries={entries}
 			refLabelSide={showHeaderLabelContainer || !showFooterLabelContainer ? ClassNameSuffix.header : ClassNameSuffix.footer}
 		/>
@@ -78,6 +81,7 @@ function TabContainer(props: TabContainerProps): JSX.Element {
 					labelContainerClassName={labelContainerClassName}
 					labelItemClassName={labelItemClassName}
 					tabContext={tabContext}
+					currentIndex={currentIndex}
 					side={ClassNameSuffix.footer}
 
 					triggerEvents={triggerEvents}

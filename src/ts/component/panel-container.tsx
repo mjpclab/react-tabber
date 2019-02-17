@@ -14,6 +14,7 @@ class PanelContainer extends Component<PanelContainerProps> {
 			panelContainerClassName,
 			panelItemClassName,
 			tabContext,
+			currentIndex,
 			entries,
 			refLabelSide
 		} = this.props;
@@ -26,7 +27,7 @@ class PanelContainer extends Component<PanelContainerProps> {
 		const panelItemDisabledClassName = panelItemClassName + '-' + ClassNameSuffix.disabled;
 		const panelItemHiddenClassName = panelItemClassName + '-' + ClassNameSuffix.hidden;
 
-		const {tabberId, currentPosition: {index: currentIndex}} = tabContext;
+		const {tabberId} = tabContext;
 
 		return <div className={panelContainerAllClassName}>
 			{entries.map((entry, index) => {

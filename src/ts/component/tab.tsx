@@ -28,10 +28,11 @@ class Tab extends React.Component<TabProps, TabState> {
 
 	private tabContext: TabContext = {
 		tabberId: getNextTabContainerId(),
-		prevPosition: invalidNormalizedPosition,
-		currentPosition: invalidNormalizedPosition,
 		delayTimeout: 0
 	};
+	private prevPosition = invalidNormalizedPosition;
+	private currentPosition = invalidNormalizedPosition;
+
 
 	constructor(props: TabProps) {
 		super(props);
@@ -135,11 +136,11 @@ class Tab extends React.Component<TabProps, TabState> {
 	}
 
 	public switchPrevious(options?: SwitchOptions) {
-		return this._switchNeighbor(this.tabContext.currentPosition.index, SwitchDirection.Backward, options);
+		return this._switchNeighbor(this.currentPosition.index, SwitchDirection.Backward, options);
 	}
 
 	public switchNext(options?: SwitchOptions) {
-		return this._switchNeighbor(this.tabContext.currentPosition.index, SwitchDirection.Forward, options);
+		return this._switchNeighbor(this.currentPosition.index, SwitchDirection.Forward, options);
 	}
 
 	public switchFirst(options?: SwitchOptions) {
@@ -151,7 +152,7 @@ class Tab extends React.Component<TabProps, TabState> {
 	}
 
 	render() {
-		const {props, state, tabContext} = this;
+		const {props, state, tabContext, prevPosition: normalizedPrevPosition} = this;
 		const {
 			entries,
 			mode,
@@ -171,7 +172,6 @@ class Tab extends React.Component<TabProps, TabState> {
 			delayTriggerCancelEvents,
 		} = props;
 
-		const {prevPosition: normalizedPrevPosition} = tabContext;
 		const {index: prevIndex} = normalizedPrevPosition;
 
 		const {targetPosition} = state;
@@ -182,17 +182,17 @@ class Tab extends React.Component<TabProps, TabState> {
 		let currentIndex: number;
 		if (targetIndex === -1) {
 			currentIndex = entryCount > 0 ? 0 : -1;
-			tabContext.currentPosition = normalizePosition(entries, currentIndex);
+			this.currentPosition = normalizePosition(entries, currentIndex);
 		} else if (targetIndex < entryCount) {
 			currentIndex = targetIndex;
-			tabContext.currentPosition = normalizedTargetPosition;
+			this.currentPosition = normalizedTargetPosition;
 		} else {
 			currentIndex = entryCount - 1;
-			tabContext.currentPosition = normalizePosition(entries, currentIndex);
+			this.currentPosition = normalizePosition(entries, currentIndex);
 		}
 
 		if (prevIndex !== currentIndex && props.onSwitching) {
-			props.onSwitching(normalizedPrevPosition, tabContext.currentPosition);
+			props.onSwitching(normalizedPrevPosition, this.currentPosition);
 		}
 
 		return <TabContainer
@@ -220,18 +220,18 @@ class Tab extends React.Component<TabProps, TabState> {
 			fnSwitchLast={this.switchLast}
 
 			tabContext={tabContext}
+			currentIndex={currentIndex}
 		/>
 	}
 
 	private handleIndexChange() {
-		const {props, tabContext} = this;
+		const {props, prevPosition, currentPosition} = this;
 		const {onSwitched} = props;
-		const {prevPosition, currentPosition} = tabContext;
 
 		if (prevPosition.index !== currentPosition.index && onSwitched) {
 			onSwitched(prevPosition, currentPosition);
 		}
-		tabContext.prevPosition = currentPosition;
+		this.prevPosition = currentPosition;
 	}
 
 	componentDidMount() {

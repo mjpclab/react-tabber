@@ -88,7 +88,7 @@ var LabelContainer = /** @class */ (function (_super) {
     };
     LabelContainer.prototype.render = function () {
         var _this = this;
-        var _a = this.props, entries = _a.entries, mode = _a.mode, keyboardSwitch = _a.keyboardSwitch, triggerEvents = _a.triggerEvents, labelContainerClassName = _a.labelContainerClassName, labelItemClassName = _a.labelItemClassName, delayTriggerEvents = _a.delayTriggerEvents, delayTriggerCancelEvents = _a.delayTriggerCancelEvents, delayTriggerLatency = _a.delayTriggerLatency, tabContext = _a.tabContext, side = _a.side, fnSwitchTo = _a.fnSwitchTo;
+        var _a = this.props, entries = _a.entries, mode = _a.mode, keyboardSwitch = _a.keyboardSwitch, triggerEvents = _a.triggerEvents, labelContainerClassName = _a.labelContainerClassName, labelItemClassName = _a.labelItemClassName, delayTriggerEvents = _a.delayTriggerEvents, delayTriggerCancelEvents = _a.delayTriggerCancelEvents, delayTriggerLatency = _a.delayTriggerLatency, tabContext = _a.tabContext, currentIndex = _a.currentIndex, side = _a.side, fnSwitchTo = _a.fnSwitchTo;
         var labelContainerSideClassName = labelContainerClassName + '-' + side;
         var labelContainerModeClassName = labelContainerClassName + '-' + mode;
         var labelContainerSideModeClassName = labelContainerClassName + '-' + side + '-' + mode;
@@ -97,7 +97,7 @@ var LabelContainer = /** @class */ (function (_super) {
         var labelItemInactiveClassName = labelItemClassName + '-' + ClassNameSuffix.inactive;
         var labelItemDisabledClassName = labelItemClassName + '-' + ClassNameSuffix.disabled;
         var labelItemHiddenClassName = labelItemClassName + '-' + ClassNameSuffix.hidden;
-        var tabberId = tabContext.tabberId, currentIndex = tabContext.currentPosition.index;
+        var tabberId = tabContext.tabberId;
         return React.createElement("div", { className: labelContainerAllClassName, role: "tablist" }, entries.map(function (entry, index) {
             var labelProps = entry.labelProps, key = entry.key, disabled = entry.disabled, hidden = entry.hidden;
             var pos = { index: index, key: key };

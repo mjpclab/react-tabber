@@ -32,14 +32,14 @@ var PanelContainer = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     PanelContainer.prototype.render = function () {
-        var _a = this.props, mode = _a.mode, panelContainerClassName = _a.panelContainerClassName, panelItemClassName = _a.panelItemClassName, tabContext = _a.tabContext, entries = _a.entries, refLabelSide = _a.refLabelSide;
+        var _a = this.props, mode = _a.mode, panelContainerClassName = _a.panelContainerClassName, panelItemClassName = _a.panelItemClassName, tabContext = _a.tabContext, currentIndex = _a.currentIndex, entries = _a.entries, refLabelSide = _a.refLabelSide;
         var panelContainerModeClassName = panelContainerClassName + '-' + mode;
         var panelContainerAllClassName = panelContainerClassName + ' ' + panelContainerModeClassName;
         var panelItemActiveClassName = panelItemClassName + '-' + ClassNameSuffix.active;
         var panelItemInactiveClassName = panelItemClassName + '-' + ClassNameSuffix.inactive;
         var panelItemDisabledClassName = panelItemClassName + '-' + ClassNameSuffix.disabled;
         var panelItemHiddenClassName = panelItemClassName + '-' + ClassNameSuffix.hidden;
-        var tabberId = tabContext.tabberId, currentIndex = tabContext.currentPosition.index;
+        var tabberId = tabContext.tabberId;
         return React.createElement("div", { className: panelContainerAllClassName }, entries.map(function (entry, index) {
             var panelProps = entry.panelProps, key = entry.key, disabled = entry.disabled, hidden = entry.hidden;
             var isActive = index === currentIndex;

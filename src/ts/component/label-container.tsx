@@ -84,6 +84,7 @@ class LabelContainer extends Component<LabelContainerProps> {
 			delayTriggerLatency,
 
 			tabContext,
+			currentIndex,
 			side,
 			fnSwitchTo
 		} = this.props;
@@ -98,7 +99,7 @@ class LabelContainer extends Component<LabelContainerProps> {
 		const labelItemDisabledClassName = labelItemClassName + '-' + ClassNameSuffix.disabled;
 		const labelItemHiddenClassName = labelItemClassName + '-' + ClassNameSuffix.hidden;
 
-		const {tabberId, currentPosition: {index: currentIndex}} = tabContext;
+		const {tabberId} = tabContext;
 
 		return <div className={labelContainerAllClassName} role="tablist">
 			{entries.map((entry, index) => {

@@ -25,9 +25,7 @@ interface NormalizedTabItemPosition {
 }
 
 interface TabContext {
-	tabberId: number;
-	prevPosition: NormalizedTabItemPosition;
-	currentPosition: NormalizedTabItemPosition;
+	readonly tabberId: number;
 	delayTimeout: any;
 }
 
@@ -103,6 +101,7 @@ type TabPropTypes = {
 // tab container
 interface TabContainerProps extends NecessaryProps, NormalizedEventProps, SwitchFuncs {
 	tabContext: TabContext;
+	currentIndex: number;
 }
 
 type TabContainerPropTypes = {
@@ -120,6 +119,7 @@ interface LabelContainerProps extends NormalizedEventProps, SwitchFuncs {
 	labelItemClassName: string;
 
 	tabContext: TabContext;
+	currentIndex: number;
 	side: string;
 }
 
@@ -134,6 +134,7 @@ interface PanelContainerProps {
 	panelContainerClassName: string;
 	panelItemClassName: string;
 	tabContext: TabContext;
+	currentIndex: number;
 	refLabelSide: string;
 }
 
