@@ -20,11 +20,10 @@ class ReactTabber extends Component<PublicProps> {
 
 	render() {
 		const {entries, children, triggerEvents, delayTriggerEvents, delayTriggerCancelEvents, ...props} = this.props;
-		const allEntries = parseTabEntries(entries, children);
 
 		return <Tab
 			{...props}
-			entries={allEntries}
+			entries={parseTabEntries(entries, children)}
 			triggerEvents={normalizeEvents(triggerEvents)}
 			delayTriggerEvents={normalizeEvents(delayTriggerEvents)}
 			delayTriggerCancelEvents={normalizeEvents(delayTriggerCancelEvents)}

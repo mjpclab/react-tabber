@@ -83,14 +83,12 @@ var defaultProps = {
 
 var RE_WHITESPACES = /\s+/;
 function normalizeEvents(events) {
-    if (events) {
-        if (Array.isArray(events)) {
-            return events;
-        }
-        else {
-            return String(events).split(RE_WHITESPACES);
-        }
+    if (!events) {
+        return [];
     }
+    var arrayed = Array.isArray(events) ? events : String(events).split(RE_WHITESPACES);
+    var normalized = arrayed.filter(Boolean);
+    return normalized;
 }
 
 var __extends = (undefined && undefined.__extends) || (function () {
@@ -299,7 +297,7 @@ var classNameSuffix = {
 
 function createEventHandler(events, handler) {
     var eventHandlers = {};
-    events && events.length && events.forEach(function (event) {
+    events.forEach(function (event) {
         eventHandlers[event] = handler;
     });
     return eventHandlers;
@@ -443,7 +441,7 @@ var LabelContainer = /** @class */ (function (_super) {
                         clearTimeout(localDelayTimeout_1);
                     }
                 };
-                if (delayTriggerEvents && delayTriggerEvents.length) {
+                if (delayTriggerEvents.length) {
                     labelDelayTriggerCancelProps = createEventHandler(delayTriggerCancelEvents, cancelDelayDoSwitch);
                     labelDelayTriggerProps = createEventHandler(delayTriggerEvents, delayDoSwitch);
                 }
@@ -549,7 +547,7 @@ function TabContainer(props) {
             React.createElement(LabelContainer, { entries: entries, mode: mode, keyboardSwitch: keyboardSwitch, delayTriggerLatency: delayTriggerLatency, labelContainerClassName: labelContainerClassName, labelItemClassName: labelItemClassName, tabContext: tabContext, side: header, triggerEvents: triggerEvents, delayTriggerEvents: delayTriggerEvents, delayTriggerCancelEvents: delayTriggerCancelEvents, fnSwitchTo: fnSwitchTo, fnSwitchPrevious: fnSwitchPrevious, fnSwitchNext: fnSwitchNext, fnSwitchFirst: fnSwitchFirst, fnSwitchLast: fnSwitchLast }) : null,
         React.createElement(PanelContainer, { mode: mode, panelContainerClassName: panelContainerClassName, panelItemClassName: panelItemClassName, tabContext: tabContext, entries: entries, refLabelSide: showHeaderLabelContainer || !showFooterLabelContainer ? header : footer }),
         showFooterLabelContainer ?
-            React.createElement(LabelContainer, { entries: entries, mode: mode, keyboardSwitch: keyboardSwitch, delayTriggerLatency: delayTriggerLatency, labelContainerClassName: labelContainerClassName, labelItemClassName: labelItemClassName, tabContext: tabContext, side: footer, fnSwitchTo: fnSwitchTo, fnSwitchPrevious: fnSwitchPrevious, fnSwitchNext: fnSwitchNext, fnSwitchFirst: fnSwitchFirst, fnSwitchLast: fnSwitchLast }) : null);
+            React.createElement(LabelContainer, { entries: entries, mode: mode, keyboardSwitch: keyboardSwitch, delayTriggerLatency: delayTriggerLatency, labelContainerClassName: labelContainerClassName, labelItemClassName: labelItemClassName, tabContext: tabContext, side: footer, triggerEvents: triggerEvents, delayTriggerEvents: delayTriggerEvents, delayTriggerCancelEvents: delayTriggerCancelEvents, fnSwitchTo: fnSwitchTo, fnSwitchPrevious: fnSwitchPrevious, fnSwitchNext: fnSwitchNext, fnSwitchFirst: fnSwitchFirst, fnSwitchLast: fnSwitchLast }) : null);
 }
 TabContainer.propTypes = tabContainerPropTypes;
 
@@ -763,8 +761,7 @@ var ReactTabber = /** @class */ (function (_super) {
     }
     ReactTabber.prototype.render = function () {
         var _a = this.props, entries = _a.entries, children = _a.children, triggerEvents = _a.triggerEvents, delayTriggerEvents = _a.delayTriggerEvents, delayTriggerCancelEvents = _a.delayTriggerCancelEvents, props = __rest$1(_a, ["entries", "children", "triggerEvents", "delayTriggerEvents", "delayTriggerCancelEvents"]);
-        var allEntries = parseTabEntries(entries, children);
-        return React.createElement(Tab, __assign$4({}, props, { entries: allEntries, triggerEvents: normalizeEvents(triggerEvents), delayTriggerEvents: normalizeEvents(delayTriggerEvents), delayTriggerCancelEvents: normalizeEvents(delayTriggerCancelEvents) }));
+        return React.createElement(Tab, __assign$4({}, props, { entries: parseTabEntries(entries, children), triggerEvents: normalizeEvents(triggerEvents), delayTriggerEvents: normalizeEvents(delayTriggerEvents), delayTriggerCancelEvents: normalizeEvents(delayTriggerCancelEvents) }));
     };
     ReactTabber.Label = Label;
     ReactTabber.Panel = Panel;

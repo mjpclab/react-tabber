@@ -73,9 +73,9 @@ interface Callbacks {
 }
 
 interface EventProps {
-	triggerEvents?: string | string[];
-	delayTriggerEvents?: string | string[];
-	delayTriggerCancelEvents?: string | string[];
+	triggerEvents: string | string[];
+	delayTriggerEvents: string | string[];
+	delayTriggerCancelEvents: string | string[];
 }
 
 type NormalizedEventProps = {

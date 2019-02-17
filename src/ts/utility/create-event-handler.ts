@@ -1,9 +1,9 @@
 import {JSXProps} from '../type/tab';
 
-function createEventHandler(events: string[] | undefined | null, handler: any) {
+function createEventHandler(events: string[], handler: any) {
 	const eventHandlers: JSXProps = {};
 
-	events && events.length && events.forEach(event => {
+	events.forEach(event => {
 		eventHandlers[event] = handler;
 	});
 

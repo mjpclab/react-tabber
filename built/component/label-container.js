@@ -141,7 +141,7 @@ var LabelContainer = /** @class */ (function (_super) {
                         clearTimeout(localDelayTimeout_1);
                     }
                 };
-                if (delayTriggerEvents && delayTriggerEvents.length) {
+                if (delayTriggerEvents.length) {
                     labelDelayTriggerCancelProps = createEventHandler(delayTriggerCancelEvents, cancelDelayDoSwitch);
                     labelDelayTriggerProps = createEventHandler(delayTriggerEvents, delayDoSwitch);
                 }

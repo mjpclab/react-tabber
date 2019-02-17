@@ -171,7 +171,7 @@ class LabelContainer extends Component<LabelContainerProps, LabelContainerState>
 						}
 					};
 
-					if (delayTriggerEvents && delayTriggerEvents.length) {
+					if (delayTriggerEvents.length) {
 						labelDelayTriggerCancelProps = createEventHandler(delayTriggerCancelEvents, cancelDelayDoSwitch);
 						labelDelayTriggerProps = createEventHandler(delayTriggerEvents, delayDoSwitch);
 					}

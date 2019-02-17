@@ -81,6 +81,11 @@ function TabContainer(props: TabContainerProps): JSX.Element {
 					labelItemClassName={labelItemClassName}
 					tabContext={tabContext}
 					side={footer}
+
+					triggerEvents={triggerEvents}
+					delayTriggerEvents={delayTriggerEvents}
+					delayTriggerCancelEvents={delayTriggerCancelEvents}
+
 					fnSwitchTo={fnSwitchTo}
 					fnSwitchPrevious={fnSwitchPrevious}
 					fnSwitchNext={fnSwitchNext}
