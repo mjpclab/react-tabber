@@ -10,12 +10,12 @@ class PanelContainer extends Component<PanelContainerProps> {
 
 	render() {
 		const {
+			entries,
 			mode,
 			panelContainerClassName,
 			panelItemClassName,
 			tabContext,
 			currentIndex,
-			entries,
 			refLabelSide
 		} = this.props;
 

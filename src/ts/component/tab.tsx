@@ -53,7 +53,7 @@ class Tab extends React.Component<TabProps, TabState> {
 	static getDerivedStateFromProps(props: TabProps) {
 		const {activePosition} = props;
 
-		if (activePosition === undefined || activePosition === null || (typeof activePosition === 'number' && isNaN(activePosition))) {
+		if (activePosition === undefined || activePosition === null || isNaN(activePosition)) {
 			return {
 				manageTargetPosition: true
 			}

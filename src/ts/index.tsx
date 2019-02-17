@@ -1,3 +1,5 @@
+/// <reference path="./type/global.d.ts" />
+
 import React, {Component} from 'react';
 
 import {PublicProps, PublicPropTypes} from './type/tab';

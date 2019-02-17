@@ -46,7 +46,7 @@ var Tab = /** @class */ (function (_super) {
     }
     Tab.getDerivedStateFromProps = function (props) {
         var activePosition = props.activePosition;
-        if (activePosition === undefined || activePosition === null || (typeof activePosition === 'number' && isNaN(activePosition))) {
+        if (activePosition === undefined || activePosition === null || isNaN(activePosition)) {
             return {
                 manageTargetPosition: true
             };

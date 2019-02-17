@@ -32,7 +32,7 @@ var PanelContainer = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     PanelContainer.prototype.render = function () {
-        var _a = this.props, mode = _a.mode, panelContainerClassName = _a.panelContainerClassName, panelItemClassName = _a.panelItemClassName, tabContext = _a.tabContext, currentIndex = _a.currentIndex, entries = _a.entries, refLabelSide = _a.refLabelSide;
+        var _a = this.props, entries = _a.entries, mode = _a.mode, panelContainerClassName = _a.panelContainerClassName, panelItemClassName = _a.panelItemClassName, tabContext = _a.tabContext, currentIndex = _a.currentIndex, refLabelSide = _a.refLabelSide;
         var panelContainerModeClassName = panelContainerClassName + '-' + mode;
         var panelContainerAllClassName = panelContainerClassName + ' ' + panelContainerModeClassName;
         var panelItemActiveClassName = panelItemClassName + '-' + ClassNameSuffix.active;
