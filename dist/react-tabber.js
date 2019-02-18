@@ -686,7 +686,6 @@
         return Tab;
     }(React__default.Component));
 
-    /// <reference path="./type/global.d.ts" />
     var __extends$5 = (undefined && undefined.__extends) || (function () {
         var extendStatics = function (d, b) {
             extendStatics = Object.setPrototypeOf ||
