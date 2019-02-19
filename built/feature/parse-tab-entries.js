@@ -21,11 +21,11 @@ var __rest = (this && this.__rest) || function (s, e) {
 import React from "react";
 import Label from "../component/label";
 import Panel from "../component/panel";
-function parseTabEntries(propTabs, children) {
+function parseTabEntries(propEntries, children) {
     var entries = [];
     // prop entries
-    if (propTabs && propTabs.length) {
-        entries.push.apply(entries, propTabs.map(function (_entry) {
+    if (propEntries && propEntries.length) {
+        entries.push.apply(entries, propEntries.map(function (_entry) {
             var entry = __assign({}, _entry);
             if (entry.key === undefined) {
                 entry.key = null;

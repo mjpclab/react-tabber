@@ -31,7 +31,8 @@ if you are using React and ReactTabber in global variable mode, which means ther
 You need to collect all components that want to put into tab entries array.
 Each array item has property `label` and `panel`, which can be a string, a number, a native DOM element, another React component, or array of these types of items.
 
-Optional property `key` for the item can improve performance and use it from some callbacks besides index value.
+Optional property `key` for the item can improve performance.
+In some APIs, `key` can be used instead of `index` which represents a tab item position.
 
 Optional property `disabled` for the item sets the tab item state to disabled.
 
@@ -75,7 +76,7 @@ Not specifying prop `activePosition` or its value is `undefined` or `null` will 
 
 ### Controlled by outside component
 The active tab item position is managed by outside component.
-Specifying a value which is not `undefined` or `null` to prop `activePosition`. if the tabber component wish to change it,
+Specifying a value which is neither `undefined` nor `null` to prop `activePosition`. if the tabber component wish to change it,
 for example the end user clicked another tab item, prop `onUpdateActivePosition({index, key})` will be invoked to request
 a change of active position.
 

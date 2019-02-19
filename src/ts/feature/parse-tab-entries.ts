@@ -4,12 +4,12 @@ import {Entry} from '../type/tab';
 import Label from "../component/label";
 import Panel from "../component/panel";
 
-function parseTabEntries(propTabs: Entry[] | undefined, children: React.ReactNode) {
+function parseTabEntries(propEntries: Entry[] | undefined, children: React.ReactNode) {
 	const entries: Entry[] = [];
 
 	// prop entries
-	if (propTabs && propTabs.length) {
-		entries.push(...propTabs.map(_entry => {
+	if (propEntries && propEntries.length) {
+		entries.push(...propEntries.map(_entry => {
 			const entry: Entry = {..._entry};
 			if (entry.key === undefined) {
 				entry.key = null

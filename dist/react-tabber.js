@@ -164,11 +164,11 @@
                 t[p[i]] = s[p[i]];
         return t;
     };
-    function parseTabEntries(propTabs, children) {
+    function parseTabEntries(propEntries, children) {
         var entries = [];
         // prop entries
-        if (propTabs && propTabs.length) {
-            entries.push.apply(entries, propTabs.map(function (_entry) {
+        if (propEntries && propEntries.length) {
+            entries.push.apply(entries, propEntries.map(function (_entry) {
                 var entry = __assign$1({}, _entry);
                 if (entry.key === undefined) {
                     entry.key = null;
