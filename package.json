@@ -1,6 +1,6 @@
 {
   "name": "react-tabber",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "A React tab sheet component",
   "main": "dist/react-tabber.js",
   "module": "dist/react-tabber.esm.js",
