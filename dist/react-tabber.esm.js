@@ -224,7 +224,7 @@ function parseTabEntries(propEntries, children) {
                         currentPanelItems_1.push(element.props.children);
                     }
                 }
-                else if (element.type) {
+                else {
                     currentPanelItems_1.push(element);
                 }
             }

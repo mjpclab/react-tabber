@@ -230,7 +230,7 @@
                             currentPanelItems_1.push(element.props.children);
                         }
                     }
-                    else if (element.type) {
+                    else {
                         currentPanelItems_1.push(element);
                     }
                 }

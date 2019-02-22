@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<title>react-tabber-demo - nested - by JSX</title>
+	<link rel="stylesheet" type="text/css" href="../dist/theme/gray.css"/>
+	<link rel="stylesheet" type="text/css" href="css/main.css"/>
+
+	<script type="text/javascript" src="../node_modules/react/umd/react.development.js"></script>
+	<script type="text/javascript" src="../node_modules/react-dom/umd/react-dom.development.js"></script>
+	<script type="text/javascript" src="../node_modules/prop-types/prop-types.js"></script>
+	<script type="text/javascript" src="js/babel.js"></script>
+</head>
+<body>
+<div id="app"></div>
+
+<script type="text/javascript" src="../dist/react-tabber.js"></script>
+<script type="text/babel">
+	const Demo = () => <ReactTabber>
+		<ReactTabber.Label>A</ReactTabber.Label>
+		<ReactTabber mode="vertical">
+			<ReactTabber.Label>A-1</ReactTabber.Label>
+			<ReactTabber>
+				<ReactTabber.Label>A-1-1</ReactTabber.Label>
+				<ReactTabber.Panel>a-1-1</ReactTabber.Panel>
+				<ReactTabber.Label>A-1-2</ReactTabber.Label>
+				<ReactTabber.Panel>a-1-2</ReactTabber.Panel>
+			</ReactTabber>
+
+			<ReactTabber.Label>A-2</ReactTabber.Label>
+			<ReactTabber.Panel>a-2</ReactTabber.Panel>
+		</ReactTabber>
+
+		<ReactTabber.Label>B</ReactTabber.Label>
+		<ReactTabber.Panel>b</ReactTabber.Panel>
+	</ReactTabber>;
+
+	ReactDOM.render(<Demo/>, document.querySelector('#app'));
+</script>
+</body>
+</html>

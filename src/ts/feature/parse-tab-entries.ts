@@ -70,7 +70,7 @@ function parseTabEntries(propEntries: Entry[] | undefined, children: React.React
 					} else {
 						currentPanelItems.push(element.props.children);
 					}
-				} else if (element.type) {
+				} else {
 					currentPanelItems.push(element);
 				}
 			}

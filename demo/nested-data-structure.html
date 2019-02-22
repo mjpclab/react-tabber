@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<title>react-tabber-demo - nested - by data structure</title>
+	<link rel="stylesheet" type="text/css" href="../dist/theme/gray.css"/>
+	<link rel="stylesheet" type="text/css" href="css/main.css"/>
+
+	<script type="text/javascript" src="../node_modules/react/umd/react.development.js"></script>
+	<script type="text/javascript" src="../node_modules/react-dom/umd/react-dom.development.js"></script>
+	<script type="text/javascript" src="../node_modules/prop-types/prop-types.js"></script>
+	<script type="text/javascript" src="js/babel.js"></script>
+</head>
+<body>
+<div id="app"></div>
+
+<script type="text/javascript" src="../dist/react-tabber.js"></script>
+<script type="text/babel">
+	const Demo = () => <ReactTabber entries={[
+		{
+			label: 'A', panel: <ReactTabber mode="vertical" entries={[
+				{
+					label: 'A-1', panel: <ReactTabber entries={[
+						{label: 'A-1-1', panel: 'a-1-1'},
+						{label: 'A-1-2', panel: 'a-1-2'}
+					]}/>
+				},
+				{label: 'A-2', panel: 'a-2'}]}/>
+		},
+		{label: <span>B</span>, panel: <div>b</div>}
+	]}/>;
+
+	ReactDOM.render(<Demo/>, document.querySelector('#app'));
+</script>
+</body>
+</html>

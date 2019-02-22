@@ -2,53 +2,12 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-	<title>Demo</title>
-	<link rel="stylesheet" type="text/css" href="../dist/theme/gray.css"/>
-	<link rel="stylesheet" type="text/css" href="css/main.css"/>
+	<title>react-tabber demo</title>
 </head>
 <body>
-<div id="container"></div>
-
-<script type="text/javascript" src="js/es6-shim.js"></script>
-<script type="text/javascript" src="../node_modules/react/umd/react.development.js"></script>
-<script type="text/javascript" src="../node_modules/react-dom/umd/react-dom.development.js"></script>
-<script type="text/javascript" src="../node_modules/prop-types/prop-types.js"></script>
-<script type="text/javascript" src="js/browser.min.js"></script>
-
-<script type="text/javascript" src="../dist/react-tabber.js"></script>
-<script type="text/babel">
-	const entries = [
-		{label: 'title1', panel: <div>content1</div>, key: 'topic1'},
-		{label: <span>title2</span>, panel: <div>content2</div>, key: 'topic2'}
-	];
-
-	function render() {
-		ReactDOM.render(
-			<div>
-				<ReactTabber entries={entries} onSwitching={onSwitching} onSwitched={onSwitched}>
-					<ReactTabber.Label key="topic3">title <b>3</b></ReactTabber.Label>
-					<ReactTabber.Panel>content <b>3</b>. </ReactTabber.Panel>
-					<ReactTabber.Panel>another content <b>3</b>. </ReactTabber.Panel>
-
-					<ReactTabber.Label key="topic4">title 4</ReactTabber.Label>
-					<ReactTabber.Panel>content 4</ReactTabber.Panel>
-					<p>another content 4. wrapped element in ReactTabber.Panel can be omitted.</p>
-				</ReactTabber>
-			</div>,
-			document.getElementById('container')
-		);
-	}
-
-	function onSwitching(from, to) {
-		console.log('switching ', from, to);
-	}
-
-	function onSwitched(from, to) {
-		console.log('switched ', from, to);
-	}
-
-	render();
-</script>
+<p><a href="simple-data-structure.html">Simple - by data structure</a></p>
+<p><a href="simple-jsx.html">Simple - by JSX</a></p>
+<p><a href="nested-data-structure.html">Nested - by data structure</a></p>
+<p><a href="nested-jsx.html">Nested - by JSX</a></p>
 </body>
 </html>
