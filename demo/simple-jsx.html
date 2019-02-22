@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-	<title>react-tabber-demo - simple - by JSX</title>
+	<title>react-tabber demo - simple - by JSX</title>
 	<link rel="stylesheet" type="text/css" href="../dist/theme/gray.css"/>
 	<link rel="stylesheet" type="text/css" href="css/main.css"/>
 
@@ -18,14 +18,13 @@
 <script type="text/javascript" src="../dist/react-tabber.js"></script>
 <script type="text/babel">
 	const Demo = () => {
-
 		return <ReactTabber>
 			<ReactTabber.Label>title 1</ReactTabber.Label>
 			<ReactTabber.Panel>content 1</ReactTabber.Panel>
 
 			<ReactTabber.Label>title 2</ReactTabber.Label>
 			<ReactTabber.Panel>content 2</ReactTabber.Panel>
-			<ReactTabber.Panel>another content 2</ReactTabber.Panel>
+			<ReactTabber.Panel><p>another content 2</p></ReactTabber.Panel>
 			<p>Yet another content 2, non-Label elements defaults to be panel content.</p>
 			Pure text of content 2. Continues Panel contents belongs to same Label.
 

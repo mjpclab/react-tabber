@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<title>react-tabber demo - controlled active position</title>
+	<link rel="stylesheet" type="text/css" href="../dist/theme/gray.css"/>
+	<link rel="stylesheet" type="text/css" href="css/main.css"/>
+
+	<script type="text/javascript" src="../node_modules/react/umd/react.development.js"></script>
+	<script type="text/javascript" src="../node_modules/react-dom/umd/react-dom.development.js"></script>
+	<script type="text/javascript" src="../node_modules/prop-types/prop-types.js"></script>
+	<script type="text/javascript" src="js/babel.js"></script>
+</head>
+<body>
+<div id="app"></div>
+
+<script type="text/javascript" src="../dist/react-tabber.js"></script>
+<script type="text/babel">
+	class Demo extends React.Component {
+		constructor(props) {
+			super(props);
+			this.onUpdateActivePosition = this.onUpdateActivePosition.bind(this);
+			this.onSwitching = this.onSwitching.bind(this);
+			this.onSwitched = this.onSwitched.bind(this);
+			this.state = {
+				activePosition: 0
+			};
+		}
+
+		onUpdateActivePosition({index, key}) {
+			const message = `Switch to index: ${index} (key: ${key})?`;
+			if (confirm(message)) {
+				this.setState({
+					activePosition: index
+				})
+			}
+		}
+
+		onSwitching(from, to) {
+			console.log('switching', from, to);
+		}
+
+		onSwitched(from, to) {
+			console.log('switched', from, to);
+		}
+
+		render() {
+			return <ReactTabber
+				activePosition={this.state.activePosition}
+				onUpdateActivePosition={this.onUpdateActivePosition}
+				onSwitching={this.onSwitching}
+				onSwitched={this.onSwitched}
+			>
+				<ReactTabber.Label key="item-1">title 1</ReactTabber.Label>
+				<ReactTabber.Panel>content 1</ReactTabber.Panel>
+
+				<ReactTabber.Label key="item-2">title 2</ReactTabber.Label>
+				<ReactTabber.Panel>content 2</ReactTabber.Panel>
+
+				<ReactTabber.Label key="item-3">title 3</ReactTabber.Label>
+				<ReactTabber.Panel>content 3</ReactTabber.Panel>
+
+				<ReactTabber.Label key="item-4">title 4</ReactTabber.Label>
+				<ReactTabber.Panel>content 4</ReactTabber.Panel>
+			</ReactTabber>;
+		}
+	}
+
+	ReactDOM.render(<Demo/>, document.querySelector('#app'));
+</script>
+</body>
+</html>

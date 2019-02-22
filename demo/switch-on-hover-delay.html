@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-	<title>react-tabber demo - nested - by data structure</title>
+	<title>react-tabber demo - switch on hover delay</title>
 	<link rel="stylesheet" type="text/css" href="../dist/theme/gray.css"/>
 	<link rel="stylesheet" type="text/css" href="css/main.css"/>
 
@@ -17,19 +17,22 @@
 
 <script type="text/javascript" src="../dist/react-tabber.js"></script>
 <script type="text/babel">
-	const Demo = () => <ReactTabber entries={[
-		{
-			label: 'A', panel: <ReactTabber mode="vertical" entries={[
-				{
-					label: 'A-1', panel: <ReactTabber entries={[
-						{label: 'A-1-1', panel: 'a-1-1'},
-						{label: 'A-1-2', panel: 'a-1-2'}
-					]}/>
-				},
-				{label: 'A-2', panel: 'a-2'}]}/>
-		},
-		{label: <span>B</span>, panel: <div>b</div>}
-	]}/>;
+	const Demo = () => {
+		return <ReactTabber
+			delayTriggerEvents="onMouseEnter"
+			delayTriggerCancelEvents="onMouseLeave"
+			delayTriggerLatency={500}
+		>
+			<ReactTabber.Label>title 1</ReactTabber.Label>
+			<ReactTabber.Panel>content 1</ReactTabber.Panel>
+
+			<ReactTabber.Label>title 2</ReactTabber.Label>
+			<ReactTabber.Panel>content 2</ReactTabber.Panel>
+
+			<ReactTabber.Label>title 3</ReactTabber.Label>
+			<ReactTabber.Panel>content 3</ReactTabber.Panel>
+		</ReactTabber>
+	};
 
 	ReactDOM.render(<Demo/>, document.querySelector('#app'));
 </script>
