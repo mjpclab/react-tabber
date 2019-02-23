@@ -1,0 +1,33 @@
+import React from 'react';
+import { TabProps, NormalizedTabItemPosition, SwitchOptions, TabItemPosition, TabPropTypes } from '../type/tab';
+interface TabState {
+    manageTargetPosition: boolean;
+    targetPosition: TabItemPosition;
+}
+declare class Tab extends React.Component<TabProps, TabState> {
+    static propTypes: TabPropTypes;
+    static defaultProps: import("../type/tab").PublicProps;
+    private tabContext;
+    private prevPosition;
+    private currentPosition;
+    constructor(props: TabProps);
+    static getDerivedStateFromProps(props: TabProps): {
+        manageTargetPosition: boolean;
+        targetPosition?: undefined;
+    } | {
+        manageTargetPosition: boolean;
+        targetPosition: string | number;
+    };
+    componentWillUnmount(): void;
+    switchTo(position: NormalizedTabItemPosition): NormalizedTabItemPosition;
+    private _switchNeighbor;
+    switchPrevious(options?: SwitchOptions): NormalizedTabItemPosition | undefined;
+    switchNext(options?: SwitchOptions): NormalizedTabItemPosition | undefined;
+    switchFirst(options?: SwitchOptions): NormalizedTabItemPosition | undefined;
+    switchLast(options?: SwitchOptions): NormalizedTabItemPosition | undefined;
+    render(): JSX.Element;
+    private handleIndexChange;
+    componentDidMount(): void;
+    componentDidUpdate(): void;
+}
+export default Tab;

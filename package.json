@@ -1,10 +1,10 @@
 {
   "name": "react-tabber",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "A React tab sheet component",
   "main": "dist/react-tabber.js",
   "module": "dist/react-tabber.esm.js",
-  "types": "src/ts/index.tsx",
+  "types": "built/index.d.ts",
   "scripts": {
     "build": "bash build.sh"
   },
