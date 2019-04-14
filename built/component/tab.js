@@ -11,7 +11,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-import React from 'react';
+import React, { Component } from 'react';
 import { tabPropTypes } from '../utility/prop-types';
 import { invalidNormalizedPosition, normalizePosition } from '../utility/normalize-position';
 import defaultProps from '../utility/default-props';
@@ -172,5 +172,5 @@ var Tab = /** @class */ (function (_super) {
     Tab.propTypes = tabPropTypes;
     Tab.defaultProps = defaultProps;
     return Tab;
-}(React.Component));
+}(Component));
 export default Tab;

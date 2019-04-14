@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 
 import {
 	TabProps,
@@ -22,7 +22,7 @@ interface TabState {
 	targetPosition: TabItemPosition;
 }
 
-class Tab extends React.Component<TabProps, TabState> {
+class Tab extends Component<TabProps, TabState> {
 	static propTypes: TabPropTypes = tabPropTypes;
 	static defaultProps = defaultProps;
 

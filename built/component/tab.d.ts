@@ -1,10 +1,10 @@
-import React from 'react';
+import { Component } from 'react';
 import { TabProps, NormalizedTabItemPosition, SwitchOptions, TabItemPosition, TabPropTypes } from '../type/tab';
 interface TabState {
     manageTargetPosition: boolean;
     targetPosition: TabItemPosition;
 }
-declare class Tab extends React.Component<TabProps, TabState> {
+declare class Tab extends Component<TabProps, TabState> {
     static propTypes: TabPropTypes;
     static defaultProps: import("../type/tab").PublicProps;
     private tabContext;

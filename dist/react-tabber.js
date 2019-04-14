@@ -686,7 +686,7 @@
         Tab.propTypes = tabPropTypes;
         Tab.defaultProps = defaultProps;
         return Tab;
-    }(React__default.Component));
+    }(React.Component));
 
     var __extends$5 = (undefined && undefined.__extends) || (function () {
         var extendStatics = function (d, b) {

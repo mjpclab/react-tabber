@@ -680,7 +680,7 @@ var Tab = /** @class */ (function (_super) {
     Tab.propTypes = tabPropTypes;
     Tab.defaultProps = defaultProps;
     return Tab;
-}(React.Component));
+}(Component));
 
 var __extends$5 = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
