@@ -44,19 +44,20 @@ var Tab = /** @class */ (function (_super) {
         };
         return _this;
     }
-    Tab.getDerivedStateFromProps = function (props) {
+    Tab.prototype.componentWillReceiveProps = function (props) {
         var activePosition = props.activePosition;
         if (activePosition === undefined ||
             activePosition === null ||
             (typeof activePosition === 'number' && !isFinite(activePosition))) {
-            return {
+            this.setState({
                 manageTargetPosition: true
-            };
+            });
+            return;
         }
-        return {
+        this.setState({
             manageTargetPosition: false,
             targetPosition: activePosition
-        };
+        });
     };
     Tab.prototype.componentWillUnmount = function () {
         clearTimeout(this.tabContext.delayTimeout);
@@ -164,6 +165,7 @@ var Tab = /** @class */ (function (_super) {
         this.prevPosition = currentPosition;
     };
     Tab.prototype.componentDidMount = function () {
+        this.componentWillReceiveProps(this.props);
         this.handleIndexChange();
     };
     Tab.prototype.componentDidUpdate = function () {

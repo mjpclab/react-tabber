@@ -25,7 +25,7 @@ const ENTER = 'Enter';
 class LabelContainer extends Component<LabelContainerProps> {
 	static propTypes: LabelContainerPropTypes = labelContainerPropTypes;
 
-	onKeyDown(e: KeyboardEvent, pos: NormalizedTabItemPosition) {
+	onKeyDown(e: KeyboardEvent<HTMLElement>, pos: NormalizedTabItemPosition) {
 		const {fnSwitchTo, fnSwitchPrevious, fnSwitchNext, fnSwitchFirst, fnSwitchLast} = this.props;
 
 		let switchResult: NormalizedTabItemPosition | undefined;

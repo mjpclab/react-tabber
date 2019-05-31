@@ -11,13 +11,7 @@ declare class Tab extends Component<TabProps, TabState> {
     private prevPosition;
     private currentPosition;
     constructor(props: TabProps);
-    static getDerivedStateFromProps(props: TabProps): {
-        manageTargetPosition: boolean;
-        targetPosition?: undefined;
-    } | {
-        manageTargetPosition: boolean;
-        targetPosition: string | number;
-    };
+    componentWillReceiveProps(props: TabProps): void;
     componentWillUnmount(): void;
     switchTo(position: NormalizedTabItemPosition): NormalizedTabItemPosition;
     private _switchNeighbor;

@@ -50,7 +50,7 @@ class Tab extends Component<TabProps, TabState> {
 		};
 	}
 
-	static getDerivedStateFromProps(props: TabProps) {
+	componentWillReceiveProps(props: TabProps) {
 		const {activePosition} = props;
 
 		if (
@@ -58,15 +58,16 @@ class Tab extends Component<TabProps, TabState> {
 			activePosition === null ||
 			(typeof activePosition === 'number' && !isFinite(activePosition))
 		) {
-			return {
+			this.setState({
 				manageTargetPosition: true
-			}
+			});
+			return;
 		}
 
-		return {
+		this.setState({
 			manageTargetPosition: false,
 			targetPosition: activePosition
-		}
+		});
 	}
 
 	componentWillUnmount() {
@@ -239,6 +240,7 @@ class Tab extends Component<TabProps, TabState> {
 	}
 
 	componentDidMount() {
+		this.componentWillReceiveProps(this.props);
 		this.handleIndexChange();
 	}
 
