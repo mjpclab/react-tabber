@@ -145,7 +145,7 @@ class LabelContainer extends Component<LabelContainerProps> {
 					labelItemAllClassName += ' ' + labelItemHiddenClassName;
 				}
 
-				return <label
+				return <span
 					{...labelProps}
 					{...labelDelayTriggerCancelProps}
 					{...labelDelayTriggerProps}
@@ -159,7 +159,7 @@ class LabelContainer extends Component<LabelContainerProps> {
 					aria-expanded={isActive}
 					key={key ? 'key-' + key : 'index-' + index}
 					onKeyDown={keyboardSwitch ? e => this.onKeyDown(e, pos) : undefined}
-				>{entry.label}</label>;
+				>{entry.label}</span>;
 			})}
 		</div>;
 	}

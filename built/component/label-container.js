@@ -136,7 +136,7 @@ var LabelContainer = /** @class */ (function (_super) {
             if (hidden) {
                 labelItemAllClassName += ' ' + labelItemHiddenClassName;
             }
-            return React.createElement("label", __assign({}, labelProps, labelDelayTriggerCancelProps, labelDelayTriggerProps, labelTriggerProps, { className: labelItemAllClassName, tabIndex: 0, id: getLabelItemId(tabberId, side, index), role: "tab", "aria-controls": getPanelItemId(tabberId, index), "aria-selected": isActive, "aria-expanded": isActive, key: key ? 'key-' + key : 'index-' + index, onKeyDown: keyboardSwitch ? function (e) { return _this.onKeyDown(e, pos); } : undefined }), entry.label);
+            return React.createElement("span", __assign({}, labelProps, labelDelayTriggerCancelProps, labelDelayTriggerProps, labelTriggerProps, { className: labelItemAllClassName, tabIndex: 0, id: getLabelItemId(tabberId, side, index), role: "tab", "aria-controls": getPanelItemId(tabberId, index), "aria-selected": isActive, "aria-expanded": isActive, key: key ? 'key-' + key : 'index-' + index, onKeyDown: keyboardSwitch ? function (e) { return _this.onKeyDown(e, pos); } : undefined }), entry.label);
         }));
     };
     LabelContainer.propTypes = labelContainerPropTypes;
