@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, KeyboardEvent} from 'react';
 
 import {NormalizedTabItemPosition, LabelContainerProps, LabelContainerPropTypes} from '../type/tab';
 import {labelContainerPropTypes} from '../utility/prop-types';
@@ -25,7 +25,7 @@ const ENTER = 'Enter';
 class LabelContainer extends Component<LabelContainerProps> {
 	static propTypes: LabelContainerPropTypes = labelContainerPropTypes;
 
-	onKeyDown(e: React.KeyboardEvent, pos: NormalizedTabItemPosition) {
+	onKeyDown(e: KeyboardEvent, pos: NormalizedTabItemPosition) {
 		const {fnSwitchTo, fnSwitchPrevious, fnSwitchNext, fnSwitchFirst, fnSwitchLast} = this.props;
 
 		let switchResult: NormalizedTabItemPosition | undefined;
