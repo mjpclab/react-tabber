@@ -81,7 +81,7 @@ function parseTabEntries(propEntries, children) {
                     currentLabelItems_1.push('');
                 }
                 if (element.type && element.type === Panel) {
-                    currentPanelProps_1 = __assign({}, currentPanelProps_1, element.props);
+                    currentPanelProps_1 = __assign(__assign({}, currentPanelProps_1), element.props);
                     if (Array.isArray(element.props.children)) {
                         currentPanelItems_1.push.apply(currentPanelItems_1, element.props.children);
                     }

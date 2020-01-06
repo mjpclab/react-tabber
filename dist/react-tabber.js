@@ -2,7 +2,7 @@
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('react'), require('prop-types')) :
     typeof define === 'function' && define.amd ? define(['react', 'prop-types'], factory) :
     (global = global || self, global.ReactTabber = factory(global.React, global.PropTypes));
-}(this, function (React, PropTypes) { 'use strict';
+}(this, (function (React, PropTypes) { 'use strict';
 
     var React__default = 'default' in React ? React['default'] : React;
     PropTypes = PropTypes && PropTypes.hasOwnProperty('default') ? PropTypes['default'] : PropTypes;
@@ -59,10 +59,10 @@
         delayTriggerEvents: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]),
         delayTriggerCancelEvents: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)])
     };
-    var publicPropTypes = __assign({}, necessaryPropTypes, callbackPropTypes, eventPropTypes, { activePosition: PropTypes.oneOfType([PropTypes.string, PropTypes.number]) });
-    var tabPropTypes = __assign({}, necessaryPropTypes, callbackPropTypes, normalizedEventPropTypes, { activePosition: PropTypes.oneOfType([PropTypes.string, PropTypes.number]) });
-    var tabContainerPropTypes = __assign({}, necessaryPropTypes, normalizedEventPropTypes, switchFuncPropTypes, { tabContext: PropTypes.object, currentIndex: PropTypes.number });
-    var labelContainerPropTypes = __assign({}, normalizedEventPropTypes, switchFuncPropTypes, { entries: entriesPropType, mode: PropTypes.string, keyboardSwitch: PropTypes.bool, delayTriggerLatency: PropTypes.number, labelContainerClassName: PropTypes.string, labelItemClassName: PropTypes.string, tabContext: PropTypes.object, currentIndex: PropTypes.number, side: PropTypes.string });
+    var publicPropTypes = __assign(__assign(__assign(__assign({}, necessaryPropTypes), callbackPropTypes), eventPropTypes), { activePosition: PropTypes.oneOfType([PropTypes.string, PropTypes.number]) });
+    var tabPropTypes = __assign(__assign(__assign(__assign({}, necessaryPropTypes), callbackPropTypes), normalizedEventPropTypes), { activePosition: PropTypes.oneOfType([PropTypes.string, PropTypes.number]) });
+    var tabContainerPropTypes = __assign(__assign(__assign(__assign({}, necessaryPropTypes), normalizedEventPropTypes), switchFuncPropTypes), { tabContext: PropTypes.object, currentIndex: PropTypes.number });
+    var labelContainerPropTypes = __assign(__assign(__assign({}, normalizedEventPropTypes), switchFuncPropTypes), { entries: entriesPropType, mode: PropTypes.string, keyboardSwitch: PropTypes.bool, delayTriggerLatency: PropTypes.number, labelContainerClassName: PropTypes.string, labelItemClassName: PropTypes.string, tabContext: PropTypes.object, currentIndex: PropTypes.number, side: PropTypes.string });
     var panelContainerPropTypes = {
         entries: PropTypes.arrayOf(PropTypes.object),
         mode: PropTypes.string,
@@ -224,7 +224,7 @@
                         currentLabelItems_1.push('');
                     }
                     if (element.type && element.type === Panel) {
-                        currentPanelProps_1 = __assign$1({}, currentPanelProps_1, element.props);
+                        currentPanelProps_1 = __assign$1(__assign$1({}, currentPanelProps_1), element.props);
                         if (Array.isArray(element.props.children)) {
                             currentPanelItems_1.push.apply(currentPanelItems_1, element.props.children);
                         }
@@ -743,4 +743,4 @@
 
     return ReactTabber;
 
-}));
+})));
