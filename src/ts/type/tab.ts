@@ -1,3 +1,6 @@
+import type React from "react";
+import type {ReactElement} from "react";
+
 type JSXProps = {
 	[attr: string]: any;
 };
@@ -47,6 +50,10 @@ interface SwitchFuncs {
 	fnSwitchLast: FnSwitchNeighbor;
 }
 
+interface ComponentProps {
+	children: ReactElement
+}
+
 interface NecessaryProps {
 	entries: Entry[];
 	mode: Mode;
@@ -81,7 +88,7 @@ type NormalizedEventProps = {
 }
 
 // public
-interface PublicProps extends Partial<NecessaryProps>, Partial<Callbacks>, Partial<EventProps> {
+interface PublicProps extends Partial<ComponentProps>, Partial<NecessaryProps>, Partial<Callbacks>, Partial<EventProps> {
 	activePosition?: TabItemPosition;
 }
 

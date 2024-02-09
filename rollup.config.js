@@ -1,13 +1,12 @@
-import resolve from 'rollup-plugin-node-resolve';
-import commonjs from 'rollup-plugin-commonjs';
-import {uglify} from 'rollup-plugin-uglify';
+import typescript from '@rollup/plugin-typescript';
+import terser from '@rollup/plugin-terser';
 
 const getConfig = function (filename) {
 	const format = filename.indexOf('.esm') >= 0 ? 'esm' : 'umd';
 	const isMinify = filename.indexOf('.min') >= 0;
 
 	const config = {
-		input: 'built/index.js',
+		input: 'src/ts/index.tsx',
 		output: {
 			name: 'ReactTabber',
 			format: format,
@@ -19,9 +18,8 @@ const getConfig = function (filename) {
 		},
 		external: ['react', 'prop-types'],
 		plugins: [
-			resolve(),
-			commonjs(),
-			isMinify && uglify()
+			typescript(),
+			isMinify && terser()
 		],
 	};
 
